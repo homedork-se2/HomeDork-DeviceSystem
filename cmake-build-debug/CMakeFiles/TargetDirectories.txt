@@ -1,0 +1,3 @@
+C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir
+C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/rebuild_cache.dir
