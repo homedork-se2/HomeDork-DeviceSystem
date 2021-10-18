@@ -21,8 +21,8 @@ class Response {
      *      setMessage: returns void takes a string message as a parameter.
      * **/
 private:
-    int statusCode{};
-    String message{};
+    int statusCode;
+    String message;
 public:
     Response(int statusCode, String message);
     int getStatusCode();

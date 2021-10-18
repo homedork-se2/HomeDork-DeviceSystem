@@ -7,7 +7,7 @@
 #ifndef HOMEDORK_DEVICESYSTEM_DEVICE_H
 #define HOMEDORK_DEVICESYSTEM_DEVICE_H
 #include "Arduino.h"
-#include <Response.h>
+#include "Response.h"
 
 class Device{
 /**
@@ -19,22 +19,19 @@ class Device{
      *      @param isActive a boolean which if true the device is on else if false the device is off.
      *
      * Methods:
-     *      getId: returns an integer of the device id
-     *      getPin: returns an integer of the devices pin (The location on the arduino)
-     *      getIsActive: returns a boolean which if true the device is on else if false the device is off.
-     *      setIsActive: returns a Response that will be sent back to the server.
+     *      getId(): returns an integer of the device id
+     *      getPin(): returns an integer of the devices pin (The location on the arduino)
+     *      getIsActive(): returns a boolean which if true the device is on else if false the device is off.
+     *      setIsActive(): returns a Response that will be sent back to the server.
      * **/
-private:
-    int id{};
-    int pin{};
-    bool isActive{};
 public:
-    Device(int id, int pin);
-    int getId();
-    int getPin();
+    unsigned int id;
+    bool isActive;
+    Device(unsigned int id);
+    unsigned int getId();
     bool getIsActive();
-    Response setIsActive();
-
+    void setIsActive();
 };
+
 
 #endif //HOMEDORK_DEVICESYSTEM_DEVICE_H
