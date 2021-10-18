@@ -43,19 +43,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe -E rm -f
+RM = "C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem
+CMAKE_SOURCE_DIR = "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/HomeDork_DeviceSystem.dir/depend.make
@@ -68,44 +68,44 @@ include CMakeFiles/HomeDork_DeviceSystem.dir/flags.make
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj: CMakeFiles/HomeDork_DeviceSystem.dir/flags.make
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj: CMakeFiles/HomeDork_DeviceSystem.dir/includes_CXX.rsp
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj: ../Models/Device.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Device.cpp.obj -c C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Device.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj"
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Device.cpp.obj -c "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Device.cpp"
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Device.cpp > CMakeFiles\HomeDork_DeviceSystem.dir\Models\Device.cpp.i
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Device.cpp" > CMakeFiles\HomeDork_DeviceSystem.dir\Models\Device.cpp.i
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Device.cpp -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Device.cpp.s
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Device.cpp" -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Device.cpp.s
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj: CMakeFiles/HomeDork_DeviceSystem.dir/flags.make
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj: CMakeFiles/HomeDork_DeviceSystem.dir/includes_CXX.rsp
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj: ../Models/Response.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Response.cpp.obj -c C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Response.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj"
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Response.cpp.obj -c "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Response.cpp"
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Response.cpp > CMakeFiles\HomeDork_DeviceSystem.dir\Models\Response.cpp.i
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Response.cpp" > CMakeFiles\HomeDork_DeviceSystem.dir\Models\Response.cpp.i
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Response.cpp -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Response.cpp.s
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Response.cpp" -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Response.cpp.s
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj: CMakeFiles/HomeDork_DeviceSystem.dir/flags.make
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj: CMakeFiles/HomeDork_DeviceSystem.dir/includes_CXX.rsp
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj: ../Models/Light.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Light.cpp.obj -c C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Light.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj"
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Light.cpp.obj -c "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Light.cpp"
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Light.cpp > CMakeFiles\HomeDork_DeviceSystem.dir\Models\Light.cpp.i
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Light.cpp" > CMakeFiles\HomeDork_DeviceSystem.dir\Models\Light.cpp.i
 
 CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\Models\Light.cpp -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Light.cpp.s
+	C:\PROGRA~2\MinGW\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\Models\Light.cpp" -o CMakeFiles\HomeDork_DeviceSystem.dir\Models\Light.cpp.s
 
 # Object files for target HomeDork_DeviceSystem
 HomeDork_DeviceSystem_OBJECTS = \
@@ -123,7 +123,7 @@ HomeDork_DeviceSystem.exe: CMakeFiles/HomeDork_DeviceSystem.dir/build.make
 HomeDork_DeviceSystem.exe: CMakeFiles/HomeDork_DeviceSystem.dir/linklibs.rsp
 HomeDork_DeviceSystem.exe: CMakeFiles/HomeDork_DeviceSystem.dir/objects1.rsp
 HomeDork_DeviceSystem.exe: CMakeFiles/HomeDork_DeviceSystem.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable HomeDork_DeviceSystem.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable HomeDork_DeviceSystem.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\HomeDork_DeviceSystem.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -135,6 +135,6 @@ CMakeFiles/HomeDork_DeviceSystem.dir/clean:
 .PHONY : CMakeFiles/HomeDork_DeviceSystem.dir/clean
 
 CMakeFiles/HomeDork_DeviceSystem.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles\HomeDork_DeviceSystem.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem" "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem" "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug" "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug" "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles\HomeDork_DeviceSystem.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/HomeDork_DeviceSystem.dir/depend
 

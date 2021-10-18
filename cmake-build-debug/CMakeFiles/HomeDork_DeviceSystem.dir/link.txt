@@ -1,3 +1,3 @@
-C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\HomeDork_DeviceSystem.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\HomeDork_DeviceSystem.dir/objects.a @CMakeFiles\HomeDork_DeviceSystem.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\HomeDork_DeviceSystem.dir/objects.a -Wl,--no-whole-archive -o HomeDork_DeviceSystem.exe -Wl,--out-implib,libHomeDork_DeviceSystem.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\HomeDork_DeviceSystem.dir\linklibs.rsp
+"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\HomeDork_DeviceSystem.dir/objects.a
+C:\PROGRA~2\MinGW\bin\ar.exe cr CMakeFiles\HomeDork_DeviceSystem.dir/objects.a @CMakeFiles\HomeDork_DeviceSystem.dir\objects1.rsp
+C:\PROGRA~2\MinGW\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\HomeDork_DeviceSystem.dir/objects.a -Wl,--no-whole-archive -o HomeDork_DeviceSystem.exe -Wl,--out-implib,libHomeDork_DeviceSystem.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\HomeDork_DeviceSystem.dir\linklibs.rsp

@@ -27,9 +27,9 @@ class Device{
 public:
     unsigned int id;
     bool isActive;
-    Device(unsigned int id);
-    unsigned int getId();
-    bool getIsActive();
+    explicit Device(unsigned int id);
+    unsigned int getId() const;
+    bool getIsActive() const;
     void setIsActive();
 };
 

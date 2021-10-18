@@ -4,8 +4,8 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_LIGHT_H
 #define HOMEDORK_DEVICESYSTEM_LIGHT_H
-#include <Device.h>
-#include <Response.h>
+#include "Device.h"
+#include "Response.h"
 #include "Arduino.h"
 
 class Light:public Device {/**
@@ -29,7 +29,7 @@ private:
     unsigned int array[4] = {12, 13, 11, 8};
 public:
     Light(unsigned int id, bool isDimmable);
-    bool getIsDimmable();
+    bool getIsDimmable() const;
     int getDim();
     unsigned int * getPins();
     Response setDim(int dim);

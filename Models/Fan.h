@@ -5,7 +5,6 @@
 #ifndef HOMEDORK_DEVICESYSTEM_FAN_H
 #define HOMEDORK_DEVICESYSTEM_FAN_H
 #include "Device.h"
-#include "Response.h"
 #include "Arduino.h"
 
 
@@ -15,8 +14,8 @@ class Fan: public Device{
      *
      * Attributes:
      *      @param id an integer who's value is the id of an instance of a subclass device.
-     *      @Param  hasOscillation an boolean which if true the fan oscillates else
-     *      @Param  hasMultiMode an boolean which if true the fan oscillates else
+     *      @Param hasOscillation an boolean which if true the fan oscillates else
+     *      @Param hasMultiMode an boolean which if true the fan oscillates else
      *
      *
      * Methods:
@@ -37,9 +36,9 @@ public:
 
     bool getHasMultiMode() ;
 
-    Response setHasMultiMode(bool hasMultiMode);
+    void setHasMultiMode(bool hasMultiMode);
 
-    Response setHasOscillation(bool hasOscillation);
+    void setHasOscillation(bool hasOscillation);
 
     bool getHasOscillation();
 

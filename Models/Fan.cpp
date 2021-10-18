@@ -5,24 +5,23 @@
 #include "Fan.h"
 
 Fan::Fan(int id, bool hasMultiMode, bool hasOscillation) : Device(id) {
-
+    this->hasMultiMode = hasMultiMode;
+    this->hasOscillation = hasOscillation;
 }
 
 bool Fan::getHasMultiMode()  {
     return hasMultiMode;
 }
 
-Response Fan::setHasMultiMode(bool hasMultiMode) {
-    Fan::hasMultiMode = hasMultiMode;
-    return Response response{200, "Success"};
+void Fan::setHasMultiMode(bool hasMultiMode) {
+    this->hasMultiMode = hasMultiMode;
 }
 
 bool Fan::getHasOscillation()  {
     return hasOscillation;
 }
 
-Response Fan::setHasOscillation(bool hasOscillation) {
-    Fan::hasOscillation = hasOscillation;
-    return Response response{200, "Success"};
+void Fan::setHasOscillation(bool hasOscillation) {
+    this->hasOscillation = hasOscillation;
 }
 

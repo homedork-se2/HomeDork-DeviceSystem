@@ -2,24 +2,23 @@
 // Created by Samuel Mcmurray on 10/14/2021.
 //
 
-#include <Light.h>
-#include <Arduino.h>
-#include <Response.h>
+#include "Light.h"
+#include "Arduino.h"
+#include "Response.h"
 
 Light::Light(unsigned int id, bool isDimmable) : Device(id) {
     this->isDimmable = isDimmable;
 }
 
-bool Light::getIsDimmable() {
-    return isDimmable;
+bool Light::getIsDimmable() const {
+    return this->isDimmable;
 }
 
 int Light::getDim() {
-    return dim;
+    return this->dim;
 }
 
 unsigned int * Light::getPins() {
-
     return this->array;
 }
 

@@ -7,3 +7,7 @@
 Curtains::Curtains(int id) : Device(id) {
 
 }
+
+Response Curtains::handleCurtainSwitch() {
+    
+}
