@@ -47,19 +47,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f
+RM = C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem"
+CMAKE_SOURCE_DIR = C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -67,7 +67,7 @@ CMAKE_BINARY_DIR = "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngin
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+	C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -77,7 +77,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	C:\Users\Hi\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\212.5284.51\bin\cmake\win\bin\cmake.exe --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles" "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\\CMakeFiles\progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Samuel Mcmurray\Documents\SchoolStuff\SoftwareEngineering2\DeviceProject\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Hi\Desktop\projectSE2code\HomeDork-DeviceSystem\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -128,77 +128,77 @@ HomeDork_DeviceSystem/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/build
 .PHONY : HomeDork_DeviceSystem/fast
 
-arduinomain/Device.obj: arduinomain/Device.cpp.obj
-.PHONY : arduinomain/Device.obj
+Models/Device.obj: Models/Device.cpp.obj
+.PHONY : Models/Device.obj
 
 # target to build an object file
-arduinomain/Device.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Device.cpp.obj
-.PHONY : arduinomain/Device.cpp.obj
+Models/Device.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj
+.PHONY : Models/Device.cpp.obj
 
-arduinomain/Device.i: arduinomain/Device.cpp.i
-.PHONY : arduinomain/Device.i
+Models/Device.i: Models/Device.cpp.i
+.PHONY : Models/Device.i
 
 # target to preprocess a source file
-arduinomain/Device.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Device.cpp.i
-.PHONY : arduinomain/Device.cpp.i
+Models/Device.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.i
+.PHONY : Models/Device.cpp.i
 
-arduinomain/Device.s: arduinomain/Device.cpp.s
-.PHONY : arduinomain/Device.s
+Models/Device.s: Models/Device.cpp.s
+.PHONY : Models/Device.s
 
 # target to generate assembly for a file
-arduinomain/Device.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Device.cpp.s
-.PHONY : arduinomain/Device.cpp.s
+Models/Device.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.s
+.PHONY : Models/Device.cpp.s
 
-arduinomain/Light.obj: arduinomain/Light.cpp.obj
-.PHONY : arduinomain/Light.obj
+Models/Light.obj: Models/Light.cpp.obj
+.PHONY : Models/Light.obj
 
 # target to build an object file
-arduinomain/Light.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Light.cpp.obj
-.PHONY : arduinomain/Light.cpp.obj
+Models/Light.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj
+.PHONY : Models/Light.cpp.obj
 
-arduinomain/Light.i: arduinomain/Light.cpp.i
-.PHONY : arduinomain/Light.i
+Models/Light.i: Models/Light.cpp.i
+.PHONY : Models/Light.i
 
 # target to preprocess a source file
-arduinomain/Light.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Light.cpp.i
-.PHONY : arduinomain/Light.cpp.i
+Models/Light.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.i
+.PHONY : Models/Light.cpp.i
 
-arduinomain/Light.s: arduinomain/Light.cpp.s
-.PHONY : arduinomain/Light.s
+Models/Light.s: Models/Light.cpp.s
+.PHONY : Models/Light.s
 
 # target to generate assembly for a file
-arduinomain/Light.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Light.cpp.s
-.PHONY : arduinomain/Light.cpp.s
+Models/Light.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.s
+.PHONY : Models/Light.cpp.s
 
-arduinomain/Response.obj: arduinomain/Response.cpp.obj
-.PHONY : arduinomain/Response.obj
+Models/Response.obj: Models/Response.cpp.obj
+.PHONY : Models/Response.obj
 
 # target to build an object file
-arduinomain/Response.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Response.cpp.obj
-.PHONY : arduinomain/Response.cpp.obj
+Models/Response.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj
+.PHONY : Models/Response.cpp.obj
 
-arduinomain/Response.i: arduinomain/Response.cpp.i
-.PHONY : arduinomain/Response.i
+Models/Response.i: Models/Response.cpp.i
+.PHONY : Models/Response.i
 
 # target to preprocess a source file
-arduinomain/Response.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Response.cpp.i
-.PHONY : arduinomain/Response.cpp.i
+Models/Response.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.i
+.PHONY : Models/Response.cpp.i
 
-arduinomain/Response.s: arduinomain/Response.cpp.s
-.PHONY : arduinomain/Response.s
+Models/Response.s: Models/Response.cpp.s
+.PHONY : Models/Response.s
 
 # target to generate assembly for a file
-arduinomain/Response.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Response.cpp.s
-.PHONY : arduinomain/Response.cpp.s
+Models/Response.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HomeDork_DeviceSystem.dir\build.make CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.s
+.PHONY : Models/Response.cpp.s
 
 # Help Target
 help:
@@ -209,15 +209,15 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... HomeDork_DeviceSystem
-	@echo ... arduinomain/Device.obj
-	@echo ... arduinomain/Device.i
-	@echo ... arduinomain/Device.s
-	@echo ... arduinomain/Light.obj
-	@echo ... arduinomain/Light.i
-	@echo ... arduinomain/Light.s
-	@echo ... arduinomain/Response.obj
-	@echo ... arduinomain/Response.i
-	@echo ... arduinomain/Response.s
+	@echo ... Models/Device.obj
+	@echo ... Models/Device.i
+	@echo ... Models/Device.s
+	@echo ... Models/Light.obj
+	@echo ... Models/Light.i
+	@echo ... Models/Light.s
+	@echo ... Models/Response.obj
+	@echo ... Models/Response.i
+	@echo ... Models/Response.s
 .PHONY : help
 
 

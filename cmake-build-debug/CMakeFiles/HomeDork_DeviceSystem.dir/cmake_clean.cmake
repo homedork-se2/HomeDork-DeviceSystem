@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Device.cpp.obj"
-  "CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Light.cpp.obj"
-  "CMakeFiles/HomeDork_DeviceSystem.dir/arduinomain/Response.cpp.obj"
+  "CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj"
+  "CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj"
+  "CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj"
   "HomeDork_DeviceSystem.exe"
   "HomeDork_DeviceSystem.exe.manifest"
   "HomeDork_DeviceSystem.pdb"
