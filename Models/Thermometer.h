@@ -22,6 +22,8 @@ class Thermometer:public Device {
      *      The Thermometer class also has access to the Device class methods.
      *      getCurrentTemp returns a double whose value is the current temperature.
      *      setCurrentTemp returns a response that takes an integer as a parameter and sets the current temperature.
+     *      readTempIn returns the inside temperature value.
+     *      readTempOut returns the outside temperature value.
      *
      * **/
 
@@ -31,6 +33,8 @@ public:
     Thermometer(unsigned int id);
     double getCurrentTemp();
     Response setCurrentTemp(int currentTemp);
+    double readTempIn();
+    double readTempOut();
 };
 
 

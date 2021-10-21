@@ -8,6 +8,8 @@ Sound::Sound(unsigned int id): Device(id){
 
 }
 
-Response Sound::handleSound() {
+Response Sound::handleSoundOn() {
 
 }
+
+Response Sound::handleSoundOff() {}

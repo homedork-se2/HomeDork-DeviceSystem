@@ -17,3 +17,11 @@ Response Thermometer::setCurrentTemp(int currentTemp) {
     return Response response(200, "Success");
 }
 
+double Thermometer::readTempIn() {
+
+}
+
+double thermometer::readTempOut() {
+
+}
+

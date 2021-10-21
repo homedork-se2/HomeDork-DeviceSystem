@@ -27,7 +27,8 @@ private:
 
 public:
     Sound(unsigned int id);
-    Response handleSound();
+    Response handleSoundOn();
+    Response handleSoundOff();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_SOUND_H
