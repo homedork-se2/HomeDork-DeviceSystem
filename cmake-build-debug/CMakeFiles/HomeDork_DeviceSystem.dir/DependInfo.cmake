@@ -8,11 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/Models/Device.cpp" "C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj"
-  "C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/Models/Light.cpp" "C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj"
-  "C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/Models/Response.cpp" "C:/Users/Samuel Mcmurray/Documents/SchoolStuff/SoftwareEngineering2/DeviceProject/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj"
+  "C:/Users/Dell/HomeDork-DeviceSystem/Models/Device.cpp" "C:/Users/Dell/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Device.cpp.obj"
+  "C:/Users/Dell/HomeDork-DeviceSystem/Models/Light.cpp" "C:/Users/Dell/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Light.cpp.obj"
+  "C:/Users/Dell/HomeDork-DeviceSystem/Models/Response.cpp" "C:/Users/Dell/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Response.cpp.obj"
+  "C:/Users/Dell/HomeDork-DeviceSystem/Models/Sensor.cpp" "C:/Users/Dell/HomeDork-DeviceSystem/cmake-build-debug/CMakeFiles/HomeDork_DeviceSystem.dir/Models/Sensor.cpp.obj"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "MSVC")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
