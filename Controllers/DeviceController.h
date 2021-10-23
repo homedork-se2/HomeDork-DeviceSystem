@@ -1,0 +1,14 @@
+//
+// Created by Samuel Mcmurray on 10/23/2021.
+//
+
+#ifndef HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
+#define HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
+
+
+class DeviceController {
+
+};
+
+
+#endif //HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
