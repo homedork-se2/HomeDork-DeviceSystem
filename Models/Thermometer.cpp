@@ -2,9 +2,9 @@
 // Created by Mustafa on 2021-10-18.
 //
 
-#include <Thermometer.h>
+#include "Thermometer.h"
 
-Thermometer::Thermometer(unsigned int id,unsigned int pin) :Device(id, pin){
+Thermometer::Thermometer(unsigned int id) :Device(id){
 
 }
 
@@ -15,5 +15,13 @@ double Thermometer::getCurrentTemp() {
 Response Thermometer::setCurrentTemp(int currentTemp) {
 
     return Response response(200, "Success");
+}
+
+double Thermometer::readTempIn() {
+
+}
+
+double thermometer::readTempOut() {
+
 }
 

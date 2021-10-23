@@ -19,7 +19,6 @@ class Fan: public Device{
      *
      *
      * Methods:
-     *      getId: returns an integer of the device id
      *      getPin: returns an integer of the devices pin (The location on the arduino)
      *      getHasOscillation: returns boolean that states if the fan is oscillating or not
      *      getMultiMode: returns boolean that states if the fan has multiMode

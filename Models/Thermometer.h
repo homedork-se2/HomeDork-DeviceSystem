@@ -6,8 +6,8 @@
 #define HOMEDORK_DEVICESYSTEM_THERMOMETER_H
 
 #include "Arduino.h"
-#include <Device.h>
-#include <Response.h>
+#include "Device.h"
+#include "Response.h"
 
 class Thermometer:public Device {
 /**
@@ -21,16 +21,20 @@ class Thermometer:public Device {
      * Methods:
      *      The Thermometer class also has access to the Device class methods.
      *      getCurrentTemp returns a double whose value is the current temperature.
-     *      setCurrentTemp returns a response takes an integer as a parameter and sets the current temperature.
+     *      setCurrentTemp returns a response that takes an integer as a parameter and sets the current temperature.
+     *      readTempIn returns the inside temperature value.
+     *      readTempOut returns the outside temperature value.
      *
      * **/
 
 private:
     double currentTemp{};
 public:
-    Thermometer(unsigned int id,unsigned int pin);
+    Thermometer(unsigned int id);
     double getCurrentTemp();
     Response setCurrentTemp(int currentTemp);
+    double readTempIn();
+    double readTempOut();
 };
 
 
