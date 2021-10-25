@@ -6,6 +6,7 @@
 #define HOMEDORK_DEVICESYSTEM_FAN_H
 #include "Device.h"
 #include "Arduino.h"
+#include "Mode.h"
 
 
 class Fan: public Device{
@@ -23,24 +24,20 @@ class Fan: public Device{
      *      getHasOscillation: returns boolean that states if the fan is oscillating or not
      *      getMultiMode: returns boolean that states if the fan has multiMode
      *      setHasOscillation: change the boolean for oscillation return response
+     *      turnOnFan: returns a response
      *
      * **/
 private:
     bool hasMultiMode;
     bool hasOscillation;
-
+    Mode fanMode;
 public:
-    Fan(int id, bool hasMultiMode, bool hasOscillation);
-
-
+    Fan(unsigned int id, bool hasMultiMode, bool hasOscillation);
     bool getHasMultiMode() ;
-
     void setHasMultiMode(bool hasMultiMode);
-
     void setHasOscillation(bool hasOscillation);
-
     bool getHasOscillation();
-
+    Response handleFanSwitch();
 };
 
 

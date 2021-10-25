@@ -4,6 +4,10 @@
 
 #include "Sensor.h"
 
-Sensor::Sensor(int id) {
+Sensor::Sensor(int id): Device(id) {
+    this->id = id;
+}
 
+void Sensor::readSensor() {
+    digitalRead(id);
 }

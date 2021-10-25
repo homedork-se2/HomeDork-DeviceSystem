@@ -18,7 +18,7 @@ class Sensor : public Device{
    * **/
 public :
     Sensor( int id);
-
+    void readSensor();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_SENSOR_H

@@ -5,5 +5,8 @@
 #include "AlarmController.h"
 
 AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) {
-
+    this->fireAlarm = fireAlarm;
+    this->securityAlarm = securityAlarm;
 }
+
+

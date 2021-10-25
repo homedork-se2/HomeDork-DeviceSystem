@@ -12,7 +12,9 @@ private:
     Alarm fireAlarm;
     Alarm securityAlarm;
 public:
-    AlarmController(Alarm fireAlarm, Alarm securityAlarm)
+    AlarmController(Alarm fireAlarm, Alarm securityAlarm);
+    runFireAlarm();
+    runSecurityAlarm();
 };
 
 

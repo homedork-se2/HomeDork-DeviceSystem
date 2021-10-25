@@ -5,7 +5,7 @@
 #ifndef HOMEDORK_DEVICESYSTEM_LIGHT_H
 #define HOMEDORK_DEVICESYSTEM_LIGHT_H
 #include "Device.h"
-#include "Response.h"
+#include "../Util/Response.h"
 #include "Arduino.h"
 
 class Light:public Device {/**
@@ -26,12 +26,12 @@ class Light:public Device {/**
 private:
     bool isDimmable;
     int dim;
-    unsigned int array[4] = {12, 13, 11, 8};
+    unsigned int muxPins[4];
 public:
     Light(unsigned int id, bool isDimmable);
+    Light(unsigned int id, int * muxPins);
     bool getIsDimmable() const;
     int getDim();
-    unsigned int * getPins();
     Response setDim(int dim);
     Response handleLightSwitch(int id);
 };

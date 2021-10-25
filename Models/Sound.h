@@ -24,9 +24,9 @@ class Sound:public Device {
      * **/
 
 private:
-
+    unsigned int muxPins[4]
 public:
-    Sound(unsigned int id);
+    Sound(unsigned int id, unsigned int * muxPins);
     Response handleSoundOn();
     Response handleSoundOff();
 };

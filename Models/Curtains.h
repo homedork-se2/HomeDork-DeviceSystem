@@ -5,7 +5,7 @@
 #ifndef HOMEDORK_DEVICESYSTEM_CURTAINS_H
 #define HOMEDORK_DEVICESYSTEM_CURTAINS_H
 #include "Device.h"
-#include "Response.h"
+#include "../Util/Response.h"
 #include "Arduino.h"
 
 

@@ -1,0 +1,14 @@
+//
+// Created by Samuel Mcmurray on 10/23/2021.
+//
+
+#ifndef HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
+#define HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
+
+
+class TwilightController {
+
+};
+
+
+#endif //HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H

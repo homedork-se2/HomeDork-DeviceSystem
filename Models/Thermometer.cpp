@@ -5,7 +5,7 @@
 #include "Thermometer.h"
 
 Thermometer::Thermometer(unsigned int id) :Device(id){
-
+    this->id = id;
 }
 
 double Thermometer::getCurrentTemp() {
