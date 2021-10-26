@@ -34,7 +34,7 @@ Response Light::setDim(int dim) {
 
 Response Light::handleLightSwitch(int id) {
     //indoors
-    if (id == 20 ) {
+    if (id == 11 ) {
         setIsActive();
         if (getIsActive()) {
             digitalWrite(muxPins[0], LOW);
@@ -52,7 +52,7 @@ Response Light::handleLightSwitch(int id) {
             return response;
         }
 
-    } else if(id == 10)
+    } else if(id == 20) {
         //outdoors
         setIsActive();
         if (getIsActive()) {
@@ -70,5 +70,24 @@ Response Light::handleLightSwitch(int id) {
             Response response{200, "Success Power is OFF...\n"};
             return response;
         }
+    } else {
+        //Alarm Light
+        setIsActive();
+        if (getIsActive()) {
+            digitalWrite(muxPins[0], LOW);
+            digitalWrite(muxPins[1], LOW);
+            digitalWrite(muxPins[2], HIGH);
+            digitalWrite(muxPins[3], HIGH);
+            Response response{200, "Success Light is ON... \n"};
+            return response;
+        } else {
+            digitalWrite(muxPins[0], HIGH);
+            digitalWrite(muxPins[1], LOW);
+            digitalWrite(muxPins[2], HIGH);
+            digitalWrite(muxPins[3], HIGH);
+            Response response{200, "Success Power is OFF...\n"};
+            return response;
+        }
     }
 }
+

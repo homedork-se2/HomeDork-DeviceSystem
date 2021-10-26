@@ -35,7 +35,7 @@ Response Fan::handleFanPowerSwitch() {
             //turn on fan with the current MODE
             if (fanMode == Mode::High) {
                 //200
-            } else if (fanMode == Mode::Medium) {
+            } else if (fanMode == Mode::MEDIUM) {
                 //125
             } else {
                 //65

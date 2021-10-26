@@ -102,10 +102,10 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  light1.handleLightSwitch(light1.getId());
-    delay(5000);
-    
+  //Thread Devices receiving commands
+    //device
     light2.handleLightSwitch(light2.getId());
     delay(5000);
   
 }
+
