@@ -6,7 +6,7 @@
 #define HOMEDORK_DEVICESYSTEM_MODE_H
 
 
-enum class Mode {LOW, MEDIUM, High};
+enum class Mode {LOW, MEDIUM, HIGH};
  /**
   * Enum class to serve as a mode for the Fan class.
   */

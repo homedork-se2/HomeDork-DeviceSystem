@@ -11,8 +11,7 @@ Light::Light(unsigned int id, bool isDimmable) : Device(id) {
 }
 
 Light::Light(unsigned int id, int * muxPins, bool isDimmable) : Device(id) {
-    int length = sizeof(muxPins)/sizeof(muxPins[0]);
-    for (int i = 0; i < length; ++i) {
+    for (int i = 0; i < 4; ++i) {
         this->muxPins[i] = muxPins[i];
     }
     this->isDimmable = isDimmable;
@@ -33,7 +32,8 @@ Response Light::setDim(int dim) {
 }
 
 Response Light::handleLightSwitch(int id) {
-    //indoors
+    Response response;
+    //Indoors Light
     if (id == 11 ) {
         setIsActive();
         if (getIsActive()) {
@@ -41,36 +41,48 @@ Response Light::handleLightSwitch(int id) {
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], LOW);
-            Response response{200, "Success Light is ON... \n"};
+
+            response.setStatusCode(200);
+            response.setMessage("Success Indoor Light is ON... \n");
+            Serial.println(response.getMessage());
             return response;
         } else {
             digitalWrite(muxPins[0], HIGH);
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], LOW);
-            Response response{200, "Success Power is OFF...\n"};
+
+            response.setStatusCode(200);
+            response.setMessage("Success Indoor Light is OFF...\n");
+            Serial.println(response.getMessage());
             return response;
         }
 
     } else if(id == 20) {
-        //outdoors
+        //Outdoors Light
         setIsActive();
         if (getIsActive()) {
             digitalWrite(muxPins[0], LOW);
             digitalWrite(muxPins[1], HIGH);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], HIGH);
-            Response response{200, "Success Light is ON... \n"};
+
+            response.setStatusCode(200);
+            response.setMessage("Success Outdoor Light is ON...\n");
+            Serial.println(response.getMessage());
             return response;
         } else {
             digitalWrite(muxPins[0], HIGH);
             digitalWrite(muxPins[1], HIGH);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], HIGH);
-            Response response{200, "Success Power is OFF...\n"};
+
+            response.setStatusCode(200);
+            response.setMessage("Success Outdoor Light is OFF...\n");
+            Serial.println(response.getMessage());
             return response;
         }
-    } else {
+    } else if (){
         //Alarm Light
         setIsActive();
         if (getIsActive()) {
@@ -78,16 +90,23 @@ Response Light::handleLightSwitch(int id) {
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], HIGH);
-            Response response{200, "Success Light is ON... \n"};
+            response.setStatusCode(200);
+            response.setMessage("Success Alarm Light is ON...\n");
+            Serial.println(response.getMessage());
             return response;
         } else {
             digitalWrite(muxPins[0], HIGH);
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], HIGH);
-            Response response{200, "Success Power is OFF...\n"};
+            response.setStatusCode(200);
+            response.setMessage("Success Alarm Light is OFF...\n");
+            Serial.print(response.getMessage());
             return response;
         }
     }
+    response.setStatusCode(404);
+    response.setMessage("The Light doesn't exist in the system.");
+    return response;
 }
 
