@@ -8,7 +8,7 @@ Fan::Fan(int id, bool hasMultiMode, bool hasOscillation) : Device(id) {
     this->hasMultiMode = hasMultiMode;
     this->hasOscillation = hasOscillation;
     if (hasMultiMode) {
-        fanMode = Mode::Medium;
+        fanMode = Mode::MEDIUM;
     }
 }
 
@@ -33,7 +33,7 @@ Response Fan::handleFanPowerSwitch() {
     if (getHasMultiMode()) {
         if (isActive) {
             //turn on fan with the current MODE
-            if (fanMode == Mode::High) {
+            if (fanMode == Mode::HIGH) {
                 //200
             } else if (fanMode == Mode::MEDIUM) {
                 //125
