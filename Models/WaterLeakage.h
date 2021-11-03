@@ -11,12 +11,15 @@
 
 class WaterLeakage {
     /**
-   * An class that represent a Sensor in a smart home this class inherits from Abstract Device class.
+   * An class that represent a WaterLeakage in a smart home.
    *
    * Attributes:
    *      @param id an integer who's value is the id of an instance of a subclass device.
    *
    * Methods:
+   *      The Waterleakage class.
+   *      handleWaterLeakage returns a response.
+   *
    * **/
 public :
     WaterLeakage(unsigned int id, Sensor sensor);

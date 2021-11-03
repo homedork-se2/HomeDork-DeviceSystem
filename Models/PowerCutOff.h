@@ -16,6 +16,10 @@ class PowerCutOff {
    *      @param id an integer who's value is the id of an instance of a subclass device.
    *
    * Methods:
+   *      The PowerCutoff class.
+   *      handlePowerCutOff return a response.
+   *
+   *
    * **/
 public :
 
