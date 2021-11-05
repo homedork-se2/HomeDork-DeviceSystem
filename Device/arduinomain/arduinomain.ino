@@ -9,6 +9,7 @@
 #include "Light.h"
 //#include "PowerCutOff.h"
 //#include "Radiator.h"
+#include "Response.h"
 //#include "Sound.h"
 //#include "Sensor.h"
 //#include "Stove.h"
@@ -31,13 +32,13 @@ unsigned int muxPins[4] = {12, 13, 11, 8};
 //ElectricityConsumption electricityConsumption{A0};
 //Fan fanLoft{10, false};
 //Fan fan{};
-Light indoorLight{11, muxPins, false};
-//Light outdoorLight{20, muxPins, false};
+Light indoorLight{11, muxPins};
+Light outdoorLight{20, muxPins};
 //Light alarmLight{22, muxPins, false};
 //PowerCutOff powerCutOff{7};
 //Radiator radiator{25, muxPins};
 //Radiator radiatorWindow{23, muxPins}
-//Response response;
+Response response{500, "NULL"};
 //Sound siren{21, muxPins};
 //Sensor switchSecuritySensor{3};
 //Sensor switchFireSensor{2};
@@ -84,29 +85,35 @@ Light indoorLight{11, muxPins, false};
 void setup() {
     Serial.begin(9600);
     
-//    setPinModes();
+    pinMode(muxPins[0], OUTPUT);
+    pinMode(muxPins[1], OUTPUT);
+    pinMode(muxPins[2], OUTPUT);
+    pinMode(muxPins[3], OUTPUT);
 //    //Get Database States
 //    //Setup Threads
     while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
     }
-   
-   
+   delay(500);
  
+    
 }
 
 void loop() {
 //    threadController.run();
 const int BUFFER_SIZE = 50;
 char buf[BUFFER_SIZE];
+
 if (Serial.available() > 0) {
     int len = Serial.readBytes(buf, BUFFER_SIZE);
-    char stringID[2] = {buf[2], buf[3]};
+    char stringID[2] = {buf[1], buf[2]};
+    Serial.print(stringID);
     
     unsigned int id = atoi(stringID);
     if ( id == indoorLight.getId()) {
-      Serial.println("ID:11:ON");
-      indoorLight.handleLightSwitch(indoorLight.getId());
+      response = indoorLight.handleLightSwitch();
+      delay(300);
+      Serial.print(response.getMessage());
     }
 }
  
@@ -172,7 +179,7 @@ if (Serial.available() > 0) {
 //    // We need to connect to the server send the response and/or temperature
 //
 //}
-//
+////
 //void setPinModes()
 //    pinMode(2, INPUT);
 //    pinMode(3, INPUT);
@@ -186,7 +193,7 @@ if (Serial.available() > 0) {
 //    pinMode(muxPins[1], OUTPUT);
 //    pinMode(muxPins[2], OUTPUT);
 //    pinMode(muxPins[3], OUTPUT);
-//
+////
 //}
 
 //void establishContact() {

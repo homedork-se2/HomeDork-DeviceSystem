@@ -11,7 +11,7 @@ public class Server {
         ServerSocket serverSocket = null;
         Socket clientSocket = null;
         try {
-            serverSocket = new ServerSocket(5777);
+            serverSocket = new ServerSocket(1234);
             InetAddress localAddress = InetAddress.getLocalHost();
             System.out.println(localAddress);
             System.out.println(serverSocket.getLocalPort());

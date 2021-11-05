@@ -10,9 +10,6 @@ public class SerialListener implements SerialPortDataListener {
     public static String stringBuffer;
     public ServerClient serverClient;
 
-    public SerialListener(ServerClient serverClient) {
-        this.serverClient = serverClient;
-    }
     @Override
     public int getListeningEvents() {
         return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
@@ -20,6 +17,7 @@ public class SerialListener implements SerialPortDataListener {
 
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
+        ServerClient serverClient = new ServerClient();
         if (serialPortEvent.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
             return;
 
@@ -28,7 +26,7 @@ public class SerialListener implements SerialPortDataListener {
         stringBuffer = new String(newData,0,numRead);
 
         System.out.print(stringBuffer.trim());
-//        serverClient.sendMessage(stringBuffer.trim());
+        serverClient.sendMessage(stringBuffer.trim());
     }
 
     public void setSerialPort(SerialPort serialPort) {
