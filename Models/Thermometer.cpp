@@ -9,7 +9,21 @@ Thermometer::Thermometer(unsigned int id) :Device(id){
 }
 
 double Thermometer::getCurrentTemp() {
-    return 0;
+    Response response;
+    if (id == A1){
+
+        int temp = analogRead(id);
+        temp = temp*0.48828125;
+
+        response.setMessage("Temperature is " + temp);
+
+        Serial.print("Temperature: ");
+        Serial.print(temp);
+        Serial.println("C");
+
+    }
+
+    return response;
 }
 
 Response Thermometer::setCurrentTemp(int currentTemp) {

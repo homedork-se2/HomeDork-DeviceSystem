@@ -17,7 +17,10 @@ class Sensor : public Device{
    * Methods:
    * **/
 public :
-    Sensor( int id);
+    Sensor(int id);
+
+    Sensor(unsigned int id);
+
     void readSensor();
 };
 
