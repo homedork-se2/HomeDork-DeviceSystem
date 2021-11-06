@@ -5,7 +5,7 @@
 #ifndef HOMEDORK_DEVICESYSTEM_POWERCUTOFF_H
 #define HOMEDORK_DEVICESYSTEM_POWERCUTOFF_H
 
-#include "../Util/Response.h"
+#include "Response.h"
 #include "Arduino.h"
 
 class PowerCutOff {

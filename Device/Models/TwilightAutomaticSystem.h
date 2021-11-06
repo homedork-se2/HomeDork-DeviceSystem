@@ -15,13 +15,12 @@ class TwilightAutomaticSystem : public Device{
  *
  * Attributes:
  *      @param id an integer who's value is the id of an instance of a subclass device.
-
  * Methods:
 **/
 
 
 private:
-    Sensor: lightSensor;
+    Sensor lightSensor;
 
 public:
     TwilightAutomaticSystem(int id);

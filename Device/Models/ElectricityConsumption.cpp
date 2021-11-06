@@ -4,10 +4,11 @@
 
 #include "ElectricityConsumption.h"
 
-ElectricityConsumption::ElectricityConsumption(int id) {
+ElectricityConsumption::ElectricityConsumption(int id): Device(id) {
 
 }
 
-int ElectricityConsumption::getElectricUsage() {
-    return 1;
+Response ElectricityConsumption::getElectricUsage() {
+    Response response{200, "Message"};
+    return response;
 }

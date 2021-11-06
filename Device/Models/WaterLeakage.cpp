@@ -3,9 +3,10 @@
 //
 
 #include "WaterLeakage.h"
+#include "Sensor.h"
 
 
-WaterLeakage::WaterLeakage(unsigned int id, Sensor sensor) : sensor(0) {
+WaterLeakage::WaterLeakage(unsigned int id, Sensor sensor) : Device(id) {
     this->sensor = sensor;
 }
 

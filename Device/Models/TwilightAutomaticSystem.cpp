@@ -17,6 +17,3 @@ Response TwilightAutomaticSystem::handleTwilightSystem() {
     Response response{200, "Starting System"};
     return response;
 }
-
-
-

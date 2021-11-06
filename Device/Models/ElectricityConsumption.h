@@ -6,13 +6,14 @@
 #define HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H
 #include "Arduino.h"
 #include "Device.h"
+#include "Response.h"
 
 
 class ElectricityConsumption : Device {
 
 public:
-      ElectricityConsumption(int id);
-      response getElectricUsage()
+    ElectricityConsumption(int id);
+    Response getElectricUsage()
 
 };
 

@@ -6,7 +6,7 @@
 #define HOMEDORK_DEVICESYSTEM_WATERLEAKAGE_H
 
 #include "Sensor.h"
-#include "../Util/Response.h"
+#include "Response.h"
 #include "Arduino.h"
 
 class WaterLeakage {
