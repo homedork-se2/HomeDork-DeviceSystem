@@ -34,20 +34,21 @@ Response Fan::handleFanPowerSwitch() {
         if (isActive) {
             //turn on fan with the current MODE
             if (fanMode == Mode::HIGH) {
-                //200
+                analogWrite(id, 200);
+                Response response{200, "Success Fan set  High...\n"};
             } else if (fanMode == Mode::MEDIUM) {
-                //125
+                analogWrite(id, 124);
+                Response response{200, "Success Fan set  Medium...\n"};
             } else {
-                //65
-            }
-        } else {
-            //0
-        }
+                analogWrite(id, 64);
+                Response response{200, "Success Fan set  Low...\n"};
     } else {
         if (isActive) {
-            digitalWrite(id, HIGH);
+            analogWrite(id, 200);
+            Response response{200, "Success Fan ON...\n"};
         } else {
-            digitalWrite(id, LOW);
+            analogWrite(id, 0);
+            Response response{200, "Success Fan set OFF\n"};
         }
     }
 }

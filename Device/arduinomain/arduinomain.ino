@@ -1,4 +1,3 @@
-
 //#include "Thread.h"
 //#include "ThreadController.h"
 //
@@ -84,11 +83,6 @@ Response response{500, "NULL"};
 
 void setup() {
     Serial.begin(9600);
-    
-    pinMode(muxPins[0], OUTPUT);
-    pinMode(muxPins[1], OUTPUT);
-    pinMode(muxPins[2], OUTPUT);
-    pinMode(muxPins[3], OUTPUT);
 //    //Get Database States
 //    //Setup Threads
     while (!Serial) {
@@ -199,3 +193,4 @@ if (Serial.available() > 0) {
 //void establishContact() {
 //  
 //}
+
