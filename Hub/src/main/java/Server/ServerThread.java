@@ -1,20 +1,38 @@
 package Server;
 
+import Controllers.SerialController;
+
 import java.io.*;
 import java.net.Socket;
 
-import static Listeners.SerialListener.serialPort;
-import static Listeners.SerialListener.stringBuffer;
+/**
+ * The server thread class takes its inheritance from the Thread class, the class
+ * runs a thread of the server handles the communication between the client and
+ * server.
+ */
+public class ServerThread extends Thread {
+    Socket clientSocket;
+    SerialController serialController;
 
-public class ServerThread extends Thread{
-    Socket clientSocket = null;
-
-
-    public ServerThread(Socket clientSocket) {
+    /**
+     * This is the constructor of the ServerThread class is takes the serialController
+     * to handle serial port communication of the arduino and the clientSocket to handle
+     * communication between the server client.
+     * @param clientSocket
+     * @param serialController
+     */
+    public ServerThread(Socket clientSocket, SerialController serialController) {
         this.clientSocket = clientSocket;
+        this.serialController = serialController;
     }
 
+
+    /**
+     * This method is an override method of the Thread class method which runs the
+     * thread, this method in particular handles the communication of the client server.
+     */
     public void run() {
+
         InputStream in = null;
         OutputStream out = null;
 
@@ -34,32 +52,30 @@ public class ServerThread extends Thread{
                 int length;
 
                 while((length = in.read(bytes)) != -1) {
-                    stringBuffer = new String(bytes).trim();
-                    System.out.println(stringBuffer);
-                    String[] strings = stringBuffer.split(":");
+                    message = new String(bytes).trim();
+                    System.out.println(message);
 
-                    for (int i = 0; i < strings.length; i++) {
-                        strings[i] = strings[i].replace("'","");
-                        System.out.println("Inside loop for serial");
-                        System.out.println(strings[i]);
-                        length = strings[i].getBytes().length;
-                        bytes = new byte[length];
-                        bytes = strings[i].getBytes();
-                        serialPort.writeBytes(bytes, length);
-                    }
+                    serialController.setStringBuffer(message);
+                    serialController.sendRequest();
                 }
 
+                message = serialController.getStringBuffer().trim();
+                bytes = message.getBytes();
+                out.write(bytes, 0, bytes.length);
 
-                Thread.sleep(2000);
             }
 
-        } catch (IOException | InterruptedException ioException) {
+        } catch (IOException ioException) {
             System.out.println("I/O Exception in reading and/or writing...\n" + ioException.getMessage());
         }
 
         try {
-            clientSocket.close();
-            in.close();
+            if (clientSocket != null) {
+                clientSocket.close();
+            }
+            if (in != null) {
+                in.close();
+            }
             if (out != null) {
                 out.close();
             }

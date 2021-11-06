@@ -1,25 +1,28 @@
-import Client.ServerClient;
-import Listeners.SerialListener;
+import Controllers.SerialController;
 import Server.Server;
+
 import com.fazecast.jSerialComm.SerialPort;
 
-import static Listeners.SerialListener.serialPort;
-
+/**
+ * The Main class that starts the server and the listener.
+ */
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        serialPort = SerialPort.getCommPorts()[0];
+    public static void main(String[] args) {
+        SerialController serialController = new SerialController();
+        serialController.setSerialPort(SerialPort.getCommPorts()[0]);
+
+        SerialPort serialPort = serialController.getSerialPort();
         serialPort.openPort();
+
         System.out.println("Com port open: " + serialPort.getDescriptivePortName());
-        SerialListener listener = new SerialListener();
-        serialPort.addDataListener(listener);
+        serialPort.addDataListener(serialController);
 
         Server server = new Server();
-        server.run();
         Thread serverThread = new Thread() {
             @Override
             public void run() {
-                server.run();
+                server.run(serialController);
             }
         };
         serverThread.start();
