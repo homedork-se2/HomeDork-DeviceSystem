@@ -19,9 +19,9 @@ String Response::getMessage() {
 }
 
 void Response::setMessage(String message) {
-    this->message = message;
+    Response::message = message;
 }
 
 void Response::setStatusCode(int statusCode) {
-    this->statusCode = statusCode;
+    Response::statusCode = statusCode;
 }

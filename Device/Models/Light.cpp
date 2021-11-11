@@ -1,42 +1,57 @@
-//
-// Created by Samuel Mcmurray on 10/14/2021.
-//
+//-----------------------------------------------------------------------
+// File: Light.cpp
+// Summary: A class that represents a Light in a smart home this class
+// inherits from Abstract Device class.
+// Version: 1.0
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-14 Created the file,
+//-----------------------------------------------------------------------
 
+#include <asptlb.h>
 #include "Light.h"
 #include "Arduino.h"
 #include "Response.h"
+#include "../Util/Request.h"
 
-Light::Light(unsigned int id, bool isDimmable) : Device(id) {
-    this->isDimmable = isDimmable;
+Light::Light(unsigned int id, bool isDimmable) : Device(id), isDimmable(isDimmable) {
+    Light::dim = 0;
 }
 
-Light::Light(unsigned int id, int * muxPins, bool isDimmable) : Device(id) {
+Light::Light(unsigned int id, unsigned int muxPins[]) : Device(id) {
     for (int i = 0; i < 4; ++i) {
-        this->muxPins[i] = muxPins[i];
+        Light::muxPins[i] = muxPins[i];
     }
-    this->isDimmable = isDimmable;
+    Light::isDimmable = false;
+    Light::dim = 0;
 }
 
 bool Light::getIsDimmable() const {
-    return this->isDimmable;
+    return isDimmable;
 }
 
 int Light::getDim() {
-    return this->dim;
+    return dim;
 }
 
 
 Response Light::setDim(int dim) {
-    Response response{200, "Success"};
+    Response response;
+    Light::dim = dim;
+
+    response.setStatusCode(200);
+    response.setMessage("Success");
+
     return response;
 }
 
-Response Light::handleLightSwitch(int id) {
+Response Light::handleLightSwitch(Request request) {
     Response response;
     //Indoors Light
-    if (id == 11 ) {
-        setIsActive();
+    if (request.getId() == 11) {
+        setIsActive(request.isState());
         if (getIsActive()) {
+            //ON
             digitalWrite(muxPins[0], LOW);
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
@@ -44,9 +59,9 @@ Response Light::handleLightSwitch(int id) {
 
             response.setStatusCode(200);
             response.setMessage("Success Indoor Light is ON... \n");
-            Serial.println(response.getMessage());
-            return response;
+
         } else {
+            //OFF
             digitalWrite(muxPins[0], HIGH);
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
@@ -54,14 +69,15 @@ Response Light::handleLightSwitch(int id) {
 
             response.setStatusCode(200);
             response.setMessage("Success Indoor Light is OFF...\n");
-            Serial.println(response.getMessage());
-            return response;
-        }
 
-    } else if(id == 20) {
+        }
+        return response
+
+    } else if(request.getId() == 20) {
         //Outdoors Light
-        setIsActive();
+        setIsActive(request.isState());
         if (getIsActive()) {
+            //ON
             digitalWrite(muxPins[0], LOW);
             digitalWrite(muxPins[1], HIGH);
             digitalWrite(muxPins[2], HIGH);
@@ -69,9 +85,9 @@ Response Light::handleLightSwitch(int id) {
 
             response.setStatusCode(200);
             response.setMessage("Success Outdoor Light is ON...\n");
-            Serial.println(response.getMessage());
-            return response;
+
         } else {
+            //OFF
             digitalWrite(muxPins[0], HIGH);
             digitalWrite(muxPins[1], HIGH);
             digitalWrite(muxPins[2], HIGH);
@@ -79,34 +95,41 @@ Response Light::handleLightSwitch(int id) {
 
             response.setStatusCode(200);
             response.setMessage("Success Outdoor Light is OFF...\n");
-            Serial.println(response.getMessage());
-            return response;
         }
-    } else if (){
+        return response;
+    } else if (request.getId() == 22){
         //Alarm Light
-        setIsActive();
+        setIsActive(request.isState());
         if (getIsActive()) {
+            //ON
             digitalWrite(muxPins[0], LOW);
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], HIGH);
+
             response.setStatusCode(200);
             response.setMessage("Success Alarm Light is ON...\n");
-            Serial.println(response.getMessage());
-            return response;
+
         } else {
+            //OFF
             digitalWrite(muxPins[0], HIGH);
             digitalWrite(muxPins[1], LOW);
             digitalWrite(muxPins[2], HIGH);
             digitalWrite(muxPins[3], HIGH);
+
             response.setStatusCode(200);
             response.setMessage("Success Alarm Light is OFF...\n");
-            Serial.print(response.getMessage());
-            return response;
+
         }
+        return response;
     }
     response.setStatusCode(404);
     response.setMessage("The Light doesn't exist in the system.");
     return response;
 }
+
+const unsigned int *Light::getMuxPins() const {
+    return muxPins;
+}
+
 

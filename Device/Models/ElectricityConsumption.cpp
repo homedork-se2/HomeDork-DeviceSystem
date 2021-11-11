@@ -4,11 +4,13 @@
 
 #include "ElectricityConsumption.h"
 
-ElectricityConsumption::ElectricityConsumption(int id): Device(id) {
+
+ElectricityConsumption::ElectricityConsumption(unsigned int id) : Sensor(id) {
 
 }
 
 Response ElectricityConsumption::getElectricUsage() {
-    Response response{200, "Message"};
+    ElectricityConsumption::readAnalogSensor();
+    Response response{200, "Success"};
     return response;
 }

@@ -22,15 +22,16 @@ class Device{
      *      getId(): returns an integer of the device id
      *      getPin(): returns an integer of the devices pin (The location on the arduino)
      *      getIsActive(): returns a boolean which if true the device is on else if false the device is off.
-     *      setIsActive(): returns a Response that will be sent back to the server.
+     *      setIsActive(): sets the state of the current device takes an isActive boolean to set the state.
      * **/
-public:
+private:
     unsigned int id;
     bool isActive;
+public:
     explicit Device(unsigned int id);
     unsigned int getId() const;
     bool getIsActive() const;
-    void setIsActive();
+    void setIsActive(bool active);
 };
 
 

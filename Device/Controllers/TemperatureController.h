@@ -11,12 +11,18 @@
 class TemperatureController {
 private:
     double desiredTemp;
-    Thermometer thermometerIn1;
-    Radiator radiator1;
-    Radiator radiator2;
+    Thermometer thermometersIn[];
+    Thermometer thermometerOut;
+    Radiator radiators[];
+
 public:
-    TemperatureController(Thermometer thermometerIn1, Radiator radiator1, Radiator radiator2);
-    void setDesiredTemp(double desiredTemp);
+    TemperatureController(Thermometer thermometersIn[], Radiator radiators[], Thermometer thermometerOut);
+
+    Response setDesiredTemp(double desiredTemp);
+
+    double getDesiredTemp();
+
+    Response runTempController();
 };
 
 

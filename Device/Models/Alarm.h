@@ -1,14 +1,22 @@
-//
-// Created by Samuel Mcmurray on 10/23/2021.
-//
+//-----------------------------------------------------------------------
+// File: Alarm.h
+// Summary: The Alarm class a composite of a light, sound, and sensor.
+// This class handles the alarm functions.
+// Version: 1.0
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-23 Created the file.
+//-----------------------------------------------------------------------
 
 #ifndef HOMEDORK_DEVICESYSTEM_ALARM_H
 #define HOMEDORK_DEVICESYSTEM_ALARM_H
+#include "Arduino.h"
+#include "Light.h"
 #include "Sensor.h"
 #include "Sound.h"
-#include "Light.h"
+
 #include "../Util/Response.h"
-#include "Arduino.h"
+#include "../Util/Request.h"
 
 class Alarm {
     /**
@@ -31,14 +39,23 @@ class Alarm {
      * **/
 private:
     bool isActive;
+    bool isArmed;
     Sound siren;
     Sensor sensor;
     Light light;
 public:
     Alarm(Light light, Sound siren, Sensor sensor);
+
     Response setAlarm();
+
+    bool getIsArmed();
+
+    bool setIsArmed(bool armed);
+
     bool getIsActive();
-    void setIsActive();
+
+    void setIsActive(bool active);
+
     Response handleAlarmTrigger();
 };
 

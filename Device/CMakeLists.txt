@@ -8,5 +8,5 @@ include_directories(arduinomain)
 add_executable(HomeDork_DeviceSystem
         arduinomain/arduinomain.ino
 
-        Models/Device.cpp Models/Device.h Util/Response.cpp Util/Response.h Models/Light.cpp Models/Light.h Controllers/SensorController.cpp Controllers/SensorController.h Models/Timer.cpp Models/Timer.h Models/Mode.cpp Models/Mode.h Models/PowerCutOff.cpp Models/PowerCutOff.h Models/WaterLeakage.cpp Models/WaterLeakage.h Models/WaterLeakage.cpp Models/WaterLeakage.h Models/TwilightAutomaticSystem.cpp Models/TwilightAutomaticSystem.h Models/ElectricityConsumption.cpp Models/ElectricityConsumption.h)
+        Models/Device.cpp Models/Device.h Util/Response.cpp Util/Response.h Models/Light.cpp Models/Light.h Controllers/SensorController.cpp Controllers/SensorController.h Models/Timer.cpp Models/Timer.h Models/Mode.cpp Models/Mode.h Models/PowerCutOff.cpp Models/PowerCutOff.h Models/WaterLeakage.cpp Models/WaterLeakage.h Models/WaterLeakage.cpp Models/WaterLeakage.h Models/TwilightAutomaticSystem.cpp Models/TwilightAutomaticSystem.h Models/ElectricityConsumption.cpp Models/ElectricityConsumption.h Util/Request.cpp Util/Request.h)
 

@@ -21,6 +21,7 @@ class Curtains: public Device{
      *
      * **/
 public:
+
     Curtains(int id);
     Response handleCurtainSwitch();
 };

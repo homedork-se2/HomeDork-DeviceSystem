@@ -1,18 +1,43 @@
-//
-// Created by Mustafa on 2021-11-01.
-//
-
+//-----------------------------------------------------------------------
+// File: WaterLeakage.cpp
+// Summary: A class that represents a Water leakage sensor in a smart
+// home this class inherits from Abstract Device class.
+// Version: 1.0
+// Owner: Mustafa
+//-----------------------------------------------------------------------
+// Log: 2021-11-01 Created the file,
+//-----------------------------------------------------------------------
 #include "WaterLeakage.h"
 #include "Sensor.h"
 
 
-WaterLeakage::WaterLeakage(unsigned int id, Sensor sensor) : Device(id) {
-    this->sensor = sensor;
+/**
+ *
+ * @param id
+ */
+WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
+
 }
 
+
+
+/**
+ *
+ * @return
+ */
 Response WaterLeakage::handleWaterLeakage(){
-    sensor.readSensor();
+
 
 }
 
-Sensor::Sensor(unsigned int id) : Device(id) {}
+/**
+ *
+ */
+void WaterLeakage::readWaterLeakSensor() {
+    if (readDigitalSensor() == 5) {
+        handleWaterLeakage();
+    }
+}
+
+
+
