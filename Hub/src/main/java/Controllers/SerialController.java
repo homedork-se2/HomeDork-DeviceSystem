@@ -33,14 +33,13 @@ public class SerialController implements SerialPortDataListener {
      */
     public void sendRequest() {
         setResponse(true);
-        String[] strings = stringBuffer.split(":");
+        int length = stringBuffer.length();
+        for (int i = 0; i < length; i++) {
+            stringBuffer = stringBuffer.replace("'","");
+            System.out.println(stringBuffer);
 
-        for (int i = 0; i < strings.length; i++) {
-            strings[i] = strings[i].replace("'","");
-            System.out.println(strings[i]);
-
-            int length = strings[i].getBytes().length;
-            byte[] bytes = strings[i].getBytes();
+            length = stringBuffer.getBytes().length;
+            byte[] bytes = stringBuffer.getBytes();
             serialPort.writeBytes(bytes, length);
         }
         try {

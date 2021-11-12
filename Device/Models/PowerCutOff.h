@@ -7,6 +7,7 @@
 
 #include "Response.h"
 #include "Arduino.h"
+#include "../Util/Response.h"
 
 class PowerCutOff {
     /**
@@ -22,7 +23,7 @@ class PowerCutOff {
    *
    * **/
 public :
-
+    PowerCutOff();
     PowerCutOff(unsigned int id);
     Response handlePowerCutOff();
 };

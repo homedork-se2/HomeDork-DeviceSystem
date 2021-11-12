@@ -36,6 +36,7 @@ public:
     bool getHasMultiMode() ;
     void setHasMultiMode(bool hasMultiMode);
     void setHasOscillation(bool hasOscillation);
+    Response setOscillation(bool isOscillating);
     bool getHasOscillation();
     Response handleFanSwitch();
 };

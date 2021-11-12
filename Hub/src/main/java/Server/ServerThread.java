@@ -18,8 +18,8 @@ public class ServerThread extends Thread {
      * This is the constructor of the ServerThread class is takes the serialController
      * to handle serial port communication of the arduino and the clientSocket to handle
      * communication between the server client.
-     * @param clientSocket
-     * @param serialController
+     * @param clientSocket the client socket
+     * @param serialController the serial controller for the Arduino.
      */
     public ServerThread(Socket clientSocket, SerialController serialController) {
         this.clientSocket = clientSocket;

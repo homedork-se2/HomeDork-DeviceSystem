@@ -7,13 +7,14 @@
 #include "Arduino.h"
 #include "Device.h"
 #include "Response.h"
+#include "Sensor.h"
 
 
-class ElectricityConsumption : Device {
-
+class ElectricityConsumption : public Sensor {
 public:
-    ElectricityConsumption(int id);
-    Response getElectricUsage()
+
+    explicit ElectricityConsumption(unsigned int id);
+    Response getElectricUsage();
 
 };
 

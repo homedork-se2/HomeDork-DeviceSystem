@@ -1,11 +1,17 @@
-//
-// Created by Mustafa on 2021-10-18.
-//
-
+//-----------------------------------------------------------------------
+// File: Thermometer.cpp
+// Summary: A class that represents a Light in a smart home this class
+// inherits from Abstract Device class.
+// Version: 1.0
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-14 Created the file,
+//-----------------------------------------------------------------------
 #include "Thermometer.h"
+#include "Arduino.h"
 
 Thermometer::Thermometer(unsigned int id) :Device(id){
-    this->id = id;
+    Thermometer::id = id;
 }
 
 double Thermometer::getCurrentTemp() {
@@ -26,10 +32,6 @@ double Thermometer::getCurrentTemp() {
     return response;
 }
 
-Response Thermometer::setCurrentTemp(int currentTemp) {
-
-    return Response response(200, "Success");
-}
 
 double Thermometer::readTempIn() {
 

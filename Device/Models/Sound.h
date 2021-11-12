@@ -1,7 +1,12 @@
-//
-// Created by Mustafa on 2021-10-21.
-//
-
+//-----------------------------------------------------------------------
+// File: Sound.h
+// Summary: A class that represents a Siren in a smart home this class
+// inherits from Abstract Device class and outputs a sound when active.
+// Version: 1.0
+// Owner: Mustafa
+//-----------------------------------------------------------------------
+// Log: 2021-10-21 Created the file,
+//-----------------------------------------------------------------------
 #ifndef HOMEDORK_DEVICESYSTEM_SOUND_H
 #define HOMEDORK_DEVICESYSTEM_SOUND_H
 
@@ -11,7 +16,7 @@
 
 class Sound:public Device {
 /**
-     * An class that represents the Thermometer in a smart home this class inherits from the Abstract Device class.
+     * A class that represents the Thermometer in a smart home this class inherits from the Abstract Device class.
      *
      * Attributes:
      *      @param id an unsigned integer who's value is the id of a thermometer device.
@@ -24,11 +29,12 @@ class Sound:public Device {
      * **/
 
 private:
-    unsigned int muxPins[4]
+    unsigned int id;
+    unsigned int muxPins[4];
 public:
-    Sound(unsigned int id, unsigned int * muxPins);
-    Response handleSoundOn();
-    Response handleSoundOff();
+    Sound(unsigned int id, unsigned int  muxPins[]);
+
+    Response handleSoundSwitch(bool isActive);
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_SOUND_H

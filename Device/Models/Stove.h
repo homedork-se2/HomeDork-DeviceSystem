@@ -1,17 +1,24 @@
-//
-// Created by Ibrahim on 10/28/2021.
-//
+//-----------------------------------------------------------------------
+// File: Stove.h
+// Summary: A class that represents a Stove in a smart home this class
+// inherits from Abstract Device class.
+// Version: 1.0
+// Owner: Ibrahim
+//-----------------------------------------------------------------------
+// Log: 2021-10-28 Created the file,
+//-----------------------------------------------------------------------
 
 #ifndef HOMEDORK_DEVICESYSTEM_STOVE_H
 #define HOMEDORK_DEVICESYSTEM_STOVE_H
 #include "Device.h"
 #include "Arduino.h"
 #include "../Util/Response.h"
+#include "Sensor.h"
 
 
-class Stove: public Device{
+class Stove: public Sensor{
 /**
-    * An class that represent a Stove in a smart home this class inherits from Abstract Device class.
+    * A class that represent a Stove in a smart home this class inherits from Abstract Device class.
     *
     * Attributes:
     *      @param id an integer who's value is the id of an instance of a subclass device.
@@ -21,8 +28,10 @@ class Stove: public Device{
      *       handleStoveSwitch: handles when Stove change mode.
     *
     * **/
-    Stove(int id);
-    Response handleStoveSwitch();
+public:
+    Stove();
+    explicit Stove(unsigned int id);
+    Response handleStoveSwitch(bool isActive);
 };
 
 

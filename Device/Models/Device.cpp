@@ -6,19 +6,19 @@
 #include "Arduino.h"
 
 Device::Device(unsigned int id) {
-    this ->id = id;
-    this->isActive = false;
+    Device::id = id;
+    Device::isActive = false;
 };
 
 unsigned int Device::getId() const {
-    return this->id;
+    return id;
 }
 
 bool Device::getIsActive() const {
-    return this->isActive;
+    return isActive;
 }
 
-void Device::setIsActive() {
-    this->isActive = !isActive;
+void Device::setIsActive(bool active) {
+    Device::isActive = active;
 }
 
