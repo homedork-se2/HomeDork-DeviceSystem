@@ -46,5 +46,26 @@ double TemperatureController::getDesiredTemp() {
  * @return (Response): A response is returned based on the
  */
 Response TemperatureController::runTempController() {
+    Response response{500, "Unknown Error Exited Loop"};
+    while (true) {
 
+        int size = sizeof(thermometersIn) / sizeof(thermometersIn[0]);
+        for (int i = 0; i < size; ++i) {
+            float temp = thermometersIn[i].getTemperature();
+            if (temp > &desiredTemp) {
+                radiators[i].adjustTemp(false);
+                //Serial.print("radiator off..");
+            } else if (temp < &desiredTemp) {
+                radiators[í].adjustTemp(true);
+                //Serial.print("radiator on..");
+            }
+
+            delay(1000);
+            if (fiveMinutes =< millis()) {
+                fiveMinutes = millis() + 300000L;
+            }
+        }
+    }
+
+    return response;
 }

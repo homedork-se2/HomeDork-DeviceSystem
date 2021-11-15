@@ -4,8 +4,10 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_TEMPERATURECONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_TEMPERATURECONTROLLER_H
-#include "../Models/Thermometer.h"
-#include "../Models/Radiator.h"
+
+#include "Response.h"
+#include "Thermometer.h"
+#include "Radiator.h"
 #include "Arduino.h"
 
 class TemperatureController {
@@ -14,6 +16,7 @@ private:
     Thermometer thermometersIn[];
     Thermometer thermometerOut;
     Radiator radiators[];
+    unsigned long fiveMinutes;
 
 public:
     TemperatureController(Thermometer thermometersIn[], Radiator radiators[], Thermometer thermometerOut);
