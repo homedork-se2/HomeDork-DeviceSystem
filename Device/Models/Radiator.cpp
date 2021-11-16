@@ -7,11 +7,11 @@ Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id) {
     this->muxPins = muxPins;
 }
 
-Response Radiator::adjustTemp() {
+Response Radiator::adjustTemp(bool isCold) {
 
     if (id == 23 ) {
         //Window
-        setIsActive();
+        setIsActive(isCold);
         if (getIsActive()) {
             digitalWrite(muxPins[0], LOW);
             digitalWrite(muxPins[1], HIGH);
@@ -30,7 +30,7 @@ Response Radiator::adjustTemp() {
 
     } else if(id == 25)
         //Non window
-        setIsActive();
+        setIsActive(isCold);
     if (getIsActive()) {
         digitalWrite(muxPins[0], LOW);
         digitalWrite(muxPins[1], HIGH);
