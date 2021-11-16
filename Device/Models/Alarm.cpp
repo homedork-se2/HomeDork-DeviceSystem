@@ -2,10 +2,11 @@
 // File: Alarm.cpp
 // Summary: The Alarm class a composite of a light, sound, and sensor.
 // This class handles the alarm functions.
-// Version: 1.0
+// Version: 1.1
 // Owner: Samuel Mcmurray
 //-----------------------------------------------------------------------
 // Log: 2021-10-23 Created the file.
+// Log: 2021-11-16 changed handleAlarmTrigger.
 //-----------------------------------------------------------------------
 #include "Alarm.h"
 #include "Request.h"
@@ -74,14 +75,27 @@ void Alarm::setIsArmed(bool armed) {
  *
  * @return
  */
-Response Alarm::handleAlarmTrigger() {
+Response Alarm::handleAlarmTrigger(bool triggered) {
     Response response{500, "Failure"};
-    Request request =
-    setIsActive(true);
+    Request request;
+    if (triggered) {
+        siren.handleSoundSwitch(true);
+        request.setDeviceType("LIGHT");
+        request.setState(true);
+        request.setId(light.getId());
+        light.handleLightSwitch(request);
+        setIsActive(true);
+    } else {
+        siren.handleSoundSwitch(false);
+        request.setDeviceType("LIGHT");
+        request.setState(false);
+        request.setId(light.getId());
+        light.handleLightSwitch(request);
+        setIsActive(false);
+    }
 
-    siren.handleSoundOn();
-    light.handleLightSwitch(Req);
-    setIsActive(true);
+
+
     response.setStatusCode(200)
     response.set
     return response;
