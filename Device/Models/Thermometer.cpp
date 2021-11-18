@@ -20,13 +20,6 @@ double Thermometer::getCurrentTemp() {
 
         int temp = analogRead(id);
         temp = temp*0.48828125;
-
-        response.setMessage("Temperature is " + temp);
-
-        Serial.print("Temperature: ");
-        Serial.print(temp);
-        Serial.println("C");
-
     }
 
     return response;

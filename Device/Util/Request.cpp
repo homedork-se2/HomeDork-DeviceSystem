@@ -42,7 +42,7 @@ void Request::parseRequest(char buf[]) {
     char input[15];
     int count = 0;
     int flag = 0;
-    for (char c: buf) {
+    for (char c: &buf) {
         if (c == ':') {
             if (flag == 0) {
                 setDeviceType(input);

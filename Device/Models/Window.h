@@ -9,9 +9,10 @@
 //-----------------------------------------------------------------------
 #ifndef HOMEDORK_DEVICESYSTEM_WINDOW_H
 #define HOMEDORK_DEVICESYSTEM_WINDOW_H
-#include "Device.h"
-#include "../Util/Response.h"
-#include "Arduino.h"
+
+#include <Arduino.h
+#include <Device.h>
+#include <Response.h>
 
 class Window: public Sensor {
     /**

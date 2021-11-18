@@ -63,7 +63,7 @@ Response DeviceController::runListen() {
 
         if (Serial.available() > 0) {
             int len = Serial.readBytes(buf, BUFFER_SIZE);
-            request.createRequest(&buf);
+            request.parseRequest(&buf);
             response = handleRequest(request);
             return response;
         }

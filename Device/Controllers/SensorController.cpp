@@ -15,12 +15,13 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
         : electricityConsumption(electricityConsumption), powerCutOff(powerCutOff), stove(stove),
           twilightAutomaticSystem(twilightAutomaticSystem), waterLeakage(waterLeakage) {
 
-    for (windows) {
-        windows.
-    }
+
 }
 
 Response SensorController::runSensorController() {
+    while (true) {
+
+    }
     Response response{200, "Success"};
     return response;
 }

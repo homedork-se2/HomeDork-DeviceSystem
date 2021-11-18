@@ -10,13 +10,14 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
-#include "../Models/ElectricityConsumption.h"
-#include "../Models/PowerCutOff.h"
-#include "../Models/Stove.h"
-#include "../Models/TwilightAutomaticSystem.h"
-#include "../Models/WaterLeakage.h"
-#include "../Models/Window.h"
-#include "../Util/Response.h"
+#include <ElectricityConsumption.h>
+#include <PowerCutOff.h>
+#include <Response.h>
+#include <Stove.h>
+#include <TwilightAutomaticSystem.h>
+#include <WaterLeakage.h>
+#include <Window.h>
+
 
 class SensorController {
 private:

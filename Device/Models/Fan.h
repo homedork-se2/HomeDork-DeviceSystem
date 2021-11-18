@@ -4,10 +4,9 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_FAN_H
 #define HOMEDORK_DEVICESYSTEM_FAN_H
-#include "Device.h"
-#include "Arduino.h"
-#include "Mode.h"
-
+#include <Arduino.h>
+#include <Device.h>
+#include <Mode.h>
 
 class Fan: public Device{
     /**

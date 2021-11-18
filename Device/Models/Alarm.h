@@ -10,13 +10,12 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_ALARM_H
 #define HOMEDORK_DEVICESYSTEM_ALARM_H
-#include "Arduino.h"
-#include "Light.h"
-#include "Sensor.h"
-#include "Sound.h"
-
-#include "../Util/Response.h"
-#include "../Util/Request.h"
+#include <Arduino.h>
+#include <Light.h>
+#include <Request.h>
+#include <Response.h>
+#include <Sensor.h>
+#include <Sound.h>
 
 class Alarm {
     /**

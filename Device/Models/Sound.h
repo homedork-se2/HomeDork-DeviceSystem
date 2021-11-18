@@ -10,9 +10,9 @@
 #ifndef HOMEDORK_DEVICESYSTEM_SOUND_H
 #define HOMEDORK_DEVICESYSTEM_SOUND_H
 
-#include "Arduino.h"
-#include "Device.h"
-#include "Response.h"
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
 
 class Sound:public Device {
 /**

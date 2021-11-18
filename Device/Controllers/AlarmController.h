@@ -10,8 +10,8 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_ALARMCONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_ALARMCONTROLLER_H
-#include "../Models/Alarm.h"
-#include "Arduino.h"
+#include <Alarm.h>
+#include <Arduino.h>
 
 class AlarmController {
 private:

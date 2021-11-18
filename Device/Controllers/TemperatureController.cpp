@@ -46,5 +46,5 @@ double TemperatureController::getDesiredTemp() {
  * @return (Response): A response is returned based on the
  */
 Response TemperatureController::runTempController() {
-
+    
 }

@@ -4,8 +4,10 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_RADIATOR_H
 #define HOMEDORK_DEVICESYSTEM_RADIATOR_H
-#include "Device.h"
-#include "Arduino.h"
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+
 
 class Radiator: public Device {
     /**

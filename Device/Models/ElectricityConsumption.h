@@ -4,10 +4,10 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H
 #define HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H
-#include "Arduino.h"
-#include "Device.h"
-#include "Response.h"
-#include "Sensor.h"
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+#include <Sensor.h>
 
 
 class ElectricityConsumption : public Sensor {

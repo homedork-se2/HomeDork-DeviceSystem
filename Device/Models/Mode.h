@@ -9,8 +9,13 @@
 //-----------------------------------------------------------------------
 #ifndef HOMEDORK_DEVICESYSTEM_MODE_H
 #define HOMEDORK_DEVICESYSTEM_MODE_H
+#include <Arduino.h>
 
-enum class Mode {LOW, MEDIUM, HIGH};
+enum class Mode {
+    LOW=75,
+    MEDIUM=150,
+    HIGH=240
+};
 
 
 #endif //HOMEDORK_DEVICESYSTEM_MODE_H

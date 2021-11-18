@@ -6,8 +6,8 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_DEVICE_H
 #define HOMEDORK_DEVICESYSTEM_DEVICE_H
-#include "Arduino.h"
-#include "../Util/Response.h"
+
+#include <Arduino.h>
 
 class Device{
 /**

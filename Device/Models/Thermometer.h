@@ -5,11 +5,12 @@
 #ifndef HOMEDORK_DEVICESYSTEM_THERMOMETER_H
 #define HOMEDORK_DEVICESYSTEM_THERMOMETER_H
 
-#include "Arduino.h"
-#include "Device.h"
-#include "../Util/Response.h"
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+#include <Sensor.h>
 
-class Thermometer:public Device {
+class Thermometer:public Sensor {
 /**
      * An class that represents the Thermometer in a smart home this class inherits from the Abstract Device class.
      *

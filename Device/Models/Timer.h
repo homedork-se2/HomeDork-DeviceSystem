@@ -5,6 +5,8 @@
 #ifndef HOMEDORK_DEVICESYSTEM_TIMER_H
 #define HOMEDORK_DEVICESYSTEM_TIMER_H
 
+#include <Arduino.h>
+#include <Device.h>
 
 class Timer:public Device {
 

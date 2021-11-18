@@ -11,19 +11,19 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
-#include "../Models/Alarm.h"
-#include "../Models/Curtains.h"
-#include "../Models/ElectricityConsumption.h"
-#include "../Models/Fan.h"
-#include "../Models/Light.h"
-#include "../Models/PowerCutOff.h"
-#include "../Models/Stove.h"
-#include "../Models/Timer.h"
-#include "../Util/Response.h"
-#include "Arduino.h"
-#include "TemperatureController.h"
-#include "../Models/TwilightAutomaticSystem.h"
-#include "../Models/Window.h"
+#include <Alarm.h>
+#include <Arduino.h>
+#include <Curtains.h>
+#include <ElectricityConsumption.h>
+#include <Fan.h>
+#include <Light.h>
+#include <PowerCutOff.h>
+#include <Response.h>
+#include <Stove.h>
+#include <TemperatureController.h>
+#include <Timer.h>
+#include <TwilightAutomaticSystem.h>
+#include <Window.h>
 
 class DeviceController {
 private:
@@ -39,6 +39,7 @@ private:
     Timer timers[];
     TwilightAutomaticSystem twilightSystem;
     Window windows[];
+
     Response handleRequest(Request request);
 
 public:

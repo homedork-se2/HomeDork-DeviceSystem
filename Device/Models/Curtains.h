@@ -4,9 +4,9 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_CURTAINS_H
 #define HOMEDORK_DEVICESYSTEM_CURTAINS_H
-#include "Device.h"
-#include "../Util/Response.h"
-#include "Arduino.h"
+#include <Device.h>
+#include <Response.h>
+#include <Arduino.h>
 
 
 class Curtains: public Device{
@@ -21,7 +21,6 @@ class Curtains: public Device{
      *
      * **/
 public:
-
     Curtains(int id);
     Response handleCurtainSwitch();
 };

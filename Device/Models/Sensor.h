@@ -11,8 +11,8 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_SENSOR_H
 #define HOMEDORK_DEVICESYSTEM_SENSOR_H
-#include "Device.h"
-#include "Arduino.h"
+#include <Arduino.h>
+#include <Device.h>
 
 class Sensor : public Device{
 public :

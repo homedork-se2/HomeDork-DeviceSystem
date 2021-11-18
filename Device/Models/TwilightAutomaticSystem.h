@@ -9,11 +9,11 @@
 //-----------------------------------------------------------------------
 #ifndef HOMEDORK_DEVICESYSTEM_TWILIGHTAUTOMATICSYSTEM_H
 #define HOMEDORK_DEVICESYSTEM_TWILIGHTAUTOMATICSYSTEM_H
-#include "Arduino.h"
-#include "Device.h"
-#include "Sensor.h"
-#include "Light.h"
 
+#include <Arduino.h>
+#include <Device.h>
+#include <Light.h>
+#include <Sensor.h>
 
 class TwilightAutomaticSystem {
 /**

@@ -4,7 +4,7 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_RESPONSE_H
 #define HOMEDORK_DEVICESYSTEM_RESPONSE_H
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Response {
 /**

@@ -10,9 +10,10 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_LIGHT_H
 #define HOMEDORK_DEVICESYSTEM_LIGHT_H
-#include "Device.h"
-#include "../Util/Response.h"
-#include "Arduino.h"
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+
 
 class Light:public Device {/**
      * A class that represents a Light in a smart home this class inherits from the Abstract Device class.

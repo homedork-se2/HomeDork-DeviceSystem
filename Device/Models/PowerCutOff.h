@@ -4,12 +4,12 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_POWERCUTOFF_H
 #define HOMEDORK_DEVICESYSTEM_POWERCUTOFF_H
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
 
-#include "Response.h"
-#include "Arduino.h"
-#include "../Util/Response.h"
 
-class PowerCutOff {
+class PowerCutOff : public Device{
     /**
    * An class that represent a PowerCutOff in a smart home.
    *

@@ -4,9 +4,11 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_TEMPERATURECONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_TEMPERATURECONTROLLER_H
-#include "../Models/Thermometer.h"
-#include "../Models/Radiator.h"
-#include "Arduino.h"
+
+#include <Arduino.h>
+#include <Radiator.h>
+#include <Response.h>
+#include <Thermometer.h>
 
 class TemperatureController {
 private:

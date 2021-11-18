@@ -14,8 +14,8 @@
 /**
  * The Alarm constructor takes the light, sound, and sensor objects as paramaters.
  * @param light (Light):
- * @param siren
- * @param sensor
+ * @param siren (Sound):
+ * @param sensor (Sensor):
  */
 Alarm::Alarm(Light light, Sound siren, Sensor sensor) {
     Alarm::light = light;
@@ -26,29 +26,30 @@ Alarm::Alarm(Light light, Sound siren, Sensor sensor) {
 }
 
 /**
- *
- * @param request
- * @return
+ * A setter for the security Alarm
+ * @param request: (Request): A parameter created from the message sent by the user
+ * @return (Response): returns on the success or failure of setting the alarm.
  */
 Response Alarm::setAlarm(Request request) {
     if (!request.isState()) {
         siren.setIsActive(false);
-
     }
     setIsArmed(request.isState());
 }
 
 /**
- *
- * @param active
+ * A setter for the alarm as active or inactive while active the siren will sound
+ * and the light will be on.
+ * @param active (boolean):
  */
 void Alarm::setIsActive(bool active) {
     Alarm::isActive = active;
 }
 
 /**
- *
- * @return
+ * A getter for the alarm as active or inactive while active the siren will sound
+ * and the light will be on.
+ * @return (boolean): The current state represented as a boolean.
  */
 bool Alarm::getIsActive() {
     return isActive;

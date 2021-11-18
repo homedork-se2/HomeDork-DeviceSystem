@@ -10,10 +10,11 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_STOVE_H
 #define HOMEDORK_DEVICESYSTEM_STOVE_H
-#include "Device.h"
-#include "Arduino.h"
-#include "../Util/Response.h"
-#include "Sensor.h"
+
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+#include <Sensor.h>
 
 
 class Stove: public Sensor{
