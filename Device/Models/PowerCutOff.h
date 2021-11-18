@@ -8,8 +8,9 @@
 #include "Response.h"
 #include "Arduino.h"
 #include "../Util/Response.h"
+#include "Sensor.h"
 
-class PowerCutOff {
+class PowerCutOff: public Sensor{
     /**
    * An class that represent a PowerCutOff in a smart home.
    *

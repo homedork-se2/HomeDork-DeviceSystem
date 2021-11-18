@@ -15,12 +15,35 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
         : electricityConsumption(electricityConsumption), powerCutOff(powerCutOff), stove(stove),
           twilightAutomaticSystem(twilightAutomaticSystem), waterLeakage(waterLeakage) {
 
-    for (windows) {
-        windows.
-    }
+
 }
 
+
 Response SensorController::runSensorController() {
-    Response response{200, "Success"};
-    return response;
+    Response response{500, "error in loop"};
+    while(true) {
+        if (windows->getIsActive()) {
+            windows->readDigitalSensor();
+
+        }
+        if (electricityConsumption.getIsActive()) {
+            electricityConsumption.getElectricUsage();
+
+        }
+        if (powerCutOff.getIsActive()) {
+            powerCutOff.handlePowerCutOff();
+        }
+        if (stove.getIsActive()) {
+            stove.readDigitalSensor();
+
+        }
+        if (twilightAutomaticSystem.getSensorState()) {
+            twilightAutomaticSystem.handleTwilightSystem();
+
+        }
+        if (waterLeakage.getIsActive()) {
+            waterLeakage.handleWaterLeakage();
+
+        }
+    }
 }
