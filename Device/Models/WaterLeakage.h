@@ -31,9 +31,8 @@ private:
 public :
     explicit WaterLeakage(unsigned int id);
 
-    Response handleWaterLeakage();
+    static Response handleWaterLeakage();
 
-    void readWaterLeakSensor();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_WATERLEAKAGE_H

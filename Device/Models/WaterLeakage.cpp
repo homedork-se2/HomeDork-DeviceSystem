@@ -19,25 +19,17 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
 
 }
 
-
-
 /**
  *
  * @return
  */
 Response WaterLeakage::handleWaterLeakage(){
 
-
 }
 
-/**
- *
- */
-void WaterLeakage::readWaterLeakSensor() {
-    if (readDigitalSensor() == 5) {
-        handleWaterLeakage();
-    }
-}
+
+
+
 
 
 

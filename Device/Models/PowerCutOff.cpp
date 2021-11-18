@@ -5,7 +5,7 @@
 #include "PowerCutOff.h"
 #include "Response.h"
 
-PowerCutOff::PowerCutOff(unsigned int id){
+PowerCutOff::PowerCutOff(unsigned int id): Sensor(id){
 
 }
 
