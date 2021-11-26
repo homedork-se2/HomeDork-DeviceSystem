@@ -11,9 +11,9 @@
 #include "AlarmController.h"
 
 /**
- *
- * @param fireAlarm
- * @param securityAlarm
+ * The alarm controller constructor.
+ * @param fireAlarm (Alarm): The fire alarm.
+ * @param securityAlarm (Alarm): The security Alarm.
  */
 AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) {
     AlarmController::fireAlarm = fireAlarm;
