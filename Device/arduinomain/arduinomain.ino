@@ -58,29 +58,7 @@ WaterLeakage waterLeakage{7};
 Window window{6};
 Window fakeWindow{27};
 
-//Declare and instantiate Composition Models
-Alarm securityAlarm{&alarmLight, &siren, &switchSecuritySensor};
-Alarm fireAlarm{&alarmLight, &siren, &switchFireSensor};
 
-TwilightAutomaticSystem twilightSystem{&outdoorLight, &lightSensor};
-
-
-//Create Model lists
-Curtain curtains[2] = {&curtain1, &curtain2};
-Fan fans[2] = {&fanLoft, &fanFake};
-Light lights[3] = {&indoorLight, &outdoorLight, &alarmLight};
-Radiator radiators[2] = {&radiator, &radiatorWindow};
-Thermometer thermometersIn[2] = {&thermometerIn, &thermometerInWindow};
-Timer timers[2] = {timer1, timer2};
-Window windows[2] = {&window, &fakeWindow};
-
-//Declare and instantiate Controllers
-AlarmController alarmController{&fireAlarm, &securityAlarm};
-SensorController sensorController{&electricityConsumption, &powerCutOff, &stove, &twilightSystem, &waterLeakage, &windows};
-TemperatureController temperatureController{&fans, &radiators, &thermometersIn, &thermometerOut};
-ThreadController threadController = ThreadController();
-DeviceController deviceController{&securityAlarm, &curtains, &electricityConsumption, &fans, &lights, &powerCutOff,
-                   &response,  &stove & temperatureController, &timers, &twilightSystem, &windows};
 //Create Thread pool
 Thread alarmControllerThread = new Thread();
 Thread deviceControllerThread = new Thread();
@@ -89,45 +67,70 @@ Thread temperatureControllerThread = new Thread();
 
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(2, INPUT);
-  pinMode(3, INPUT);
-  pinMode(4, INPUT);
-  pinMode(5, INPUT);
-  pinMode(6, INPUT);
-  pinMode(7, INPUT);
-  pinMode(9, INPUT);
-  pinMode(10, OUTPUT);
-  pinMode(&muxPins[0], OUTPUT);
-  pinMode(&muxPins[1], OUTPUT);
-  pinMode(&muxPins[2], OUTPUT);
-  pinMode(&muxPins[3], OUTPUT);
+    Serial.begin(9600);
 
-  //Connect threads to callbacks
-  alarmControllerThread.onRun(alarmCallback());
-  alarmControllerThread.setInterval(100);
+    //Declare and instantiate Composition Models
+    Alarm securityAlarm{&alarmLight, &siren, &switchSecuritySensor};
+    Alarm fireAlarm{&alarmLight, &siren, &switchFireSensor};
 
-  deviceControllerThread.onRun(deviceControllerCallback());
-  deviceControllerThread.setInterval(300);
+    TwilightAutomaticSystem twilightSystem{&outdoorLight, &lightSensor};
 
-  sensorControllerThread.onRun(sensorControllerCallback());
-  sensorControllerThread.setInterval(100);
 
-  temperatureControllerThread.onRun(temperatureControllerCallback());
-  temperatureControllerThread.setInterval(1000);
+    //Create Model lists
+    Curtain curtains[2] = {&curtain1, &curtain2};
+    Fan fans[2] = {&fanLoft, &fanFake};
+    Light lights[3] = {&indoorLight, &outdoorLight, &alarmLight};
+    Radiator radiators[2] = {&radiator, &radiatorWindow};
+    Thermometer thermometersIn[2] = {&thermometerIn, &thermometerInWindow};
+    Timer timers[2] = {timer1, timer2};
+    Window windows[2] = {&window, &fakeWindow};
 
-  //Add threads to thread Controller
-  threadController.add(&alarmControllerThread);
-  threadController.add(&deviceControllerThread);
-  threadController.add(&sensorControllerThread);
-  threadController.add(&temperatureControllerThread);
+    //Declare and instantiate Controllers
+    AlarmController alarmController{&fireAlarm, &securityAlarm};
+    SensorController sensorController{&electricityConsumption, &powerCutOff, &stove, &twilightSystem, &waterLeakage, &windows};
+    TemperatureController temperatureController{&fans, &radiators, &thermometersIn, &thermometerOut};
+    ThreadController threadController = ThreadController();
+    DeviceController deviceController{&securityAlarm, &curtains, &electricityConsumption, &fans, &lights, &powerCutOff,
+                                      &response,  &stove & temperatureController, &timers, &twilightSystem, &windows};
 
-  //    //Get Database States
+    pinMode(2, INPUT);
+    pinMode(3, INPUT);
+    pinMode(4, INPUT);
+    pinMode(5, INPUT);
+    pinMode(6, INPUT);
+    pinMode(7, INPUT);
+    pinMode(9, INPUT);
+    pinMode(10, OUTPUT);
+    pinMode(&muxPins[0], OUTPUT);
+    pinMode(&muxPins[1], OUTPUT);
+    pinMode(&muxPins[2], OUTPUT);
+    pinMode(&muxPins[3], OUTPUT);
 
-  while (!Serial) {
+    //Connect threads to callbacks
+    alarmControllerThread.onRun(alarmCallback());
+    alarmControllerThread.setInterval(100);
+
+    deviceControllerThread.onRun(deviceControllerCallback());
+    deviceControllerThread.setInterval(300);
+
+    sensorControllerThread.onRun(sensorControllerCallback());
+    sensorControllerThread.setInterval(100);
+
+    temperatureControllerThread.onRun(temperatureControllerCallback());
+    temperatureControllerThread.setInterval(1000);
+
+    //Add threads to thread Controller
+    threadController.add(&alarmControllerThread);
+    threadController.add(&deviceControllerThread);
+    threadController.add(&sensorControllerThread);
+    threadController.add(&temperatureControllerThread);
+
+    //    //Get Database States
+
+    while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
-  }
-  delay(500);
+    }
+    delay(500);
 
 
 }

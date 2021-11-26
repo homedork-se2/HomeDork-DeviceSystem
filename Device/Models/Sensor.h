@@ -1,8 +1,7 @@
 //-----------------------------------------------------------------------
-// File: Sensor.cpp
-// Summary: A class that represents a Sensor in a smart home this class
-// inherits from Abstract Device class, either reads digital or analog
-// based off the needs of the subclass.
+// File: Sensor.h
+// Summary: A class that represents a Input sensor in a smart home this
+// class inherits from Abstract Device class.
 // Version: 1.0
 // Owner: Osayomore Edugie
 //-----------------------------------------------------------------------
@@ -11,12 +10,12 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_SENSOR_H
 #define HOMEDORK_DEVICESYSTEM_SENSOR_H
+
 #include <Arduino.h>
 #include <Device.h>
 
 class Sensor : public Device{
 public :
-    Sensor();
     Sensor(unsigned int id);
     float readDigitalSensor();
     float readAnalogSensor();

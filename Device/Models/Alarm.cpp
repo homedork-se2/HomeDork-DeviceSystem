@@ -7,15 +7,14 @@
 //-----------------------------------------------------------------------
 // Log: 2021-10-23 Created the file.
 //-----------------------------------------------------------------------
+
 #include "Alarm.h"
-#include "Request.h"
-#include "Response.h"
 
 /**
  * The Alarm constructor takes the light, sound, and sensor objects as paramaters.
- * @param light (Light):
- * @param siren (Sound):
- * @param sensor (Sensor):
+ * @param light (Light): The security light that will be turned on if the alarm is triggered.
+ * @param siren (Sound): The siren that produces a sound when an alarm is triggered.
+ * @param sensor (Sensor): The sensor which will determine if the alarm should be triggered.
  */
 Alarm::Alarm(Light light, Sound siren, Sensor sensor) {
     Alarm::light = light;
@@ -32,7 +31,7 @@ Alarm::Alarm(Light light, Sound siren, Sensor sensor) {
  */
 Response Alarm::setAlarm(Request request) {
     if (!request.isState()) {
-        siren.setIsActive(false);
+        handleAlarmTrigger(false);
     }
     setIsArmed(request.isState());
 }
@@ -56,34 +55,54 @@ bool Alarm::getIsActive() {
 }
 
 /**
- *
- * @return
+ * A getter for the alarm as armed or disarmed while armed the alarm can be
+ * triggered by the sensor.
+ * @return (bool): The state of the alarm armed or disarmed.
  */
 bool Alarm::getIsArmed() {
     return isArmed;
 }
 
 /**
- *
- * @param armed
+ * A setter for the alarm as armed or disarmed while armed the alarm can be
+ * triggered by the sensor.
+ * @param armed (bool): A boolean to set whether the alarm is armed or
+ * disarmed.
  */
 void Alarm::setIsArmed(bool armed) {
     Alarm::isArmed = armed;
 }
 
 /**
- *
- * @return
+ * The function that will handle the triggering of the alarm or disabling of
+ * the alarm.
+ * @param isTriggered (bool): A boolean that represents the state the
+ * alarm should be in.
+ * @return (Response): The response of the request to determine if it was
+ * successful.
  */
-Response Alarm::handleAlarmTrigger() {
+Response Alarm::handleAlarmTrigger(bool isTriggered) {
     Response response{500, "Failure"};
-    Request request =
-    setIsActive(true);
+    Request request;
+    if (isTriggered) {
+        siren.handleSoundSwitch(true);
+        request.setDeviceType(1);
+        request.setState(true);
+        request.setId(light.getId());
+        light.handleLightSwitch(request);
+        setIsActive(true);
+        response.setStatusCode(200);
+        response.setMessage("ON");
+    } else {
+        siren.handleSoundSwitch(false);
+        request.setDeviceType(1);
+        request.setState(false);
+        request.setId(light.getId());
+        light.handleLightSwitch(request);
+        setIsActive(false);
+        response.setStatusCode(200);
+        response.setMessage("OFF");
+    }
 
-    siren.handleSoundOn();
-    light.handleLightSwitch(Req);
-    setIsActive(true);
-    response.setStatusCode(200)
-    response.set
     return response;
 }

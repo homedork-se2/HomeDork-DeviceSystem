@@ -10,6 +10,7 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
+
 #include <ElectricityConsumption.h>
 #include <PowerCutOff.h>
 #include <Response.h>
@@ -26,14 +27,12 @@ private:
     Stove stove;
     TwilightAutomaticSystem twilightAutomaticSystem;
     WaterLeakage waterLeakage;
-    Window windows[];
+    Window windows[2];
 public:
     SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
                      WaterLeakage waterLeakage, Window windows[]);
-
     Response runSensorController();
 };
-
 
 #endif //HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H

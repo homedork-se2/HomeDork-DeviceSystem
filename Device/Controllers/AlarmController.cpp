@@ -11,13 +11,41 @@
 #include "AlarmController.h"
 
 /**
- * The Alarm Controller Constructor
- * @param fireAlarm (Alarm): The device systems fire alarm.
- * @param securityAlarm (Alarm): The device systems security alarm.
+ *
+ * @param fireAlarm
+ * @param securityAlarm
  */
 AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) {
     AlarmController::fireAlarm = fireAlarm;
     AlarmController::securityAlarm = securityAlarm;
 }
 
+/**
+ * The function handles the alarm sensor reading and then triggering the
+ * alarm when the sensor is
+ * @return
+ */
+Response AlarmController::runAlarm() {
+    Response response {500, "exit while loop error"};
+    while (true) {
+        int reading = fireAlarm.sensor.readDigitalSensor();
+        if (reading == HIGH) {
+            fireAlarm.handleAlarmTrigger(true);
+            //Serial.println("Alarm is Triggered!");
+        } else {
+            fireAlarm.handleAlarmTrigger(false);
+            //Serial.println("Alarm is OFF");
+        }
 
+        reading = securityAlarm.sensor.readDigitalSensor();
+        if (reading == HIGH && securityAlarm.getIsArmed()) {
+            securityAlarm.handleAlarmTrigger(true);
+            //Serial.println("Alarm is Triggered!");
+        } else {
+            securityAlarm.handleAlarmTrigger(false);
+            //Serial.println("Alarm is OFF");
+        }
+    }
+
+    return response;
+}

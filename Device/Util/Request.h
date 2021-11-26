@@ -10,6 +10,7 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_REQUEST_H
 #define HOMEDORK_DEVICESYSTEM_REQUEST_H
+
 #include <Arduino.h>
 
 class Request {
@@ -17,27 +18,19 @@ private:
     unsigned int id;
     bool state;
     int value;
-    String deviceType;
+    int deviceType;
+
 public:
-
     unsigned int getId() const;
-
     void setId(unsigned int id);
-
     bool isState() const;
-
     void setState(bool state);
-
     int getValue() const;
-
     void setValue(int value);
-
-    String getDeviceType();
-
-    void setDeviceType(String deviceType);
-
+    int getDeviceType();
+    void setDeviceType(int deviceType);
     void parseRequest(char buf[]);
-};
 
+};
 
 #endif //HOMEDORK_DEVICESYSTEM_REQUEST_H

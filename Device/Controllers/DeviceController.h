@@ -11,6 +11,7 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
+
 #include <Alarm.h>
 #include <Arduino.h>
 #include <Curtains.h>
@@ -28,29 +29,25 @@
 class DeviceController {
 private:
     Alarm securityAlarm;
-    Curtains curtains[];
+    Curtains curtains[2];
     ElectricityConsumption electricityConsumption;
-    Fan fans[];
-    Light lights[];
+    Fan fans[2];
+    Light lights[2];
     PowerCutOff powerCutOff;
     Response response;
     Stove stove;
     TemperatureController temperatureController;
-    Timer timers[];
+    Timer timers[2];
     TwilightAutomaticSystem twilightSystem;
-    Window windows[];
+    Window windows[2];
 
     Response handleRequest(Request request);
 
 public:
     DeviceController(Alarm securityAlarm, Curtains curtains[], ElectricityConsumption electricityConsumption, Fan fans[], Light lights[], PowerCutOff powerCutOff,
                      Response response, Stove stove, TemperatureController temperatureController, Timer timers[], TwilightAutomaticSystem twilightSystem, Window windows[]);
-
     void initializeDevices();
-
     void runListen();
-
 };
-
 
 #endif //HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H

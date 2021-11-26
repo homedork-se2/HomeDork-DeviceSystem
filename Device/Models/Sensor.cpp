@@ -1,20 +1,14 @@
 //-----------------------------------------------------------------------
 // File: Sensor.cpp
-// Summary: A class that represents a Siren in a smart home this class
-// inherits from Abstract Device class and outputs a sound when active.
+// Summary: A class that represents a Input sensor in a smart home this
+// class inherits from Abstract Device class.
 // Version: 1.0
 // Owner: Osayomore Edugie
 //-----------------------------------------------------------------------
 // Log: 2021-10-21 Created the file,
 //-----------------------------------------------------------------------
+
 #include "Sensor.h"
-
-/**
- * Default Constructor
- */
-Sensor::Sensor() {
-
-}
 
 /**
  * Sensor Constructor

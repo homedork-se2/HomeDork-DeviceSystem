@@ -9,7 +9,6 @@
 // 2021-11-10 Revised by Samuel Mcmurray added handle request function.
 //-----------------------------------------------------------------------
 
-
 #include "DeviceController.h"
 
 /**
@@ -36,12 +35,14 @@ DeviceController::DeviceController(Alarm securityAlarm, Curtains curtains[], Ele
     DeviceController::stove = stove;
     DeviceController::temperatureController = temperatureController;
     DeviceController::twilightSystem = twilightSystem;
-    int count = 0;
-    for (Curtains curtain: curtains) {
-        DeviceController::curtains[count] = curtain;
-        count++;
+    int size = sizeof(&curtains) / sizeof(&curtains[0]);
+    for (int i = 0; i < size; ++i) {
+        DeviceController::curtains[i] = curtains[i];
+        DeviceController::fans[i] = fans[i];
+        DeviceController::lights[i] = lights[i];
+        DeviceController::timers[i] = timers[i];
+        DeviceController::windows[i] = windows[i];
     }
-    //TODO: Either Figure out a way to create a generic function to assign the arrays or do each individually
 }
 
 /**
@@ -79,59 +80,64 @@ Response DeviceController::runListen() {
 Response DeviceController::handleRequest(Request request) {
     response.setStatusCode(404);
     response.setMessage("Device Does Not Exist");
-    switch (request.getDeviceType().toLowerCase()) {
-        case "lamp":
-            for (Light light: lights) {
-                if (light.getId() == request.getId()) {
-                    response = light.handleLightSwitch(request);
+    int size = 0;
+    switch (request.getDeviceType()) {
+        case 1:
+            size = sizeof(&lights) / sizeof(&lights[0]);
+            for (int i = 0; i < size; ++i) {
+                if (lights[i].getId() == request.getId()) {
+                    response = lights[i].handleLightSwitch(request);
                     break;
                 }
             }
             break;
-        case "fan":
-            for (Fan fan: fans) {
-                if (fan.getId() == request.getId()) {
-                    response = fan.handleFanSwitch();
+        case 2:
+            size = sizeof(&fans) / sizeof(&fans[0]);
+            for (int i = 0; i < size; ++i) {
+                if (fans[i].getId() == request.getId()) {
+                    response = fans[i].handleFanSwitch();
                     break;
                 }
             }
             break;
-        case "curtain":
-            for (Curtains curtain: curtains) {
-                if (curtain.getId() == request.getId()) {
-                    response = curtain.handleCurtainSwitch();
+        case 3:
+            size = sizeof(&curtains) / sizeof(&curtains[0]);
+            for (int i = 0; i < size; ++i) {
+                if (curtains[i].getId() == request.getId()) {
+                    response = curtains[i].handleCurtainSwitch();
                     break;
                 }
             }
             break;
-        case "alarm":
-            response = securityAlarm.setAlarm();
+        case 4:
+            response = securityAlarm.setAlarm(request);
             break;
-        case "tempcontrol":
+        case 5:
             response = temperatureController.setDesiredTemp(request.getValue());
             break;
-        case "twilight":
-            response = twilightSystem.handleTwilightSystem(request.isState());
+        case 6:
+            response = twilightSystem.handleTwilightSystem(request);
             break;
-        case "timer":
+        case 7:
             for (Timer timer: timers) {
                 if (timer.getId() == request.getId()) {
                     //add timer call
                     break;
                 }
             }
-        case "window":
-            for (Window window: windows) {
-                if (window.getId() == request.getId()) {
+        case 8:
+            size = sizeof(&windows) / sizeof(&windows[0]);
+            for (int i = 0; i < size; ++i) {
+                if (windows[i].getId() == request.getId()) {
                     response = window.handleWindowSwitch();
                     break;
                 }
             }
             break;
-        case "electricty":
+        case 9:
             response = electricityConsumption.getElectricUsage();
             break;
-        case "power":
+        case 10:
             response = powerCutOff.handlePowerCutOff();
             break;
     }

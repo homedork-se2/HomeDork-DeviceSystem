@@ -1,9 +1,14 @@
-//
-// Created by Samuel Mcmurray on 10/18/2021.
-//
+//-----------------------------------------------------------------------
+// File: TemperatureController.cpp
+// Summary: Monitors the te,perature read by the thermometers and sends
+// a request to the server for updates state changes.
+// Version: 1.0
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-18 Created the file,
+//-----------------------------------------------------------------------
 
 #include "TemperatureController.h"
-#include "../Models/Thermometer.h"
 
 /**
  *
@@ -46,5 +51,26 @@ double TemperatureController::getDesiredTemp() {
  * @return (Response): A response is returned based on the
  */
 Response TemperatureController::runTempController() {
-    
+    Response response{500, "Unknown Error Exited Loop"};
+    while (true) {
+
+        int size = sizeof(thermometersIn) / sizeof(thermometersIn[0]);
+        for (int i = 0; i < size; ++i) {
+            Response temp = thermometersIn[i].getCurrentTemp();
+            if (temp.getStatusCode() > desiredTemp) {
+                radiators[i].adjustTemp(false);
+                //Serial.print("radiator off..");
+            } else if (temp.getStatusCode() < desiredTemp) {
+                radiators[i].adjustTemp(true);
+                //Serial.print("radiator on..");
+            }
+
+            delay(1000);
+            if (fiveMinutes <= millis()) {
+                fiveMinutes = millis() + 300000L;
+            }
+        }
+    }
+
+    return response;
 }

@@ -1,6 +1,12 @@
-//
-// Created by Samuel Mcmurray on 10/14/2021.
-//
+//-----------------------------------------------------------------------
+// File: Response.h
+// Summary: A class that represents a command response to the server of
+// the smart home.
+// Version: 1.0
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-14 Created the file,
+//-----------------------------------------------------------------------
 
 #ifndef HOMEDORK_DEVICESYSTEM_RESPONSE_H
 #define HOMEDORK_DEVICESYSTEM_RESPONSE_H
