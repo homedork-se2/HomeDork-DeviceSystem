@@ -16,12 +16,7 @@
  * @param siren (Sound): The siren that produces a sound when an alarm is triggered.
  * @param sensor (Sensor): The sensor which will determine if the alarm should be triggered.
  */
-Alarm::Alarm(Light light, Sound siren, Sensor sensor) {
-    Alarm::light = light;
-    Alarm::siren = siren;
-    Alarm::sensor = sensor;
-    Alarm::isActive = false;
-
+Alarm::Alarm(Light light, Sound sound, Sensor sensor): alarmLight(light), siren(sound), alarmSensor(sensor){
 }
 
 /**
@@ -42,7 +37,7 @@ Response Alarm::setAlarm(Request request) {
  * @param active (boolean):
  */
 void Alarm::setIsActive(bool active) {
-    Alarm::isActive = active;
+    _isActive = active;
 }
 
 /**
@@ -51,7 +46,7 @@ void Alarm::setIsActive(bool active) {
  * @return (boolean): The current state represented as a boolean.
  */
 bool Alarm::getIsActive() {
-    return isActive;
+    return _isActive;
 }
 
 /**
@@ -60,7 +55,7 @@ bool Alarm::getIsActive() {
  * @return (bool): The state of the alarm armed or disarmed.
  */
 bool Alarm::getIsArmed() {
-    return isArmed;
+    return _isArmed;
 }
 
 /**
@@ -70,7 +65,7 @@ bool Alarm::getIsArmed() {
  * disarmed.
  */
 void Alarm::setIsArmed(bool armed) {
-    Alarm::isArmed = armed;
+    _isArmed = armed;
 }
 
 /**
@@ -88,8 +83,8 @@ Response Alarm::handleAlarmTrigger(bool isTriggered) {
         siren.handleSoundSwitch(true);
         request.setDeviceType(1);
         request.setState(true);
-        request.setId(light.getId());
-        light.handleLightSwitch(request);
+        request.setId(alarmLight.getId());
+        alarmLight.handleLightSwitch(request);
         setIsActive(true);
         response.setStatusCode(200);
         response.setMessage("ON");
@@ -97,8 +92,8 @@ Response Alarm::handleAlarmTrigger(bool isTriggered) {
         siren.handleSoundSwitch(false);
         request.setDeviceType(1);
         request.setState(false);
-        request.setId(light.getId());
-        light.handleLightSwitch(request);
+        request.setId(alarmLight.getId());
+        alarmLight.handleLightSwitch(request);
         setIsActive(false);
         response.setStatusCode(200);
         response.setMessage("OFF");

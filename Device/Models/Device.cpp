@@ -14,17 +14,15 @@
  * @param id (unsigned int): An integer who's value is the id of an
  * instance of a subclass device.
  */
-Device::Device(unsigned int id) {
-    Device::id = id;
-    Device::isActive = false;
-};
+Device::Device(unsigned int id): _id(id), _isActive(false) {
+}
 
 /**
  * A getter for the id
  * @return (unsigned int): The id.
  */
 unsigned int Device::getId() const {
-    return id;
+    return _id;
 }
 
 /**
@@ -32,7 +30,7 @@ unsigned int Device::getId() const {
  * @return (boolean): Is Active.
  */
 bool Device::getIsActive() const {
-    return isActive;
+    return _isActive;
 }
 
 /**
@@ -40,6 +38,6 @@ bool Device::getIsActive() const {
  * @param active (boolean): The value that the isActive wll be set to.
  */
 void Device::setIsActive(bool active) {
-    Device::isActive = active;
+    _isActive = active;
 }
 

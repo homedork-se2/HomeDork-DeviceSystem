@@ -19,18 +19,18 @@
 
 class Alarm {
 private:
-    bool isActive;
-    bool isArmed;
+    bool _isActive;
+    bool _isArmed;
 
 public:
     Sound siren;
-    Sensor sensor;
-    Light light;
+    Sensor alarmSensor;
+    Light alarmLight;
 
-    Alarm(Light light, Sound siren, Sensor sensor);
+    Alarm(Light light, Sound sound, Sensor sensor);
     Response setAlarm(Request request);
     bool getIsArmed();
-    bool setIsArmed(bool armed);
+    void setIsArmed(bool armed);
     bool getIsActive();
     void setIsActive(bool active);
     Response handleAlarmTrigger(bool isTriggered);

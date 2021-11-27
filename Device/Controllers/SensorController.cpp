@@ -25,15 +25,17 @@
  */
 SensorController::SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                                    Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
-                                   WaterLeakage waterLeakage, Window windows[])
-        : electricityConsumption(electricityConsumption), powerCutOff(powerCutOff), stove(stove),
-          twilightAutomaticSystem(twilightAutomaticSystem), waterLeakage(waterLeakage) {
+                                   WaterLeakage waterLeakage, Window windows[2])
+        : _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _stove(stove),
+          _twilightAutomaticSystem(twilightAutomaticSystem), _waterLeakage(waterLeakage) {
 
-    int size = sizeof(&windows) / sizeof(&windows[0]);
+    int size = sizeof(windows) / sizeof(windows[0]);
     for (int i = 0; i < size; ++i) {
-        SensorController::windows[i] = &windows[i];
+        _windows[i] = windows[i];
     }
 }
+
+
 
 /**
  * The function runs the sensor controller loop reading the input devices.
@@ -44,30 +46,30 @@ Response SensorController::runSensorController() {
     Response response{500, "error in loop"};
     Request request;
     while(true) {
-        int size = sizeof(&windows) / sizeof(&windows[0]);
+        int size = sizeof(_windows) / sizeof(_windows[0]);
         for (int i = 0; i < size; ++i) {
-            if (SensorController::windows[i].getIsActive()) {
-                SensorController::windows[i].readDigitalSensor();
+            if (_windows[i].getIsActive()) {
+                _windows[i].readDigitalSensor();
             }
         }
 
-        if (electricityConsumption.getIsActive()) {
-            electricityConsumption.getElectricUsage();
+        if (_electricityConsumption.getIsActive()) {
+            _electricityConsumption.getElectricUsage();
 
         }
-        if (powerCutOff.getIsActive()) {
-            powerCutOff.handlePowerCutOff();
+        if (_powerCutOff.getIsActive()) {
+            _powerCutOff.handlePowerCutOff();
         }
-        if (stove.getIsActive()) {
-            stove.readDigitalSensor();
+        if (_stove.getIsActive()) {
+            _stove.readDigitalSensor();
 
         }
-        if (twilightAutomaticSystem.getSensorState()) {
+        if (_twilightAutomaticSystem.getSensorState()) {
             twilightAutomaticSystem.handleTwilightSystem(request);
 
         }
-        if (waterLeakage.getIsActive()) {
-            waterLeakage.handleWaterLeakage();
+        if (_waterLeakage.getIsActive()) {
+            _waterLeakage.handleWaterLeakage();
 
         }
     }

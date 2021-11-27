@@ -27,21 +27,17 @@
  * @param windows (Curtains)[]: This is an array of the curtains in the device system.
  */
 DeviceController::DeviceController(Alarm securityAlarm, Curtains curtains[], ElectricityConsumption electricityConsumption, Fan fans[], Light lights[], PowerCutOff powerCutOff,
-                                   Response response, Stove stove, TemperatureController temperatureController, Timer timers[], TwilightAutomaticSystem twilightSystem, Window windows[]) {
-    DeviceController::securityAlarm = securityAlarm;
-    DeviceController::electricityConsumption = electricityConsumption;
-    DeviceController::powerCutOff = powerCutOff;
-    DeviceController::response = response;
-    DeviceController::stove = stove;
-    DeviceController::temperatureController = temperatureController;
-    DeviceController::twilightSystem = twilightSystem;
+                                   Response response, Stove stove, TemperatureController temperatureController, Timer timers[], TwilightAutomaticSystem twilightSystem, Window windows[])
+                                   : _securityAlarm(securityAlarm), _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _response(response), _stove(stove),
+                                     _temperatureController(temperatureController), _twilightSystem(twilightSystem) {
+
     int size = sizeof(&curtains) / sizeof(&curtains[0]);
     for (int i = 0; i < size; ++i) {
-        DeviceController::curtains[i] = curtains[i];
-        DeviceController::fans[i] = fans[i];
-        DeviceController::lights[i] = lights[i];
-        DeviceController::timers[i] = timers[i];
-        DeviceController::windows[i] = windows[i];
+        _curtains[i] = curtains[i];
+        _fans[i] = fans[i];
+        _lights[i] = lights[i];
+        _timers[i] = timers[i];
+        _windows[i] = windows[i];
     }
 }
 

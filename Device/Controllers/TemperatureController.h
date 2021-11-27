@@ -18,11 +18,11 @@
 
 class TemperatureController {
 private:
-    double desiredTemp;
-    Thermometer thermometersIn[2];
-    Thermometer thermometerOut;
-    Radiator radiators[2];
-    unsigned long fiveMinutes;
+    double _desiredTemp;
+    Thermometer _thermometersIn[2];
+    Thermometer _thermometerOut;
+    Radiator _radiators[2];
+    unsigned long _fiveMinutes;
 
 public:
     TemperatureController(Thermometer thermometersIn[2], Radiator radiators[2], Thermometer thermometerOut);

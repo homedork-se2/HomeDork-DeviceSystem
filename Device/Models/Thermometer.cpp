@@ -24,8 +24,8 @@ double Thermometer::getCurrentTemp() {
     Response response;
     if (getId() == A1){
 
-        int temp = analogRead(getId());
-        temp = temp*0.48828125;
+        _currentTemp = analogRead(getId());
+        _currentTemp = _currentTemp*0.48828125;
     }
 
     return response;

@@ -14,6 +14,6 @@ Timer::Timer(unsigned int id, const unsigned int * muxPins): Device(id) {
 
     int size = sizeof(&muxPins) / sizeof(&muxPins[0]);
     for (int i = 0; i < size; ++i) {
-        Timer::muxPins[i] = muxPins[i];
+        _muxPins[i] = muxPins[i];
     }
 }

@@ -43,7 +43,7 @@ Response Stove::handleStoveSwitch(bool isActive) {
  * This function handles the reading of the stove sensor.
  */
 void Stove::readStoveSensor() {
-    float value = Stove::readDigitalSensor();
+    float value = readDigitalSensor();
     if (value == HIGH) {
         handleStoveSwitch(true);
     } else {

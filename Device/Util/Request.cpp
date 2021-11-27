@@ -17,7 +17,7 @@
  * of a device that will be used in handling the command.
  */
 unsigned int Request::getId() const {
-    return id;
+    return _id;
 }
 
 /**
@@ -26,7 +26,7 @@ unsigned int Request::getId() const {
  * of a device that will be used in handling the command.
  */
 void Request::setId(unsigned int id) {
-    Request::id = id;
+    _id = id;
 }
 
 /**
@@ -35,7 +35,7 @@ void Request::setId(unsigned int id) {
  * of a device that will be used in handling the command.
  */
 bool Request::isState() const {
-    return state;
+    return _state;
 }
 
 /**
@@ -43,7 +43,7 @@ bool Request::isState() const {
  * @param state
  */
 void Request::setState(bool state) {
-    Request::state = state;
+    _state = state;
 }
 
 /**
@@ -51,7 +51,7 @@ void Request::setState(bool state) {
  * @return (int): The value as an integer.
  */
 int Request::getValue() const {
-    return value;
+    return _value;
 }
 
 /**
@@ -59,7 +59,7 @@ int Request::getValue() const {
  * @param value (int): The value as an integer.
  */
 void Request::setValue(int value) {
-    Request::value = value;
+    _value = value;
 }
 
 /**
@@ -67,7 +67,7 @@ void Request::setValue(int value) {
  * @return (int): An integer that represents a
  */
 int Request::getDeviceType() {
-    return deviceType;
+    return _deviceType;
 }
 
 /**
@@ -76,7 +76,7 @@ int Request::getDeviceType() {
  * device type.
  */
 void Request::setDeviceType(int device) {
-    Request::deviceType = device;
+    _deviceType = device;
 }
 
 /**
@@ -94,11 +94,11 @@ void Request::parseRequest(char buf[]) {
             if (flag == 0) {
                 String stringValue = input;
                 if (stringValue == "lamp") {
-                    Request::setDeviceType(1);
+                    setDeviceType(1);
                 } else if (stringValue == "fan") {
-                    Request::setDeviceType(2);
+                    setDeviceType(2);
                 }
-                Request::setDeviceType(0);
+                setDeviceType(0);
             } else if (flag == 1) {
                 setId(atoi(input));
             } else if (flag == 2) {

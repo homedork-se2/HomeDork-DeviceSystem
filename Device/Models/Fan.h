@@ -11,17 +11,17 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_FAN_H
 #define HOMEDORK_DEVICESYSTEM_FAN_H
+
 #include <Arduino.h>
 #include <Device.h>
-#include <Mode.h>
 
-enum Mode{LOW, MEDIUM, HIGH};
+enum Mode{Low, Medium, High};
 
 class Fan: public Device{
 private:
-    bool hasMultiMode;
-    bool hasOscillation;
-    Mode fanMode;
+    bool _hasMultiMode;
+    bool _hasOscillation;
+    Mode _fanMode;
 
 public:
     Fan(unsigned int id, bool hasMultiMode, bool hasOscillation);

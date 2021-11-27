@@ -21,7 +21,7 @@
 class Thermometer:public Sensor {
 
 private:
-    double currentTemp;
+    double _currentTemp;
     double readTempIn();
     double readTempOut();
 public:

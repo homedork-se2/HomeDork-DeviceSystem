@@ -19,11 +19,9 @@
  * @param hasOscillation (boolean): A boolean determining if the fan has
  * oscillation.
  */
-Fan::Fan(unsigned int id, bool hasMultiMode, bool hasOscillation) : Device(id) {
-    Fan::hasMultiMode = hasMultiMode;
-    Fan::hasOscillation = hasOscillation;
+Fan::Fan(unsigned int id, bool hasMultiMode, bool hasOscillation) : Device(id), _hasMultiMode(hasMultiMode), _hasOscillation(hasOscillation){
     if (hasMultiMode) {
-        fanMode = Mode::MEDIUM;
+        _fanMode = Medium;
     }
 }
 
@@ -32,7 +30,7 @@ Fan::Fan(unsigned int id, bool hasMultiMode, bool hasOscillation) : Device(id) {
  * @return (boolean): Will return whether or not the fan has multi mode.
  */
 bool Fan::getHasMultiMode()  {
-    return hasMultiMode;
+    return _hasMultiMode;
 }
 
 /**
@@ -41,7 +39,7 @@ bool Fan::getHasMultiMode()  {
  * fan has a multi mode function.
  */
 void Fan::setHasMultiMode(bool hasMultiMode) {
-    Fan::hasMultiMode = hasMultiMode;
+    _hasMultiMode = hasMultiMode;
 }
 
 /**
@@ -51,7 +49,7 @@ void Fan::setHasMultiMode(bool hasMultiMode) {
  * the fan has a oscillation function.
  */
 bool Fan::getHasOscillation()  {
-    return hasOscillation;
+    return _hasOscillation;
 }
 
 /**
@@ -60,7 +58,7 @@ bool Fan::getHasOscillation()  {
  * fan has a oscillation function.
  */
 void Fan::setHasOscillation(bool hasOscillation) {
-    Fan::hasOscillation = hasOscillation;
+    _hasOscillation = hasOscillation;
 }
 
 /**
@@ -73,13 +71,13 @@ Response Fan::handleFanSwitch(bool isActive) {
     if (getHasMultiMode()) {
         if (getIsActive()) {
             //turn on fan with the current MODE
-            if (fanMode == Mode::HIGH) {
+            if (_fanMode == Mode::High) {
                 analogWrite(getId(), 200);
                 Response response{200, "Success Fan set  High...\n"};
-            } else if (fanMode == Mode::MEDIUM) {
+            } else if (_fanMode == Mode::Medium) {
                 analogWrite(getId(), 124);
                 Response response{200, "Success Fan set  Medium...\n"};
-            } else if (fanMode == Mode::LOW){
+            } else if (_fanMode == Mode::Low){
                 analogWrite(getId(), 64);
                 Response response{200, "Success Fan set  Low...\n"};
             }

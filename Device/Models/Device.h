@@ -15,8 +15,8 @@
 
 class Device{
 private:
-    unsigned int id;
-    bool isActive;
+    unsigned int _id;
+    bool _isActive;
 
 public:
     explicit Device(unsigned int id);

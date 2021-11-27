@@ -6,7 +6,6 @@
 #include "ElectricityConsumption.h"
 #include "Fan.h"
 #include "Light.h"
-//#include "Mode.h"
 #include "PowerCutOff.h"
 #include "Radiator.h"
 #include "Response.h"
@@ -57,6 +56,7 @@ WaterLeakage waterLeakage{7};
 Window window{6};
 Window fakeWindow{27};
 
+ThreadController threadController = ThreadController();
 //Create Thread pool
 Thread alarmControllerThread = Thread();
 Thread deviceControllerThread = Thread();
@@ -79,7 +79,7 @@ void setup() {
     pinMode(muxPins[2], OUTPUT);
     pinMode(muxPins[3], OUTPUT);
 //Declare and instantiate Composition Models
-    Alarm securityAlarm{alarmLight, siren, switchSecuritySensor};
+    Alarm securityAlarm(alarmLight, siren, switchSecuritySensor);
     Alarm fireAlarm{alarmLight, siren, switchFireSensor};
 
     TwilightAutomaticSystem twilightSystem{lightSensor, outdoorLight};
@@ -98,7 +98,6 @@ void setup() {
     AlarmController alarmController{fireAlarm, securityAlarm};
     SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, &windows[2]};
     TemperatureController temperatureController{&thermometersIn[2], &radiators[2], thermometerOut};
-    ThreadController threadController = ThreadController();
     DeviceController deviceController{securityAlarm, &curtains[2], electricityConsumption, &fans[2], &lights[2], powerCutOff,
                                       response,  stove, temperatureController, &timers[2], twilightSystem, &windows[2]};
     //Connect threads to callbacks

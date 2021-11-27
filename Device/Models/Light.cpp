@@ -18,11 +18,8 @@
  * @param isDimmable (boolean): The boolean that determines if a light
  * is dimmable or not.
  */
-Light::Light(unsigned int id, bool isDimmable) : Device(id), isDimmable(isDimmable) {
-    Light::dim = 0;
-    for (unsigned int & muxPin : Light::muxPins) {
-        muxPin = 0;
-    }
+Light::Light(unsigned int id, bool isDimmable) : Device(id), _isDimmable(isDimmable), _dim(0) {
+
 }
 
 /**
@@ -32,12 +29,10 @@ Light::Light(unsigned int id, bool isDimmable) : Device(id), isDimmable(isDimmab
  * device is connected to.
  * @param muxPins (unsigned int[]): An array of the multiplexor pins.
  */
-Light::Light(unsigned int id, const unsigned int muxPins[]) : Device(id) {
+Light::Light(unsigned int id, const unsigned int muxPins[]) : Device(id), _isDimmable(false), _dim(0) {
     for (int i = 0; i < 4; ++i) {
-        Light::muxPins[i] = muxPins[i];
+        _muxPins[i] = muxPins[i];
     }
-    Light::isDimmable = false;
-    Light::dim = 0;
 }
 
 /**
@@ -46,7 +41,7 @@ Light::Light(unsigned int id, const unsigned int muxPins[]) : Device(id) {
  * it is dimmable.
  */
 bool Light::getIsDimmable() const {
-    return isDimmable;
+    return _isDimmable;
 }
 
 /**
@@ -54,7 +49,7 @@ bool Light::getIsDimmable() const {
  * @return (int): The dim value between 0-99.
  */
 int Light::getDim() {
-    return dim;
+    return _dim;
 }
 
 /**
@@ -64,7 +59,7 @@ int Light::getDim() {
  */
 Response Light::setDim(int value) {
     Response response{500, "Fail"};
-    Light::dim = value;
+    _dim = value;
 
     response.setStatusCode(200);
     response.setMessage("Success");
@@ -87,20 +82,20 @@ Response Light::handleLightSwitch(Request request) {
     setIsActive(request.isState());
         if (getIsActive()) {
         //ON
-        digitalWrite(muxPins[0], LOW);
-        digitalWrite(muxPins[1], LOW);
-        digitalWrite(muxPins[2], HIGH);
-        digitalWrite(muxPins[3], LOW);
+        digitalWrite(_muxPins[0], LOW);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], LOW);
 
         response.setStatusCode(200);
         response.setMessage("Success Indoor Light is ON... \n");
 
         } else {
         //OFF
-        digitalWrite(muxPins[0], HIGH);
-        digitalWrite(muxPins[1], LOW);
-        digitalWrite(muxPins[2], HIGH);
-        digitalWrite(muxPins[3], LOW);
+        digitalWrite(_muxPins[0], HIGH);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], LOW);
 
         response.setStatusCode(200);
         response.setMessage("Success Indoor Light is OFF...\n");
@@ -112,20 +107,20 @@ Response Light::handleLightSwitch(Request request) {
     setIsActive(request.isState());
         if (getIsActive()) {
         //ON
-        digitalWrite(muxPins[0], LOW);
-        digitalWrite(muxPins[1], HIGH);
-        digitalWrite(muxPins[2], HIGH);
-        digitalWrite(muxPins[3], HIGH);
+        digitalWrite(_muxPins[0], LOW);
+        digitalWrite(_muxPins[1], HIGH);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
         response.setMessage("Success Outdoor Light is ON...\n");
 
         } else {
         //OFF
-        digitalWrite(muxPins[0], HIGH);
-        digitalWrite(muxPins[1], HIGH);
-        digitalWrite(muxPins[2], HIGH);
-        digitalWrite(muxPins[3], HIGH);
+        digitalWrite(_muxPins[0], HIGH);
+        digitalWrite(_muxPins[1], HIGH);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
         response.setMessage("Success Outdoor Light is OFF...\n");
@@ -136,20 +131,20 @@ Response Light::handleLightSwitch(Request request) {
     setIsActive(request.isState());
         if (getIsActive()) {
         //ON
-        digitalWrite(muxPins[0], LOW);
-        digitalWrite(muxPins[1], LOW);
-        digitalWrite(muxPins[2], HIGH);
-        digitalWrite(muxPins[3], HIGH);
+        digitalWrite(_muxPins[0], LOW);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
         response.setMessage("Success Alarm Light is ON...\n");
 
         } else {
         //OFF
-        digitalWrite(muxPins[0], HIGH);
-        digitalWrite(muxPins[1], LOW);
-        digitalWrite(muxPins[2], HIGH);
-        digitalWrite(muxPins[3], HIGH);
+        digitalWrite(_muxPins[0], HIGH);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
         response.setMessage("Success Alarm Light is OFF...\n");
@@ -166,5 +161,5 @@ Response Light::handleLightSwitch(Request request) {
  * multiplexor pins.
  */
 const unsigned int *Light::getMuxPins() const {
-    return muxPins;
+    return _muxPins;
 }

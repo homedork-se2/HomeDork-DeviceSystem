@@ -16,13 +16,13 @@
 #include <Device.h>
 #include <Light.h>
 #include <Response.h>
-#include <Reqiest.h>
+#include <Request.h>
 #include <Sensor.h>
 
 class TwilightAutomaticSystem {
 private:
-    Sensor lightSensor;
-    Light outdoorLight;
+    Sensor _lightSensor;
+    Light _outdoorLight;
 public:
     TwilightAutomaticSystem(Sensor sensor, Light outdoorLight);
     bool getSensorState();

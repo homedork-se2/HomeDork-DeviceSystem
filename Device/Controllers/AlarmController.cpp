@@ -15,9 +15,7 @@
  * @param fireAlarm (Alarm): The fire alarm.
  * @param securityAlarm (Alarm): The security Alarm.
  */
-AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) {
-    AlarmController::fireAlarm = fireAlarm;
-    AlarmController::securityAlarm = securityAlarm;
+AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAlarm(fireAlarm), _securityAlarm(securityAlarm) {
 }
 
 /**
@@ -28,21 +26,21 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) {
 Response AlarmController::runAlarm() {
     Response response {500, "exit while loop error"};
     while (true) {
-        int reading = fireAlarm.sensor.readDigitalSensor();
+        int reading = _fireAlarm.sensor.readDigitalSensor();
         if (reading == HIGH) {
-            fireAlarm.handleAlarmTrigger(true);
+            _fireAlarm.handleAlarmTrigger(true);
             //Serial.println("Alarm is Triggered!");
         } else {
-            fireAlarm.handleAlarmTrigger(false);
+            _fireAlarm.handleAlarmTrigger(false);
             //Serial.println("Alarm is OFF");
         }
 
         reading = securityAlarm.sensor.readDigitalSensor();
         if (reading == HIGH && securityAlarm.getIsArmed()) {
-            securityAlarm.handleAlarmTrigger(true);
+            _securityAlarm.handleAlarmTrigger(true);
             //Serial.println("Alarm is Triggered!");
         } else {
-            securityAlarm.handleAlarmTrigger(false);
+            _securityAlarm.handleAlarmTrigger(false);
             //Serial.println("Alarm is OFF");
         }
     }

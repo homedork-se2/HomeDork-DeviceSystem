@@ -22,17 +22,19 @@
 
 class SensorController {
 private:
-    ElectricityConsumption electricityConsumption;
-    PowerCutOff powerCutOff;
-    Stove stove;
-    TwilightAutomaticSystem twilightAutomaticSystem;
-    WaterLeakage waterLeakage;
-    Window windows[2];
+    ElectricityConsumption _electricityConsumption;
+    PowerCutOff _powerCutOff;
+    Stove _stove;
+    TwilightAutomaticSystem _twilightAutomaticSystem;
+    WaterLeakage _waterLeakage;
+    Window _windows[2];
+
 public:
     SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
                      WaterLeakage waterLeakage, Window windows[]);
     Response runSensorController();
+
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H

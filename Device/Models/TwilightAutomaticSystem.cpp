@@ -18,11 +18,7 @@
  * @param outdoorLight (Light): The light that will be modified based on the state
  * of the sensor.
  */
-TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLight) {
-    TwilightAutomaticSystem::lightSensor = sensor;
-    TwilightAutomaticSystem::outdoorLight =outdoorLight;
-
-}
+TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLight): _lightSensor(sensor), _outdoorLight(outdoorLight) {}
 
 /**
  * The function that will handle the reading of the light sensor to help determine
@@ -30,10 +26,9 @@ TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLig
  * @return (boolean): A returns to state of the light sensor
  */
 bool TwilightAutomaticSystem::getSensorState() {
-    if (lightSensor.readDigitalSensor() == LOW) {
-        return false;
-    }
-    return true;
+    float value = _lightSensor.readAnalogSensor();
+
+    return false;
 }
 
 /**
@@ -43,5 +38,6 @@ bool TwilightAutomaticSystem::getSensorState() {
  */
 Response TwilightAutomaticSystem::handleTwilightSystem(Request request) {
     Response response{200, "Starting System"};
+    _outdoorLight.handleLightSwitch(request);
     return response;
 }

@@ -17,7 +17,7 @@
 
 class Sound: public Device {
 private:
-    unsigned int muxPins[4];
+    unsigned int _muxPins[4];
 
 public:
     Sound(unsigned int id, unsigned int  muxPins[]);

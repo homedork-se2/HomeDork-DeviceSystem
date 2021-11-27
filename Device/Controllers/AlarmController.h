@@ -19,8 +19,8 @@
 
 class AlarmController {
 private:
-    Alarm fireAlarm;
-    Alarm securityAlarm;
+    Alarm _fireAlarm;
+    Alarm _securityAlarm;
 public:
     AlarmController(Alarm fireAlarm, Alarm securityAlarm);
     Response runAlarm();

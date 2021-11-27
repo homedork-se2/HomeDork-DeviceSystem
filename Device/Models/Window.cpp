@@ -15,8 +15,7 @@
  * @param id (unsigned int): An integer who's value is the id of an instance
  * of a subclass device.
  */
-Window::Window(unsigned int id) : Sensor(id) {
-
+Window::Window(unsigned int id): Sensor(id) {
 }
 
 /**

@@ -15,9 +15,7 @@
  * @param statusCode (int): An integer who's value represents the success or failure of the command given.
  * @param message (String):
  */
-Response::Response(int statusCode, String message) {
-    Response::statusCode = statusCode;
-    Response::message = message;
+Response::Response(int statusCode, String message): _statusCode(statusCode), _message(message) {
 }
 
 /**
@@ -25,7 +23,7 @@ Response::Response(int statusCode, String message) {
  * @return (int): The status code.
  */
 int Response::getStatusCode() {
-    return statusCode;
+    return _statusCode;
 }
 
 /**
@@ -33,7 +31,7 @@ int Response::getStatusCode() {
  * @return (String): The message.
  */
 String Response::getMessage() {
-    return message;
+    return _message;
 }
 
 /**
@@ -41,7 +39,7 @@ String Response::getMessage() {
  * @param message (String): The message.
  */
 void Response::setMessage(String message) {
-    Response::message = message;
+    _message = message;
 }
 
 /**
@@ -49,5 +47,5 @@ void Response::setMessage(String message) {
  * @param statusCode (int): The status code.
  */
 void Response::setStatusCode(int statusCode) {
-    Response::statusCode = statusCode;
+    _statusCode = statusCode;
 }

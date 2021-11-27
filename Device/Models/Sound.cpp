@@ -19,7 +19,7 @@
  */
 Sound::Sound(unsigned int id, unsigned int muxPins[]): Device(id){
     for (int i = 0; i < 4; ++i) {
-        Sound::muxPins[i] = muxPins[i];
+        _muxPins[i] = muxPins[i];
     }
 }
 
@@ -33,19 +33,19 @@ Response Sound::handleSoundSwitch(bool isActive) {
     Response response{500, "Error Sound not set"};
     setIsActive(isActive);
     if (getIsActive()) {
-        digitalWrite(muxPins[0], HIGH);
-        digitalWrite(muxPins[1], LOW);
-        digitalWrite(muxPins[2], LOW);
-        digitalWrite(muxPins[3], LOW);
+        digitalWrite(_muxPins[0], HIGH);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], LOW);
+        digitalWrite(_muxPins[3], LOW);
 
         response.setMessage("Success sound is active");
         response.setStatusCode(200);
 
     } else {
-        digitalWrite(muxPins[0], LOW);
-        digitalWrite(muxPins[1], LOW);
-        digitalWrite(muxPins[2], LOW);
-        digitalWrite(muxPins[3], LOW);
+        digitalWrite(_muxPins[0], LOW);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], LOW);
+        digitalWrite(_muxPins[3], LOW);
 
         response.setMessage("Success sound is inactive");
         response.setStatusCode(200);

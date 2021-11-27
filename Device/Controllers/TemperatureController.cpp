@@ -16,14 +16,13 @@
  * @param radiators (Radiators)[]: The radiators array.
  * @param thermometerOut (Thermometer): The outdoors thermometer.
  */
-TemperatureController::TemperatureController(Thermometer thermometersIn[], Radiator radiators[], Thermometer thermometerOut) {
+TemperatureController::TemperatureController(Thermometer thermometersIn[], Radiator radiators[], Thermometer thermometerOut) : _thermometerOut(thermometerOut)  {
     int size = sizeof(&thermometersIn)/ sizeof(&thermometersIn[0]);
     for (int i = 0; i < size; ++i) {
-        TemperatureController::thermometersIn[i] = &thermometersIn[i];
-        TemperatureController::radiators[i] = &radiators[i];
-        TemperatureController::desiredTemp = 20;
+        _thermometersIn[i] = &thermometersIn[i];
+        _radiators[i] = &radiators[i];
+        _desiredTemp = 20;
     }
-    TemperatureController::thermometerOut = thermometerOut;
 }
 
 /**
@@ -32,7 +31,7 @@ TemperatureController::TemperatureController(Thermometer thermometersIn[], Radia
  * @return (Response): A response to send back to the server.
  */
 Response TemperatureController::setDesiredTemp(double temp) {
-    TemperatureController::desiredTemp = temp;
+    _desiredTemp = temp;
     Response response{200, "Success"};
     return response;
 }
@@ -42,7 +41,7 @@ Response TemperatureController::setDesiredTemp(double temp) {
  * @return (double): returns a double of the current desired temp value.
  */
 double TemperatureController::getDesiredTemp() {
-    return desiredTemp;
+    return _desiredTemp;
 }
 
 /**
@@ -57,17 +56,17 @@ Response TemperatureController::runTempController() {
         int size = sizeof(thermometersIn) / sizeof(thermometersIn[0]);
         for (int i = 0; i < size; ++i) {
             Response temp = thermometersIn[i].getCurrentTemp();
-            if (temp.getStatusCode() > desiredTemp) {
-                radiators[i].adjustTemp(false);
+            if (temp.getStatusCode() > _desiredTemp) {
+                _radiators[i].adjustTemp(false);
                 //Serial.print("radiator off..");
             } else if (temp.getStatusCode() < desiredTemp) {
-                radiators[i].adjustTemp(true);
+                _radiators[i].adjustTemp(true);
                 //Serial.print("radiator on..");
             }
 
             delay(1000);
-            if (fiveMinutes <= millis()) {
-                fiveMinutes = millis() + 300000L;
+            if (_fiveMinutes <= millis()) {
+                _fiveMinutes = millis() + 300000L;
             }
         }
     }

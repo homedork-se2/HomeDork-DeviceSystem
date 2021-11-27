@@ -17,7 +17,7 @@
 
 class Window: public Sensor {
 public:
-    explicit Window(unsigned int id);
+    Window(unsigned int id);
     Response handleWindowSwitch();
 
 };

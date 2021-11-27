@@ -15,10 +15,10 @@
 
 class Request {
 private:
-    unsigned int id;
-    bool state;
-    int value;
-    int deviceType;
+    unsigned int _id;
+    bool _state;
+    int _value;
+    int _deviceType;
 
 public:
     unsigned int getId() const;
