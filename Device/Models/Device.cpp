@@ -40,4 +40,3 @@ bool Device::getIsActive() const {
 void Device::setIsActive(bool active) {
     _isActive = active;
 }
-

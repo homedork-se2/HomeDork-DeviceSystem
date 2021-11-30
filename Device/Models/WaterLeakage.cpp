@@ -40,6 +40,3 @@ void WaterLeakage::readWaterLeakSensor() {
         handleWaterLeakage();
     }
 }
-
-
-

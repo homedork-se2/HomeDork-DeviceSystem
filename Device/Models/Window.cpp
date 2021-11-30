@@ -26,4 +26,3 @@ Window::Window(unsigned int id): Sensor(id) {
 Response Window::handleWindowSwitch() {
 
 }
-

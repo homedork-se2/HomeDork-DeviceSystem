@@ -22,5 +22,3 @@ public:
     Response getElectricUsage();
 
 };
-
-#endif //HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H

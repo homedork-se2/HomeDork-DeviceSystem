@@ -134,5 +134,3 @@ Response DeviceController::handleRequest(Request request) {
 
     return _response;
 }
-
-

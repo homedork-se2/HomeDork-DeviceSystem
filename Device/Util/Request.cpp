@@ -120,5 +120,3 @@ void Request::parseRequest(char buf[]) {
     }
 
 }
-
-

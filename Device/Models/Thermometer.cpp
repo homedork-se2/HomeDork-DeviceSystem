@@ -51,4 +51,3 @@ double Thermometer::readTempOut() {
     float value = readDigitalSensor();
     return value;
 }
-
