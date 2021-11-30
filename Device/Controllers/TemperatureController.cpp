@@ -16,13 +16,8 @@
  * @param radiators (Radiators)[]: The radiators array.
  * @param thermometerOut (Thermometer): The outdoors thermometer.
  */
-TemperatureController::TemperatureController(Thermometer thermometersIn[], Radiator radiators[], Thermometer thermometerOut) : _thermometerOut(thermometerOut)  {
-    int size = sizeof(&thermometersIn)/ sizeof(&thermometersIn[0]);
-    for (int i = 0; i < size; ++i) {
-        _thermometersIn[i] = &thermometersIn[i];
-        _radiators[i] = &radiators[i];
-        _desiredTemp = 20;
-    }
+TemperatureController::TemperatureController(Thermometer (&thermometersIn)[2], Radiator (&radiators)[2], Thermometer thermometerOut) : _thermometerOut(thermometerOut), _desiredTemp(20),
+                                            _thermometersIn(thermometersIn), _radiators(radiators){
 }
 
 /**
@@ -40,7 +35,9 @@ Response TemperatureController::setDesiredTemp(double temp) {
  * A getter function for the desiredTemp variable.
  * @return (double): returns a double of the current desired temp value.
  */
-double TemperatureController::getDesiredTemp() {
+double TemperatureController::getDesiredTemp(
+
+        ) {
     return _desiredTemp;
 }
 
@@ -53,13 +50,13 @@ Response TemperatureController::runTempController() {
     Response response{500, "Unknown Error Exited Loop"};
     while (true) {
 
-        int size = sizeof(thermometersIn) / sizeof(thermometersIn[0]);
+        int size = sizeof(_thermometersIn) / sizeof(_thermometersIn[0]);
         for (int i = 0; i < size; ++i) {
-            Response temp = thermometersIn[i].getCurrentTemp();
-            if (temp.getStatusCode() > _desiredTemp) {
+            double temp = _thermometersIn[i].getCurrentTemp();
+            if (temp > _desiredTemp) {
                 _radiators[i].adjustTemp(false);
                 //Serial.print("radiator off..");
-            } else if (temp.getStatusCode() < desiredTemp) {
+            } else if (temp < _desiredTemp) {
                 _radiators[i].adjustTemp(true);
                 //Serial.print("radiator on..");
             }

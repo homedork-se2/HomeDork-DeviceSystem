@@ -15,7 +15,7 @@
 #include <Response.h>
 #include <Arduino.h>
 
-class Curtains: public Device{
+class Curtains: public Device {
 public:
     Curtains(unsigned int id);
     Response handleCurtainSwitch(bool isOpen);

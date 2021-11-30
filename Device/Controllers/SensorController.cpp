@@ -25,14 +25,9 @@
  */
 SensorController::SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                                    Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
-                                   WaterLeakage waterLeakage, Window windows[2])
+                                   WaterLeakage waterLeakage, Window (&windows)[2])
         : _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _stove(stove),
-          _twilightAutomaticSystem(twilightAutomaticSystem), _waterLeakage(waterLeakage) {
-
-    int size = sizeof(windows) / sizeof(windows[0]);
-    for (int i = 0; i < size; ++i) {
-        _windows[i] = windows[i];
-    }
+          _twilightAutomaticSystem(twilightAutomaticSystem), _waterLeakage(waterLeakage), _windows(windows) {
 }
 
 
@@ -65,12 +60,9 @@ Response SensorController::runSensorController() {
 
         }
         if (_twilightAutomaticSystem.getSensorState()) {
-            twilightAutomaticSystem.handleTwilightSystem(request);
+            _twilightAutomaticSystem.handleTwilightSystem(request);
 
         }
-        if (_waterLeakage.getIsActive()) {
-            _waterLeakage.handleWaterLeakage();
-
-        }
+       _waterLeakage.readWaterLeakSensor();
     }
 }

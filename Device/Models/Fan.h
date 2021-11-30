@@ -30,7 +30,7 @@ public:
     void setHasOscillation(bool hasOscillation);
     Response setOscillation(bool isOscillating);
     bool getHasOscillation();
-    Response handleFanSwitch();
+    Response handleFanSwitch(bool isActive);
 
 };
 

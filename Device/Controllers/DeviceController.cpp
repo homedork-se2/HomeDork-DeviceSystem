@@ -26,19 +26,12 @@
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
  * @param windows (Curtains)[]: This is an array of the curtains in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains curtains[], ElectricityConsumption electricityConsumption, Fan fans[], Light lights[], PowerCutOff powerCutOff,
-                                   Response response, Stove stove, TemperatureController temperatureController, Timer timers[], TwilightAutomaticSystem twilightSystem, Window windows[])
+DeviceController::DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], ElectricityConsumption electricityConsumption, Fan (&fans)[2], Light (&lights)[3], PowerCutOff powerCutOff,
+                                   Response response, Stove stove, TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem, Window (&windows)[2])
                                    : _securityAlarm(securityAlarm), _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _response(response), _stove(stove),
-                                     _temperatureController(temperatureController), _twilightSystem(twilightSystem) {
+                                     _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights), _timers(timers),
+                                     _windows(windows){
 
-    int size = sizeof(&curtains) / sizeof(&curtains[0]);
-    for (int i = 0; i < size; ++i) {
-        _curtains[i] = curtains[i];
-        _fans[i] = fans[i];
-        _lights[i] = lights[i];
-        _timers[i] = timers[i];
-        _windows[i] = windows[i];
-    }
 }
 
 /**
@@ -60,9 +53,9 @@ Response DeviceController::runListen() {
 
         if (Serial.available() > 0) {
             int len = Serial.readBytes(buf, BUFFER_SIZE);
-            request.parseRequest(&buf);
-            response = handleRequest(request);
-            return response;
+            request.parseRequest(&buf[BUFFER_SIZE]);
+            _response = handleRequest(request);
+            return _response;
         }
     }
 }
@@ -74,71 +67,72 @@ Response DeviceController::runListen() {
  * success of the command.
  */
 Response DeviceController::handleRequest(Request request) {
-    response.setStatusCode(404);
-    response.setMessage("Device Does Not Exist");
+    _response.setStatusCode(404);
+    _response.setMessage("Device Does Not Exist");
     int size = 0;
     switch (request.getDeviceType()) {
         case 1:
-            size = sizeof(&lights) / sizeof(&lights[0]);
+            size = sizeof(_lights) / sizeof(_lights[0]);
             for (int i = 0; i < size; ++i) {
-                if (lights[i].getId() == request.getId()) {
-                    response = lights[i].handleLightSwitch(request);
+                if (_lights[i].getId() == request.getId()) {
+                    _response = _lights[i].handleLightSwitch(request);
                     break;
                 }
             }
             break;
         case 2:
-            size = sizeof(&fans) / sizeof(&fans[0]);
+            size = sizeof(_fans) / sizeof(_fans[0]);
             for (int i = 0; i < size; ++i) {
-                if (fans[i].getId() == request.getId()) {
-                    response = fans[i].handleFanSwitch();
+                if (_fans[i].getId() == request.getId()) {
+                    _response = _fans[i].handleFanSwitch(request.isState());
                     break;
                 }
             }
             break;
         case 3:
-            size = sizeof(&curtains) / sizeof(&curtains[0]);
+            size = sizeof(_curtains) / sizeof(_curtains[0]);
             for (int i = 0; i < size; ++i) {
-                if (curtains[i].getId() == request.getId()) {
-                    response = curtains[i].handleCurtainSwitch();
+                if (_curtains[i].getId() == request.getId()) {
+                    _response = _curtains[i].handleCurtainSwitch(request.isState());
                     break;
                 }
             }
             break;
         case 4:
-            response = securityAlarm.setAlarm(request);
+            _response = _securityAlarm.setAlarm(request);
             break;
         case 5:
-            response = temperatureController.setDesiredTemp(request.getValue());
+            _response = _temperatureController.setDesiredTemp(request.getValue());
             break;
         case 6:
-            response = twilightSystem.handleTwilightSystem(request);
+            _response = _twilightSystem.handleTwilightSystem(request);
             break;
         case 7:
-            for (Timer timer: timers) {
-                if (timer.getId() == request.getId()) {
+            size = sizeof(_timers) / sizeof(_timers[0]);
+            for (int i = 0; i < size; ++i) {
+                if (_timers[i].getId() == request.getId()) {
                     //add timer call
                     break;
                 }
             }
         case 8:
-            size = sizeof(&windows) / sizeof(&windows[0]);
+            size = sizeof(_windows) / sizeof(_windows[0]);
             for (int i = 0; i < size; ++i) {
-                if (windows[i].getId() == request.getId()) {
-                    response = window.handleWindowSwitch();
+                if (_windows[i].getId() == request.getId()) {
+                    _response = _windows[i].handleWindowSwitch();
                     break;
                 }
             }
             break;
         case 9:
-            response = electricityConsumption.getElectricUsage();
+            _response = _electricityConsumption.getElectricUsage();
             break;
         case 10:
-            response = powerCutOff.handlePowerCutOff();
+            _response = _powerCutOff.handlePowerCutOff();
             break;
     }
 
-    return response;
+    return _response;
 }
 
 

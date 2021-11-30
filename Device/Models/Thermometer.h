@@ -24,10 +24,10 @@ private:
     double _currentTemp;
     double readTempIn();
     double readTempOut();
+
 public:
     Thermometer(unsigned int id);
     double getCurrentTemp();
-    Response setCurrentTemp(int currentTemp);
 
 };
 

@@ -21,14 +21,16 @@ Thermometer::Thermometer(unsigned int id) :Sensor(id){
 }
 
 double Thermometer::getCurrentTemp() {
-    Response response;
-    if (getId() == A1){
+    if (getId() == A1 || getId() == A2){
 
-        _currentTemp = analogRead(getId());
-        _currentTemp = _currentTemp*0.48828125;
+        _currentTemp = readTempIn();
+        _currentTemp = _currentTemp * 0.48828125;
+    } else {
+        _currentTemp = readTempOut();
+        _currentTemp = _currentTemp * 0.48828125;
     }
 
-    return response;
+    return _currentTemp;
 }
 
 /**
@@ -45,7 +47,7 @@ double Thermometer::readTempIn() {
  * Handles the reading of the sensor for the outside thermometer.
  * @return The outdoor temperature value as a double.
  */
-double thermometer::readTempOut() {
+double Thermometer::readTempOut() {
     float value = readDigitalSensor();
     return value;
 }

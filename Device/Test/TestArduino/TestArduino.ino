@@ -96,10 +96,10 @@ void setup() {
 
 //Declare and instantiate Controllers
     AlarmController alarmController{fireAlarm, securityAlarm};
-    SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, &windows[2]};
-    TemperatureController temperatureController{&thermometersIn[2], &radiators[2], thermometerOut};
-    DeviceController deviceController{securityAlarm, &curtains[2], electricityConsumption, &fans[2], &lights[2], powerCutOff,
-                                      response,  stove, temperatureController, &timers[2], twilightSystem, &windows[2]};
+    SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, (&windows)[2]};
+    TemperatureController temperatureController{(&thermometersIn)[2], (&radiators)[2], thermometerOut};
+    DeviceController deviceController{securityAlarm, (&curtains)[2], electricityConsumption, (&fans)[2], (&lights)[3], powerCutOff,
+                                      response,  stove, temperatureController, (&timers)[2], twilightSystem, (&windows)[2]};
     //Connect threads to callbacks
     alarmControllerThread.onRun(alarmCallback);
     alarmControllerThread.setInterval(100);

@@ -12,8 +12,8 @@
 #define HOMEDORK_DEVICESYSTEM_WINDOW_H
 
 #include <Arduino.h>
-#include <Device.h>
 #include <Response.h>
+#include <Sensor.h>
 
 class Window: public Sensor {
 public:
