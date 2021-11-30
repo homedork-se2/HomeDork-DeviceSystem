@@ -10,29 +10,31 @@
 
 #ifndef HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
-#include "../Models/ElectricityConsumption.h"
-#include "../Models/PowerCutOff.h"
-#include "../Models/Stove.h"
-#include "../Models/TwilightAutomaticSystem.h"
-#include "../Models/WaterLeakage.h"
-#include "../Models/Window.h"
-#include "../Util/Response.h"
+
+#include <ElectricityConsumption.h>
+#include <PowerCutOff.h>
+#include <Response.h>
+#include <Stove.h>
+#include <TwilightAutomaticSystem.h>
+#include <WaterLeakage.h>
+#include <Window.h>
+
 
 class SensorController {
 private:
-    ElectricityConsumption electricityConsumption;
-    PowerCutOff powerCutOff;
-    Stove stove;
-    TwilightAutomaticSystem twilightAutomaticSystem;
-    WaterLeakage waterLeakage;
-    Window windows[];
+    ElectricityConsumption _electricityConsumption;
+    PowerCutOff _powerCutOff;
+    Stove _stove;
+    TwilightAutomaticSystem _twilightAutomaticSystem;
+    WaterLeakage _waterLeakage;
+    Window (&_windows)[2];
+
 public:
     SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
-                     WaterLeakage waterLeakage, Window windows[]);
-
+                     WaterLeakage waterLeakage, Window (&windows)[2]);
     Response runSensorController();
-};
 
+};
 
 #endif //HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H

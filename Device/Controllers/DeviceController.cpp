@@ -9,7 +9,6 @@
 // 2021-11-10 Revised by Samuel Mcmurray added handle request function.
 //-----------------------------------------------------------------------
 
-
 #include "DeviceController.h"
 
 /**
@@ -27,21 +26,12 @@
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
  * @param windows (Curtains)[]: This is an array of the curtains in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains curtains[], ElectricityConsumption electricityConsumption, Fan fans[], Light lights[], PowerCutOff powerCutOff,
-                                   Response response, Stove stove, TemperatureController temperatureController, Timer timers[], TwilightAutomaticSystem twilightSystem, Window windows[]) {
-    DeviceController::securityAlarm = securityAlarm;
-    DeviceController::electricityConsumption = electricityConsumption;
-    DeviceController::powerCutOff = powerCutOff;
-    DeviceController::response = response;
-    DeviceController::stove = stove;
-    DeviceController::temperatureController = temperatureController;
-    DeviceController::twilightSystem = twilightSystem;
-    int count = 0;
-    for (Curtains curtain: curtains) {
-        DeviceController::curtains[count] = curtain;
-        count++;
-    }
-    //TODO: Either Figure out a way to create a generic function to assign the arrays or do each individually
+DeviceController::DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], ElectricityConsumption electricityConsumption, Fan (&fans)[2], Light (&lights)[3], PowerCutOff powerCutOff,
+                                   Response response, Stove stove, TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem, Window (&windows)[2])
+                                   : _securityAlarm(securityAlarm), _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _response(response), _stove(stove),
+                                     _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights), _timers(timers),
+                                     _windows(windows){
+
 }
 
 /**
@@ -63,9 +53,9 @@ Response DeviceController::runListen() {
 
         if (Serial.available() > 0) {
             int len = Serial.readBytes(buf, BUFFER_SIZE);
-            request.createRequest(&buf);
-            response = handleRequest(request);
-            return response;
+            request.parseRequest(&buf[BUFFER_SIZE]);
+            _response = handleRequest(request);
+            return _response;
         }
     }
 }
@@ -77,66 +67,70 @@ Response DeviceController::runListen() {
  * success of the command.
  */
 Response DeviceController::handleRequest(Request request) {
-    response.setStatusCode(404);
-    response.setMessage("Device Does Not Exist");
-    switch (request.getDeviceType().toLowerCase()) {
-        case "lamp":
-            for (Light light: lights) {
-                if (light.getId() == request.getId()) {
-                    response = light.handleLightSwitch(request);
+    _response.setStatusCode(404);
+    _response.setMessage("Device Does Not Exist");
+    int size = 0;
+    switch (request.getDeviceType()) {
+        case 1:
+            size = sizeof(_lights) / sizeof(_lights[0]);
+            for (int i = 0; i < size; ++i) {
+                if (_lights[i].getId() == request.getId()) {
+                    _response = _lights[i].handleLightSwitch(request);
                     break;
                 }
             }
             break;
-        case "fan":
-            for (Fan fan: fans) {
-                if (fan.getId() == request.getId()) {
-                    response = fan.handleFanSwitch();
+        case 2:
+            size = sizeof(_fans) / sizeof(_fans[0]);
+            for (int i = 0; i < size; ++i) {
+                if (_fans[i].getId() == request.getId()) {
+                    _response = _fans[i].handleFanSwitch(request.isState());
                     break;
                 }
             }
             break;
-        case "curtain":
-            for (Curtains curtain: curtains) {
-                if (curtain.getId() == request.getId()) {
-                    response = curtain.handleCurtainSwitch();
+        case 3:
+            size = sizeof(_curtains) / sizeof(_curtains[0]);
+            for (int i = 0; i < size; ++i) {
+                if (_curtains[i].getId() == request.getId()) {
+                    _response = _curtains[i].handleCurtainSwitch(request.isState());
                     break;
                 }
             }
             break;
-        case "alarm":
-            response = securityAlarm.setAlarm();
+        case 4:
+            _response = _securityAlarm.setAlarm(request);
             break;
-        case "tempcontrol":
-            response = temperatureController.setDesiredTemp(request.getValue());
+        case 5:
+            _response = _temperatureController.setDesiredTemp(request.getValue());
             break;
-        case "twilight":
-            response = twilightSystem.handleTwilightSystem(request.isState());
+        case 6:
+            _response = _twilightSystem.handleTwilightSystem(request);
             break;
-        case "timer":
-            for (Timer timer: timers) {
-                if (timer.getId() == request.getId()) {
+        case 7:
+            size = sizeof(_timers) / sizeof(_timers[0]);
+            for (int i = 0; i < size; ++i) {
+                if (_timers[i].getId() == request.getId()) {
                     //add timer call
                     break;
                 }
             }
-        case "window":
-            for (Window window: windows) {
-                if (window.getId() == request.getId()) {
-                    response = window.handleWindowSwitch();
+        case 8:
+            size = sizeof(_windows) / sizeof(_windows[0]);
+            for (int i = 0; i < size; ++i) {
+                if (_windows[i].getId() == request.getId()) {
+                    _response = _windows[i].handleWindowSwitch();
                     break;
                 }
             }
             break;
-        case "electricty":
-            response = electricityConsumption.getElectricUsage();
+        case 9:
+            _response = _electricityConsumption.getElectricUsage();
             break;
-        case "power":
-            response = powerCutOff.handlePowerCutOff();
+        case 10:
+            _response = _powerCutOff.handlePowerCutOff();
             break;
     }
 
-    return response;
+    return _response;
 }
-
-

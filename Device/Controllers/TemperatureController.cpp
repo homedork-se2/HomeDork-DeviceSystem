@@ -1,9 +1,14 @@
-//
-// Created by Samuel Mcmurray on 10/18/2021.
-//
+//-----------------------------------------------------------------------
+// File: TemperatureController.cpp
+// Summary: Monitors the te,perature read by the thermometers and sends
+// a request to the server for updates state changes.
+// Version: 1.0
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-18 Created the file,
+//-----------------------------------------------------------------------
 
 #include "TemperatureController.h"
-#include "../Models/Thermometer.h"
 
 /**
  *
@@ -11,14 +16,8 @@
  * @param radiators (Radiators)[]: The radiators array.
  * @param thermometerOut (Thermometer): The outdoors thermometer.
  */
-TemperatureController::TemperatureController(Thermometer thermometersIn[], Radiator radiators[], Thermometer thermometerOut) {
-    int size = sizeof(&thermometersIn)/ sizeof(&thermometersIn[0]);
-    for (int i = 0; i < size; ++i) {
-        TemperatureController::thermometersIn[i] = &thermometersIn[i];
-        TemperatureController::radiators[i] = &radiators[i];
-        TemperatureController::desiredTemp = 20;
-    }
-    TemperatureController::thermometerOut = thermometerOut;
+TemperatureController::TemperatureController(Thermometer (&thermometersIn)[2], Radiator (&radiators)[2], Thermometer thermometerOut) : _thermometerOut(thermometerOut), _desiredTemp(20),
+                                            _thermometersIn(thermometersIn), _radiators(radiators){
 }
 
 /**
@@ -27,7 +26,7 @@ TemperatureController::TemperatureController(Thermometer thermometersIn[], Radia
  * @return (Response): A response to send back to the server.
  */
 Response TemperatureController::setDesiredTemp(double temp) {
-    TemperatureController::desiredTemp = temp;
+    _desiredTemp = temp;
     Response response{200, "Success"};
     return response;
 }
@@ -36,8 +35,10 @@ Response TemperatureController::setDesiredTemp(double temp) {
  * A getter function for the desiredTemp variable.
  * @return (double): returns a double of the current desired temp value.
  */
-double TemperatureController::getDesiredTemp() {
-    return desiredTemp;
+double TemperatureController::getDesiredTemp(
+
+        ) {
+    return _desiredTemp;
 }
 
 /**
@@ -49,20 +50,20 @@ Response TemperatureController::runTempController() {
     Response response{500, "Unknown Error Exited Loop"};
     while (true) {
 
-        int size = sizeof(thermometersIn) / sizeof(thermometersIn[0]);
+        int size = sizeof(_thermometersIn) / sizeof(_thermometersIn[0]);
         for (int i = 0; i < size; ++i) {
-            float temp = thermometersIn[i].getTemperature();
-            if (temp > &desiredTemp) {
-                radiators[i].adjustTemp(false);
+            double temp = _thermometersIn[i].getCurrentTemp();
+            if (temp > _desiredTemp) {
+                _radiators[i].adjustTemp(false);
                 //Serial.print("radiator off..");
-            } else if (temp < &desiredTemp) {
-                radiators[í].adjustTemp(true);
+            } else if (temp < _desiredTemp) {
+                _radiators[i].adjustTemp(true);
                 //Serial.print("radiator on..");
             }
 
             delay(1000);
-            if (fiveMinutes =< millis()) {
-                fiveMinutes = millis() + 300000L;
+            if (_fiveMinutes <= millis()) {
+                _fiveMinutes = millis() + 300000L;
             }
         }
     }

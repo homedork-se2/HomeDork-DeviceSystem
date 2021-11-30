@@ -1,37 +1,27 @@
 //-----------------------------------------------------------------------
 // File: WaterLeakage.h
 // Summary: A class that represents a water leakage sensor in a smart
-// home this class inherits from Abstract Device class.
+// home this class inherits from Sensor class.
 // Version: 1.0
-// Owner: Mustafa
+// Owner: Mustafa Ismail
 //-----------------------------------------------------------------------
 // Log: 2021-11-01 Created the file,
 //-----------------------------------------------------------------------
+
 #ifndef HOMEDORK_DEVICESYSTEM_WATERLEAKAGE_H
 #define HOMEDORK_DEVICESYSTEM_WATERLEAKAGE_H
 
-#include "Sensor.h"
-#include "Response.h"
-#include "Arduino.h"
+#include <Arduino.h>
+#include <Response.h>
+#include <Sensor.h>
 
 class WaterLeakage: public Sensor{
-    /**
-   * A class that represent a WaterLeakage in a smart home.
-   *
-   * Attributes:
-   *      @param id an integer who's value is the id of an instance of a subclass device.
-   *
-   * Methods:
-   *      The Waterleakage class.
-   *      handleWaterLeakage returns a response.
-   *
-   * **/
 private:
+    Response handleWaterLeakage();
 
 public :
     explicit WaterLeakage(unsigned int id);
-
-    static Response handleWaterLeakage();
+    void readWaterLeakSensor();
 
 };
 

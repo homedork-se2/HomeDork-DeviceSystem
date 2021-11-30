@@ -1,36 +1,28 @@
-//
-// Created by Ibrahim on 10/18/2021.
-//
+//-----------------------------------------------------------------------
+// File: Fan.h
+// Summary: A class that represent a Fan in a smart home this class
+// inherits from Abstract Device class.
+// device class.
+// Version: 1.0
+// Owner: Ibrahim Ali
+//-----------------------------------------------------------------------
+// Log: 2021-10-18 Created the file,
+//-----------------------------------------------------------------------
 
 #ifndef HOMEDORK_DEVICESYSTEM_FAN_H
 #define HOMEDORK_DEVICESYSTEM_FAN_H
-#include "Device.h"
-#include "Arduino.h"
-#include "Mode.h"
 
+#include <Arduino.h>
+#include <Device.h>
+
+enum Mode{Low, Medium, High};
 
 class Fan: public Device{
-    /**
-     * An class that represent a Fan in a smart home this class inherits from Abstract Device class.
-     *
-     * Attributes:
-     *      @param id an integer who's value is the id of an instance of a subclass device.
-     *      @Param hasOscillation an boolean which if true the fan oscillates else
-     *      @Param hasMultiMode an boolean which if true the fan oscillates else
-     *
-     *
-     * Methods:
-     *      getPin: returns an integer of the devices pin (The location on the arduino)
-     *      getHasOscillation: returns boolean that states if the fan is oscillating or not
-     *      getMultiMode: returns boolean that states if the fan has multiMode
-     *      setHasOscillation: change the boolean for oscillation return response
-     *      turnOnFan: returns a response
-     *
-     * **/
 private:
-    bool hasMultiMode;
-    bool hasOscillation;
-    Mode fanMode;
+    bool _hasMultiMode;
+    bool _hasOscillation;
+    Mode _fanMode;
+
 public:
     Fan(unsigned int id, bool hasMultiMode, bool hasOscillation);
     bool getHasMultiMode() ;
@@ -38,7 +30,8 @@ public:
     void setHasOscillation(bool hasOscillation);
     Response setOscillation(bool isOscillating);
     bool getHasOscillation();
-    Response handleFanSwitch();
+    Response handleFanSwitch(bool isActive);
+
 };
 
 

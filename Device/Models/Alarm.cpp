@@ -2,101 +2,102 @@
 // File: Alarm.cpp
 // Summary: The Alarm class a composite of a light, sound, and sensor.
 // This class handles the alarm functions.
-// Version: 1.1
+// Version: 1.0
 // Owner: Samuel Mcmurray
 //-----------------------------------------------------------------------
 // Log: 2021-10-23 Created the file.
-// Log: 2021-11-16 changed handleAlarmTrigger.
 //-----------------------------------------------------------------------
+
 #include "Alarm.h"
-#include "Request.h"
-#include "Response.h"
 
 /**
  * The Alarm constructor takes the light, sound, and sensor objects as paramaters.
- * @param light (Light):
- * @param siren
- * @param sensor
+ * @param light (Light): The security light that will be turned on if the alarm is triggered.
+ * @param siren (Sound): The siren that produces a sound when an alarm is triggered.
+ * @param sensor (Sensor): The sensor which will determine if the alarm should be triggered.
  */
-Alarm::Alarm(Light light, Sound siren, Sensor sensor) {
-    Alarm::light = light;
-    Alarm::siren = siren;
-    Alarm::sensor = sensor;
-    Alarm::isActive = false;
-
+Alarm::Alarm(Light light, Sound sound, Sensor sensor): alarmLight(light), siren(sound), alarmSensor(sensor){
 }
 
 /**
- *
- * @param request
- * @return
+ * A setter for the security Alarm
+ * @param request: (Request): A parameter created from the message sent by the user
+ * @return (Response): returns on the success or failure of setting the alarm.
  */
 Response Alarm::setAlarm(Request request) {
     if (!request.isState()) {
-        siren.setIsActive(false);
-
+        handleAlarmTrigger(false);
     }
     setIsArmed(request.isState());
 }
 
 /**
- *
- * @param active
+ * A setter for the alarm as active or inactive while active the siren will sound
+ * and the light will be on.
+ * @param active (boolean):
  */
 void Alarm::setIsActive(bool active) {
-    Alarm::isActive = active;
+    _isActive = active;
 }
 
 /**
- *
- * @return
+ * A getter for the alarm as active or inactive while active the siren will sound
+ * and the light will be on.
+ * @return (boolean): The current state represented as a boolean.
  */
 bool Alarm::getIsActive() {
-    return isActive;
+    return _isActive;
 }
 
 /**
- *
- * @return
+ * A getter for the alarm as armed or disarmed while armed the alarm can be
+ * triggered by the sensor.
+ * @return (bool): The state of the alarm armed or disarmed.
  */
 bool Alarm::getIsArmed() {
-    return isArmed;
+    return _isArmed;
 }
 
 /**
- *
- * @param armed
+ * A setter for the alarm as armed or disarmed while armed the alarm can be
+ * triggered by the sensor.
+ * @param armed (bool): A boolean to set whether the alarm is armed or
+ * disarmed.
  */
 void Alarm::setIsArmed(bool armed) {
-    Alarm::isArmed = armed;
+    _isArmed = armed;
 }
 
 /**
- *
- * @return
+ * The function that will handle the triggering of the alarm or disabling of
+ * the alarm.
+ * @param isTriggered (bool): A boolean that represents the state the
+ * alarm should be in.
+ * @return (Response): The response of the request to determine if it was
+ * successful.
  */
-Response Alarm::handleAlarmTrigger(bool triggered) {
+Response Alarm::handleAlarmTrigger(bool isTriggered) {
     Response response{500, "Failure"};
     Request request;
-    if (triggered) {
+    if (isTriggered) {
         siren.handleSoundSwitch(true);
-        request.setDeviceType("LIGHT");
+        request.setDeviceType(1);
         request.setState(true);
-        request.setId(light.getId());
-        light.handleLightSwitch(request);
+        request.setId(alarmLight.getId());
+        alarmLight.handleLightSwitch(request);
         setIsActive(true);
+        response.setStatusCode(200);
+        response.setMessage("ON");
     } else {
         siren.handleSoundSwitch(false);
-        request.setDeviceType("LIGHT");
+        request.setDeviceType(1);
         request.setState(false);
-        request.setId(light.getId());
-        light.handleLightSwitch(request);
+        request.setId(alarmLight.getId());
+        alarmLight.handleLightSwitch(request);
         setIsActive(false);
+        response.setStatusCode(200);
+        response.setMessage("OFF");
     }
 
-
-
-    response.setStatusCode(200)
-    response.set
     return response;
 }

@@ -7,37 +7,31 @@
 //-----------------------------------------------------------------------
 // Log: 2021-10-28 Created the file,
 //-----------------------------------------------------------------------
+
 #include "Stove.h"
-
-/**
- * Default constructor
- */
-Stove::Stove() {
-
-}
 
 /**
  * The Stove constructor takes an id as a parameter subclass to the Sensor
  * class.
- * @param id (unsigned
+ * @param id (unsigned int): An integer who's value is the id of an instance of the subclass sensor.
  */
 Stove::Stove(unsigned int id) : Sensor(id) {
 
 }
 
 /**
- *
- * @param isActive
- * @return
+ * A function which handles when Stove changes states.
+ * @param isActive (boolean): The new state is either active or inactive.
+ * @return A response that will be sent to the server.
  */
 Response Stove::handleStoveSwitch(bool isActive) {
-    Response response;
-    if (isActive) {
-        setIsActive(true);
+    Response response{500, "Fail"};
+    if (getIsActive()) {
+        setIsActive(isActive);
         response.setMessage("Stove is on");
         response.setStatusCode(200);
     } else{
-        setIsActive(true);
+        setIsActive(isActive);
         response.setMessage("Stove is off");
         response.setStatusCode(200);
     }
@@ -45,9 +39,12 @@ Response Stove::handleStoveSwitch(bool isActive) {
     return response;
 }
 
+/**
+ * This function handles the reading of the stove sensor.
+ */
 void Stove::readStoveSensor() {
-    float value = Stove::readDigitalSensor();
-    if (value == 5) {
+    float value = readDigitalSensor();
+    if (value == HIGH) {
         handleStoveSwitch(true);
     } else {
         handleStoveSwitch(false);

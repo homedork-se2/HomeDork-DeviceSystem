@@ -1,22 +1,24 @@
-//
-// Created by Dell on 11/5/2021.
-//
+//-----------------------------------------------------------------------
+// File: ElectricityConsumption.h
+// Summary: A class that handles the reading of the electricity
+// consumption in the smart home.
+// Version: 1.0
+// Owner: Osayamore Edugie
+//-----------------------------------------------------------------------
+// Log: 2021-11-5 Created the file.
+//-----------------------------------------------------------------------
 
 #ifndef HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H
 #define HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H
-#include "Arduino.h"
-#include "Device.h"
-#include "Response.h"
-#include "Sensor.h"
 
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+#include <Sensor.h>
 
 class ElectricityConsumption : public Sensor {
 public:
-
     explicit ElectricityConsumption(unsigned int id);
     Response getElectricUsage();
 
 };
-
-
-#endif //HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H

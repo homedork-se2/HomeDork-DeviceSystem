@@ -1,41 +1,34 @@
-//
-// Created by Mustafa on 2021-10-18.
-//
+//-----------------------------------------------------------------------
+// File: Thermometer.h
+// Summary: A class that represents a Light in a smart home this class
+// inherits from Abstract Device class.
+// Version: 1.1
+// Owner: Samuel Mcmurray
+//-----------------------------------------------------------------------
+// Log: 2021-10-14 Created the file,
+//      2021-10-18 Revised by Mustafa Ismail, added functionality to the
+//      thermomter reading methods.
+//-----------------------------------------------------------------------
 
 #ifndef HOMEDORK_DEVICESYSTEM_THERMOMETER_H
 #define HOMEDORK_DEVICESYSTEM_THERMOMETER_H
 
-#include "Arduino.h"
-#include "Device.h"
-#include "../Util/Response.h"
+#include <Arduino.h>
+#include <Device.h>
+#include <Response.h>
+#include <Sensor.h>
 
-class Thermometer:public Device {
-/**
-     * An class that represents the Thermometer in a smart home this class inherits from the Abstract Device class.
-     *
-     * Attributes:
-     *      @param id an unsigned integer who's value is the id of a thermometer device.
-     *      @param pin an integer who's value is the pin location on the Arduino device.
-     *      @param currentTemp a double that stores the realtime value of temperature.
-     *
-     * Methods:
-     *      The Thermometer class also has access to the Device class methods.
-     *      getCurrentTemp returns a double whose value is the current temperature.
-     *      setCurrentTemp returns a response that takes an integer as a parameter and sets the current temperature.
-     *      readTempIn returns the inside temperature value.
-     *      readTempOut returns the outside temperature value.
-     *
-     * **/
+class Thermometer:public Sensor {
 
 private:
-    double currentTemp{};
+    double _currentTemp;
+    double readTempIn();
+    double readTempOut();
+
 public:
     Thermometer(unsigned int id);
     double getCurrentTemp();
-    Response setCurrentTemp(int currentTemp);
-    double readTempIn();
-    double readTempOut();
-};
 
+};
 
 #endif //HOMEDORK_DEVICESYSTEM_THERMOMETER_H
