@@ -43,26 +43,12 @@ Response SensorController::runSensorController() {
     while(true) {
         int size = sizeof(_windows) / sizeof(_windows[0]);
         for (int i = 0; i < size; ++i) {
-            if (_windows[i].getIsActive()) {
-                _windows[i].readDigitalSensor();
-            }
+            _windows[i].readDigitalSensor();
         }
-
-        if (_electricityConsumption.getIsActive()) {
-            _electricityConsumption.getElectricUsage();
-
-        }
-        if (_powerCutOff.getIsActive()) {
-            _powerCutOff.handlePowerCutOff();
-        }
-        if (_stove.getIsActive()) {
-            _stove.readDigitalSensor();
-
-        }
-        if (_twilightAutomaticSystem.getSensorState()) {
-            _twilightAutomaticSystem.handleTwilightSystem(request);
-
-        }
-       _waterLeakage.readWaterLeakSensor();
+        _electricityConsumption.getElectricUsage();
+        _powerCutOff.handlePowerCutOff();
+        _stove.readDigitalSensor();
+        _twilightAutomaticSystem.handleTwilightSystem(request);
+        _waterLeakage.readWaterLeakSensor();
     }
 }

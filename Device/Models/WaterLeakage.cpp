@@ -28,8 +28,8 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
  * the state change.
  */
 Response WaterLeakage::handleWaterLeakage(){
-
-
+    Response response(200, "Water leaking");
+    return response;
 }
 
 /**

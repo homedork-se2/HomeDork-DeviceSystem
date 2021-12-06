@@ -24,5 +24,6 @@ PowerCutOff::PowerCutOff(unsigned int id): Device(id){
  * @return (Response): A response to be sent back to the server.
  */
 Response PowerCutOff::handlePowerCutOff(){
-
+Response response(200, "power off");
+    return response;
 }
