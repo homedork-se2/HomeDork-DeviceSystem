@@ -17,10 +17,7 @@
  * @param muxPins (unsigned int[]): The array containing the multiplexor
  * pins.
  */
-Sound::Sound(unsigned int id, unsigned int muxPins[]): Device(id){
-    for (int i = 0; i < 4; ++i) {
-        _muxPins[i] = muxPins[i];
-    }
+Sound::Sound(unsigned int id, unsigned int (&muxPins)[4]): Device(id), _muxPins(muxPins){
 }
 
 /**

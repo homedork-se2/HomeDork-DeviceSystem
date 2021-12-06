@@ -15,11 +15,8 @@
  * @param id (unsigned int): The id of the radiator.
  * @param muxPins (unsigned int[]): The array for the multiplexor pins.
  */
-Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id) {
-    int size = sizeof(&muxPins) / sizeof(&muxPins[0]);
-    for (int i = 0; i < size; ++i) {
-        _muxPins[i] = muxPins[i];
-    }
+Radiator::Radiator(unsigned int id, unsigned int (&muxPins)[4]): Device(id), _muxPins(muxPins){
+
 }
 
 /**

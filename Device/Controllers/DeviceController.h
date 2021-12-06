@@ -30,10 +30,8 @@ class DeviceController {
 private:
     Alarm _securityAlarm;
     Curtains (&_curtains)[2];
-    ElectricityConsumption _electricityConsumption;
     Fan (&_fans)[2];
-    Light (&_lights)[3];
-    PowerCutOff _powerCutOff;
+    Light *_lights;
     Response _response;
     Stove _stove;
     TemperatureController _temperatureController;
@@ -41,13 +39,14 @@ private:
     TwilightAutomaticSystem _twilightSystem;
     Window (&_windows)[2];
 
-    Response handleRequest(Request request);
+
 
 public:
-    DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], ElectricityConsumption electricityConsumption, Fan (&fans)[2], Light (&lights)[3], PowerCutOff powerCutOff,
+    DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], Fan (&fans)[2], Light *lights,
                      Response response, Stove stove, TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem, Window (&windows)[2]);
     void initializeDevices();
     Response runListen();
+    Response handleRequest(Request request);
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H

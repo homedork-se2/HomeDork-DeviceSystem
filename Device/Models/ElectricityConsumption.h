@@ -18,7 +18,9 @@
 
 class ElectricityConsumption : public Sensor {
 public:
-    explicit ElectricityConsumption(unsigned int id);
-    Response getElectricUsage();
+    ElectricityConsumption(unsigned int id);
+    float getElectricUsage();
 
 };
+
+#endif //HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H

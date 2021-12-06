@@ -81,7 +81,7 @@ Response Alarm::handleAlarmTrigger(bool isTriggered) {
     Request request;
     if (isTriggered) {
         siren.handleSoundSwitch(true);
-        request.setDeviceType(1);
+        request.setDeviceType("light");
         request.setState(true);
         request.setId(alarmLight.getId());
         alarmLight.handleLightSwitch(request);
@@ -90,7 +90,7 @@ Response Alarm::handleAlarmTrigger(bool isTriggered) {
         response.setMessage("ON");
     } else {
         siren.handleSoundSwitch(false);
-        request.setDeviceType(1);
+        request.setDeviceType("light");
         request.setState(false);
         request.setId(alarmLight.getId());
         alarmLight.handleLightSwitch(request);

@@ -15,22 +15,20 @@
  * Device Controller Constructor
  * @param securityAlarm (Alarm): The device systems security alarm.
  * @param curtains (Curtains)[]: This is an array of the curtains in the device system.
- * @param electricityConsumption  (ElectricityConsumption): The device systems electricy consumption monitor.
  * @param fans (Fan)[]: This is an array of the fans in the device system.
  * @param lights (Light)[]: This is an array of the lights in the device system.
- * @param powerCutOff (PowerCutOff): This device systems power cut off device.
  * @param response (Response): The response for any request that is handled by the system.
  * @param stove (Stove): The device systems stove.
  * @param temperatureController (TemperatureController): The device systems Temperature contol unit.
  * @param timers (Timer)[]: This is an array of the timers in the device system.
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
- * @param windows (Curtains)[]: This is an array of the curtains in the device system.
+* @param windows (Window)[]: This is an array of the windows in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], ElectricityConsumption electricityConsumption, Fan (&fans)[2], Light (&lights)[3], PowerCutOff powerCutOff,
-                                   Response response, Stove stove, TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem, Window (&windows)[2])
-                                   : _securityAlarm(securityAlarm), _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _response(response), _stove(stove),
-                                     _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights), _timers(timers),
-                                     _windows(windows){
+DeviceController::DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], Fan (&fans)[2], Light *lights, Response response, Stove stove,
+                                   TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem,
+                                   Window (&windows)[2]): _securityAlarm(securityAlarm), _response(response), _stove(stove),
+                                   _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans),
+                                   _lights(lights), _timers(timers), _windows(windows){
 
 }
 
@@ -48,12 +46,14 @@ void DeviceController::initializeDevices() {
 Response DeviceController::runListen() {
     Request request;
     while (true) {
-        const int BUFFER_SIZE = 50;
+        int BUFFER_SIZE = Serial.available();
         char buf[BUFFER_SIZE];
+        if (BUFFER_SIZE > 0) {
+            for (int i = 0; i < BUFFER_SIZE; ++i) {
+                int length = Serial.readBytes(buf, BUFFER_SIZE);
 
-        if (Serial.available() > 0) {
-            int len = Serial.readBytes(buf, BUFFER_SIZE);
-            request.parseRequest(&buf[BUFFER_SIZE]);
+            }
+            request.parseRequest(buf);
             _response = handleRequest(request);
             return _response;
         }
@@ -70,12 +70,17 @@ Response DeviceController::handleRequest(Request request) {
     _response.setStatusCode(404);
     _response.setMessage("Device Does Not Exist");
     int size = 0;
+    Serial.println("device type: ");
     switch (request.getDeviceType()) {
         case 1:
             size = sizeof(_lights) / sizeof(_lights[0]);
             for (int i = 0; i < size; ++i) {
+                Serial.println("in lights loop");
+                Serial.println(_lights[i].getId());
                 if (_lights[i].getId() == request.getId()) {
+                    Serial.println("found the light");
                     _response = _lights[i].handleLightSwitch(request);
+                    Serial.println(_response.getMessage());
                     break;
                 }
             }
@@ -123,12 +128,6 @@ Response DeviceController::handleRequest(Request request) {
                     break;
                 }
             }
-            break;
-        case 9:
-            _response = _electricityConsumption.getElectricUsage();
-            break;
-        case 10:
-            _response = _powerCutOff.handlePowerCutOff();
             break;
     }
 

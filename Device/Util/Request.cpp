@@ -75,15 +75,33 @@ int Request::getDeviceType() {
  * @param deviceType (int): An integer that represents the
  * device type.
  */
-void Request::setDeviceType(int device) {
-    _deviceType = device;
+void Request::setDeviceType(String deviceName) {
+    if (deviceName == "lamp") {
+        _deviceType = 1;
+    } else if (deviceName == "fan") {
+        _deviceType = 2;
+    } else if (deviceName == "curtain") {
+        _deviceType = 3;
+    } else if (deviceName == "alarm") {
+        _deviceType = 4;
+    } else if (deviceName == "temp") {
+        _deviceType = 5;
+    } else if (deviceName == "twilight") {
+        _deviceType = 6;
+    } else if (deviceName == "timer") {
+        _deviceType = 7;
+    } else if (deviceName == "window") {
+        _deviceType = 8;
+    } else {
+        _deviceType = 0;
+    }
 }
 
 /**
  * The function that parses the server request into the request class.
  * @param buf (char[]): The command in a char array.
  */
-void Request::parseRequest(char buf[]) {
+void Request::parseRequest(char * buf) {
     char input[15];
     int count = 0;
     int flag = 0;
@@ -93,14 +111,10 @@ void Request::parseRequest(char buf[]) {
         if (c == ':') {
             if (flag == 0) {
                 String stringValue = input;
-                if (stringValue == "lamp") {
-                    setDeviceType(1);
-                } else if (stringValue == "fan") {
-                    setDeviceType(2);
-                }
-                setDeviceType(0);
+                setDeviceType(stringValue);
             } else if (flag == 1) {
-                setId(atoi(input));
+                String id = input;
+                setId(id.toInt());
             } else if (flag == 2) {
                 String stateString = input;
                 if (stateString == "ON") {
@@ -109,7 +123,8 @@ void Request::parseRequest(char buf[]) {
                     setState(false);
                 }
             } else {
-                setValue(atoi(input));
+                String value = input;
+                setValue(value.toInt());
             }
             count = 0;
             flag++;

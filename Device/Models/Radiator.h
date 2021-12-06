@@ -17,9 +17,9 @@
 
 class Radiator: public Device {
 private:
-    unsigned int _muxPins[4];
+    unsigned int (&_muxPins)[4];
 public:
-    Radiator(unsigned int id, unsigned int * muxPins);
+    Radiator(unsigned int id, unsigned int (&muxPins)[4]);
     Response adjustTemp(bool isCold);
 };
 

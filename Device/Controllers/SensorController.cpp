@@ -49,7 +49,7 @@ Response SensorController::runSensorController() {
         }
 
         if (_electricityConsumption.getIsActive()) {
-            _electricityConsumption.getElectricUsage();
+            float kwh = _electricityConsumption.getElectricUsage();
 
         }
         if (_powerCutOff.getIsActive()) {
@@ -65,4 +65,6 @@ Response SensorController::runSensorController() {
         }
        _waterLeakage.readWaterLeakSensor();
     }
+
+    return response
 }

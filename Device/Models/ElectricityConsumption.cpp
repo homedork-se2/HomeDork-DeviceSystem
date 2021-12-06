@@ -24,8 +24,9 @@ ElectricityConsumption::ElectricityConsumption(unsigned int id) : Sensor(id) {
  * home.
  * @return (Response): A response is returned to the server.
  */
-Response ElectricityConsumption::getElectricUsage() {
-    ElectricityConsumption::readAnalogSensor();
-    Response response{200, "Success"};
-    return response;
+float ElectricityConsumption::getElectricUsage() {
+    float volts = readAnalogSensor();
+    float kwH = volts * 4;
+
+    return kwH;
 }

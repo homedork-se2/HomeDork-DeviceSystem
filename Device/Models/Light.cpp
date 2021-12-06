@@ -10,6 +10,7 @@
 
 #include "Light.h"
 
+
 /**
  * A constructor for the light class this constructor handles lights that
  * are not connected to a multiplexor.
@@ -18,7 +19,8 @@
  * @param isDimmable (boolean): The boolean that determines if a light
  * is dimmable or not.
  */
-Light::Light(unsigned int id, bool isDimmable) : Device(id), _isDimmable(isDimmable), _dim(0) {
+Light::Light(unsigned int id, bool isDimmable, unsigned int (&muxPins)[4])
+        : Device(id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
 
 }
 
@@ -29,10 +31,7 @@ Light::Light(unsigned int id, bool isDimmable) : Device(id), _isDimmable(isDimma
  * device is connected to.
  * @param muxPins (unsigned int[]): An array of the multiplexor pins.
  */
-Light::Light(unsigned int id, const unsigned int muxPins[]) : Device(id), _isDimmable(false), _dim(0) {
-    for (int i = 0; i < 4; ++i) {
-        _muxPins[i] = muxPins[i];
-    }
+Light::Light(unsigned int id, unsigned int (&muxPins)[4]) : Device(id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
 }
 
 /**
@@ -77,15 +76,18 @@ Response Light::handleLightSwitch(Request request) {
     Response response{500, "Fail"};
     response.setStatusCode(404);
     response.setMessage("The Light doesn't exist in the system.");
+    Serial.println("light switch");
     //Indoors Light
     if (request.getId() == 11) {
+        Serial.println("indoor light");
     setIsActive(request.isState());
         if (getIsActive()) {
+            Serial.println("isActive");
         //ON
-        digitalWrite(_muxPins[0], LOW);
-        digitalWrite(_muxPins[1], LOW);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], LOW);
+        digitalWrite(12, LOW);
+        digitalWrite(13, LOW);
+        digitalWrite(11, HIGH);
+        digitalWrite(8, LOW);
 
         response.setStatusCode(200);
         response.setMessage("Success Indoor Light is ON... \n");
@@ -155,11 +157,3 @@ Response Light::handleLightSwitch(Request request) {
     return response;
 }
 
-/**
- * A getter for the mutiplexor pins
- * @return (unsigned int[]): Returns an array of the pins for the
- * multiplexor pins.
- */
-const unsigned int *Light::getMuxPins() const {
-    return _muxPins;
-}
