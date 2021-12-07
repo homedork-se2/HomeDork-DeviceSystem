@@ -45,8 +45,8 @@ public:
     DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
                      TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
     void initializeDevices();
-    Response runListen();
-    Response handleRequest(Request request);
+    void runListen();
+    void handleRequest(Request request);
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H

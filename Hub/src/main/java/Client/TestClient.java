@@ -28,10 +28,7 @@ public class TestClient {
             System.out.println("Enter the command:(devicetype:id:state)");
             String message = scanner.nextLine();
             serialController.setStringBuffer(message);
-            serialController.setResponse(true);
             serialController.sendRequest();
-            message = serialController.getStringBuffer().trim();
-            System.out.println(message);
         }
 
     }

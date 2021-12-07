@@ -6,6 +6,8 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
+import java.util.Arrays;
+
 /**
  * The Serial Controller class is a class for sending data to the Arduino
  *  and receiving data from the Arduino on the serial port. This class implements
@@ -35,9 +37,9 @@ public class SerialController implements SerialPortDataListener {
         setResponse(true);
         stringBuffer = stringBuffer.replace("'","").trim();
         int length = stringBuffer.length();
-
         byte[] bytes = stringBuffer.getBytes();
         serialPort.writeBytes(bytes, length);
+        System.out.println(Arrays.toString(bytes));
         try {
             Thread.sleep(500);
             setResponse(false);
@@ -73,7 +75,6 @@ public class SerialController implements SerialPortDataListener {
         byte[] newData = new byte[serialPort.bytesAvailable()];
         int numRead = serialPort.readBytes(newData, newData.length);
         stringBuffer = new String(newData,0,numRead).trim();
-        System.out.println(stringBuffer);
 
         if (!isResponse()) {
             ServerClient serverClient = new ServerClient();

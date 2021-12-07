@@ -79,7 +79,7 @@ void Fan::setMode(int value) {
  * A getter for the mode.
  * @return (Mode): The mode that the fan is set at.
  */
-Mode Fan:getMode() {
+Mode Fan::getMode() {
     return _fanMode;
 }
 
@@ -89,7 +89,7 @@ Mode Fan:getMode() {
  * @return (Response): A response is returned to the server.
  */
 Response Fan::handleFanSwitch(Request request) {
-    setIsActive(isActive);
+    setIsActive(request.isState());
     if (getHasMultiMode()) {
         if (getIsActive()) {
             //turn on fan with the current MODE

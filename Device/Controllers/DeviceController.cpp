@@ -44,22 +44,29 @@ void DeviceController::initializeDevices() {
  * This function listens for a request from the server
  * @return response (Response): A response is returned upon completion of the command.
  */
-Response DeviceController::runListen() {
+void DeviceController::runListen() {
     Request request;
+    int i = 0;
     while (true) {
-        int BUFFER_SIZE = Serial.available();
-        char buf[BUFFER_SIZE];
-        if (BUFFER_SIZE > 0) {
-            for (int i = 0; i < BUFFER_SIZE; ++i) {
-                int length = Serial.readBytes(buf, BUFFER_SIZE);
+//        int BUFFER_SIZE = Serial.available();
+//        byte buf[BUFFER_SIZE];
+//        int length = BUFFER_SIZE;
+//        if (BUFFER_SIZE > 0) {
+//            while ((length) != -1) {
+//                length = Serial.readBytes(buf, BUFFER_SIZE);
+//            }
+//            String command = String((char *) buf);
+//            request.parseRequest(command);
+//            handleRequest(request);
+//        }
 
-            }
-            request.parseRequest(buf);
-            _response = handleRequest(request);
-            return _response;
-            break;
+        if (i == 0) {
+            handleRequest(request);
+            i++;
         }
+
     }
+
 }
 
 /**
@@ -68,9 +75,12 @@ Response DeviceController::runListen() {
  * @return response (Response): The response is returned and the values based on the completion and
  * success of the command.
  */
-Response DeviceController::handleRequest(Request request) {
+void DeviceController::handleRequest(Request request) {
     _response.setStatusCode(404);
     _response.setMessage("Device Does Not Exist");
+    request.setState(true);
+    request.setId(11);
+    request.setDeviceType("lamp");
     int size = 0;
     switch (request.getDeviceType()) {
         case 1:
@@ -78,12 +88,6 @@ Response DeviceController::handleRequest(Request request) {
             for (int i = 0; i < size; ++i) {
                 if (_lights[i].getId() == request.getId()) {
                     _response = _lights[i].handleLightSwitch(request);
-                    int length = _response.getMessage().length();
-                    byte buf[length];
-                    String string = _response.getMessage();
-                    string.getBytes(buf, length);
-
-                    Serial.write(buf, length);
                     break;
                 }
             }
@@ -92,7 +96,7 @@ Response DeviceController::handleRequest(Request request) {
             size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_fans[i].getId() == request.getId()) {
-                    _response = _fans[i].handleFanSwitch(request.isState());
+                    _response = _fans[i].handleFanSwitch(request);
                     break;
                 }
             }
@@ -133,6 +137,10 @@ Response DeviceController::handleRequest(Request request) {
             }
             break;
     }
+    int length = _response.getMessage().length();
+    byte buf[length];
+    String string = _response.getMessage();
+    string.getBytes(buf, length);
 
-    return _response;
+    Serial.write(buf, length);
 }

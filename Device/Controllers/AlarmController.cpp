@@ -23,8 +23,8 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAl
  * alarm when the sensor is
  * @return
  */
-Response AlarmController::runAlarm() {
-    Response response {500, "exit while loop error"};
+void AlarmController::runAlarm() {
+    _securityAlarm.setIsArmed(true);
     while (true) {
         int reading = _fireAlarm.alarmSensor.readDigitalSensor();
         if (reading == HIGH) {
@@ -44,6 +44,4 @@ Response AlarmController::runAlarm() {
             //Serial.println("Alarm is OFF");
         }
     }
-
-    return response;
 }

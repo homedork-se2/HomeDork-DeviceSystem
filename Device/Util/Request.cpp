@@ -101,12 +101,12 @@ void Request::setDeviceType(String deviceName) {
  * The function that parses the server request into the request class.
  * @param buf (char[]): The command in a char array.
  */
-void Request::parseRequest(char * buf) {
+void Request::parseRequest(String buf) {
     char input[15];
     int count = 0;
     int flag = 0;
-    int bufSize = sizeof(&buf) / sizeof(&buf[0]);
-    for (int i = 0; i < bufSize; ++i) {
+
+    for (int i = 0; i < buf.length(); ++i) {
         char c = buf[i];
         if (c == ':') {
             if (flag == 0) {

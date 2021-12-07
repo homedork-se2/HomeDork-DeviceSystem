@@ -46,27 +46,24 @@ double TemperatureController::getDesiredTemp(
  * within the smart house, the indexs of the arrays correspond to one another.
  * @return (Response): A response is returned based on the
  */
-Response TemperatureController::runTempController() {
+void TemperatureController::runTempController() {
     Response response{500, "Unknown Error Exited Loop"};
-    while (true) {
 
-        int size = 2;
-        for (int i = 0; i < size; ++i) {
-            double temp = _thermometersIn[i].getCurrentTemp();
-            if (temp > _desiredTemp) {
-                _radiators[i].adjustTemp(false);
-                //Serial.print("radiator off..");
-            } else if (temp < _desiredTemp) {
-                _radiators[i].adjustTemp(true);
-                //Serial.print("radiator on..");
-            }
+    int size = 2;
+    for (int i = 0; i < size; ++i) {
+        double temp = _thermometersIn[i].getCurrentTemp();
+        if (temp > _desiredTemp) {
+            _radiators[i].adjustTemp(false);
+            //Serial.print("radiator off..");
+        } else if (temp < _desiredTemp) {
+            _radiators[i].adjustTemp(true);
+            //Serial.print("radiator on..");
+        }
 
-            delay(1000);
-            if (_fiveMinutes <= millis()) {
-                _fiveMinutes = millis() + 300000L;
-            }
+        delay(1000);
+        if (_fiveMinutes <= millis()) {
+            _fiveMinutes = millis() + 300000L;
         }
     }
 
-    return response;
 }

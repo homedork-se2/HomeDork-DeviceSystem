@@ -20,11 +20,11 @@ class Light:public Device {
 private:
     bool _isDimmable;
     int _dim;
-    unsigned int (&_muxPins)[4];
+    unsigned int * _muxPins;
 
 public:
-    Light(unsigned int id, bool isDimmable, unsigned int (&muxPins)[4]);
-    Light(unsigned int id, unsigned int (&muxPins)[4]);
+    Light(unsigned int id, bool isDimmable, unsigned int * muxPins);
+    Light(unsigned int id, unsigned int * muxPins);
     bool getIsDimmable() const;
     int getDim();
     Response setDim(int dim);
