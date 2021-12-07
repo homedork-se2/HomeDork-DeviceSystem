@@ -6,7 +6,8 @@
 // Owner: Samuel Mcmurray
 //-----------------------------------------------------------------------
 // Log: 2021-10-23 Created the file,
-// Log: 2021-11-16 runAlarm check both fire and securityAlarm to so if they are triggered the alarm will go off.
+// Log: 2021-11-16 runAlarm check both fire and securityAlarm to so if they are triggered the alarm will go off. Ibrahim
+// Log: 2021-12-07 Just added so that respond is send. Ibrahim
 //-----------------------------------------------------------------------
 
 #include "AlarmController.h"
@@ -24,22 +25,26 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) {
 Response AlarmController::runAlarm() {
     Response response {500, "exit while loop error"};
     while (true) {
-        int reading = fireAlarm.sensor.readDigitalSensor();
+        int reading = _fireAlarm.alarmSensor.readDigitalSensor();
         if (reading == HIGH) {
-            fireAlarm.handleAlarmTrigger(true);
+            _fireAlarm.handleAlarmTrigger(true);
             //Serial.println("Alarm is Triggered!");
+             response.setMessage("FireAlarm:Triggered")
         } else {
-            fireAlarm.handleAlarmTrigger(false);
+            _fireAlarm.handleAlarmTrigger(false);
             //Serial.println("Alarm is OFF");
+             response.setMessage("FireAlarm:Disarmed")
         }
 
-        reading = securityAlarm.sensor.readDigitalSensor();
-        if (reading == HIGH && securityAlarm.getIsArmed()) {
-            securityAlarm.handleAlarmTrigger(true);
+        reading = _securityAlarm.alarmSensor.readDigitalSensor();
+        if (reading == HIGH && _securityAlarm.getIsArmed()) {
+            _securityAlarm.handleAlarmTrigger(true);
             //Serial.println("Alarm is Triggered!");
+            response.setMessage("SecurityAlarm:Triggered")
         } else {
-            securityAlarm.handleAlarmTrigger(false);
+            _securityAlarm.handleAlarmTrigger(false);
             //Serial.println("Alarm is OFF");
+            response.setMessage("SecurityAlarm:Disarmed")
         }
     }
 
