@@ -27,6 +27,7 @@ public:
     TwilightAutomaticSystem(Sensor sensor, Light outdoorLight);
     bool getSensorState();
     Response handleTwilightSystem(Request request);
+    void readTwilightAutomaticSystemSensor();
 
 };
 

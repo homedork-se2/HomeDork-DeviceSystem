@@ -45,10 +45,11 @@ Response SensorController::runSensorController() {
         for (int i = 0; i < size; ++i) {
             _windows[i].readDigitalSensor();
         }
-        _electricityConsumption.getElectricUsage();
-        _powerCutOff.handlePowerCutOff();
-        _stove.readDigitalSensor();
-        _twilightAutomaticSystem.handleTwilightSystem(request);
+
+        _electricityConsumption.readElectricConsumptionSensor;
+        _powerCutOff.readPowerCutOffSensor();
+        _stove.readStoveSensor();
+        _twilightAutomaticSystem.readTwilightAutomaticSystemSensor();
         _waterLeakage.readWaterLeakSensor();
     }
 }

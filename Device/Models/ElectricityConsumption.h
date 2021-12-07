@@ -20,5 +20,6 @@ class ElectricityConsumption : public Sensor {
 public:
     explicit ElectricityConsumption(unsigned int id);
     Response getElectricUsage();
+    void readElectricConsumptionSensor();
 
 };

@@ -19,6 +19,7 @@ class PowerCutOff : public Device{
 public :
     explicit PowerCutOff(unsigned int id);
     Response handlePowerCutOff();
+    void readPowerCutOffSensor();
 
 };
 

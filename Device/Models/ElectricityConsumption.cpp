@@ -29,3 +29,12 @@ Response ElectricityConsumption::getElectricUsage() {
     Response response{200, "Success"};
     return response;
 }
+
+void ElectricityConsumption::readElectricConsumptionSensor() {
+    if (readAnalogSensor() == HIGH) {
+        Response response{200, "High consumption"};
+        getElectricUsage();
+    }else if (readAnalogSensor() == LOW)
+            Response response{200, "Low consumption"};
+            getElectricUsage();
+}

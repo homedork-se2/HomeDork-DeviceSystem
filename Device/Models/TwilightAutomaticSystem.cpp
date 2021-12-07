@@ -41,3 +41,9 @@ Response TwilightAutomaticSystem::handleTwilightSystem(Request request) {
     _outdoorLight.handleLightSwitch(request);
     return response;
 }
+
+void TwilightAutomaticSystem::readTwilightAutomaticSystemSensor() {
+    if (getSensorState() == LOW) {
+        handleTwilightSystem();
+    }
+}

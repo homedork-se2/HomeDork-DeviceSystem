@@ -27,3 +27,11 @@ Response PowerCutOff::handlePowerCutOff(){
 Response response(200, "power off");
     return response;
 }
+
+void PowerCutOff::readPowerCutOffSensor() {
+
+    if (Device::getIsActive()) {
+        Response response(200, "power on");
+    }
+        handlePowerCutOff();
+}
