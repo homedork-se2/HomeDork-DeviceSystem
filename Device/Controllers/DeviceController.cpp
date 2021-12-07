@@ -24,11 +24,12 @@
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
 * @param windows (Window)[]: This is an array of the windows in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], Fan (&fans)[2], Light *lights, Response response, Stove stove,
-                                   TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem,
-                                   Window (&windows)[2]): _securityAlarm(securityAlarm), _response(response), _stove(stove),
-                                   _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans),
-                                   _lights(lights), _timers(timers), _windows(windows){
+DeviceController::DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
+                                   TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
+                                   Window * windows): _securityAlarm(securityAlarm), _response(response), _stove(stove),
+                                   _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights),
+                                    _timers(timers), _windows(windows){
+
 
 }
 
@@ -56,6 +57,7 @@ Response DeviceController::runListen() {
             request.parseRequest(buf);
             _response = handleRequest(request);
             return _response;
+            break;
         }
     }
 }
@@ -70,23 +72,24 @@ Response DeviceController::handleRequest(Request request) {
     _response.setStatusCode(404);
     _response.setMessage("Device Does Not Exist");
     int size = 0;
-    Serial.println("device type: ");
     switch (request.getDeviceType()) {
         case 1:
-            size = sizeof(_lights) / sizeof(_lights[0]);
+            size = 3;
             for (int i = 0; i < size; ++i) {
-                Serial.println("in lights loop");
-                Serial.println(_lights[i].getId());
                 if (_lights[i].getId() == request.getId()) {
-                    Serial.println("found the light");
                     _response = _lights[i].handleLightSwitch(request);
-                    Serial.println(_response.getMessage());
+                    int length = _response.getMessage().length();
+                    byte buf[length];
+                    String string = _response.getMessage();
+                    string.getBytes(buf, length);
+
+                    Serial.write(buf, length);
                     break;
                 }
             }
             break;
         case 2:
-            size = sizeof(_fans) / sizeof(_fans[0]);
+            size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_fans[i].getId() == request.getId()) {
                     _response = _fans[i].handleFanSwitch(request.isState());
@@ -95,7 +98,7 @@ Response DeviceController::handleRequest(Request request) {
             }
             break;
         case 3:
-            size = sizeof(_curtains) / sizeof(_curtains[0]);
+            size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_curtains[i].getId() == request.getId()) {
                     _response = _curtains[i].handleCurtainSwitch(request.isState());
@@ -113,7 +116,7 @@ Response DeviceController::handleRequest(Request request) {
             _response = _twilightSystem.handleTwilightSystem(request);
             break;
         case 7:
-            size = sizeof(_timers) / sizeof(_timers[0]);
+            size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_timers[i].getId() == request.getId()) {
                     //add timer call
@@ -121,7 +124,7 @@ Response DeviceController::handleRequest(Request request) {
                 }
             }
         case 8:
-            size = sizeof(_windows) / sizeof(_windows[0]);
+            size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_windows[i].getId() == request.getId()) {
                     _response = _windows[i].handleWindowSwitch();

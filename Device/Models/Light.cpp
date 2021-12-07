@@ -76,18 +76,15 @@ Response Light::handleLightSwitch(Request request) {
     Response response{500, "Fail"};
     response.setStatusCode(404);
     response.setMessage("The Light doesn't exist in the system.");
-    Serial.println("light switch");
     //Indoors Light
     if (request.getId() == 11) {
-        Serial.println("indoor light");
     setIsActive(request.isState());
         if (getIsActive()) {
-            Serial.println("isActive");
         //ON
-        digitalWrite(12, LOW);
-        digitalWrite(13, LOW);
-        digitalWrite(11, HIGH);
-        digitalWrite(8, LOW);
+        digitalWrite(_muxPins[0], LOW);
+        digitalWrite(_muxPins[1], LOW);
+        digitalWrite(_muxPins[2], HIGH);
+        digitalWrite(_muxPins[3], LOW);
 
         response.setStatusCode(200);
         response.setMessage("Success Indoor Light is ON... \n");

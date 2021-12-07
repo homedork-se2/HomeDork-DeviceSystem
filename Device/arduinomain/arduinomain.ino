@@ -57,27 +57,27 @@ Window window{6};
 Window fakeWindow{27};
 
 //Declare and instantiate Composition Models
-    Alarm securityAlarm(alarmLight, siren, switchSecuritySensor);
-    Alarm fireAlarm{alarmLight, siren, switchFireSensor};
+Alarm securityAlarm(alarmLight, siren, switchSecuritySensor);
+Alarm fireAlarm{alarmLight, siren, switchFireSensor};
 
-    TwilightAutomaticSystem twilightSystem{lightSensor, outdoorLight};
+TwilightAutomaticSystem twilightSystem{lightSensor, outdoorLight};
 
 
 //Create Model lists
-    Curtains curtains[2] = {curtain1, curtain2};
-    Fan fans[2] = {fanLoft, fanFake};
-    Light * lights = new Light[3]{indoorLight, outdoorLight, alarmLight};
-    Radiator radiators[2] = {radiator, radiatorWindow};
-    Thermometer thermometersIn[2] = {thermometerIn, thermometerInWindow};
-    Timer timers[2] = {timer1, timer2};
-    Window windows[2] = {window, fakeWindow};
+Curtains * curtains = new Curtains[2]{curtain1, curtain2};
+Fan * fans = new Fan[2]{fanLoft, fanFake};
+Light * lights = new Light[3]{indoorLight, outdoorLight, alarmLight};
+Radiator * radiators = new Radiator[2]{radiator, radiatorWindow};
+Thermometer * thermometersIn = new Thermometer[2]{thermometerIn, thermometerInWindow};
+Timer * timers = new Timer[2]{timer1, timer2};
+Window * windows = new Window[2]{window, fakeWindow};
 
 //Declare and instantiate Controllers
-    AlarmController alarmController{fireAlarm, securityAlarm};
-    SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, (&windows)[2]};
-    TemperatureController temperatureController{(&thermometersIn)[2], (&radiators)[2], thermometerOut};
-    DeviceController deviceController{securityAlarm, (&curtains)[2], (&fans)[2], (&lights)[3], response,  stove, temperatureController,
-                                      (&timers)[2], twilightSystem, (&windows)[2]};
+AlarmController alarmController{fireAlarm, securityAlarm};
+SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, windows};
+TemperatureController temperatureController{thermometersIn, radiators, thermometerOut};
+DeviceController deviceController{securityAlarm, curtains, fans, lights, response,  stove, temperatureController,
+                                  timers, twilightSystem, windows};
 
 ThreadController threadController = ThreadController();
 //Create Thread pool
@@ -133,19 +133,7 @@ void setup() {
 
 void loop() {
     //handles all threads runs those that should run.
-//    threadController.run();
-
-if (i >= 0) {
-  Request request;
-    request.setDeviceType("lamp");
-    request.setState(false);
-    request.setId(22);
-    indoorLight.handleLightSwitch(request);
-    Serial.println(indoorLight.getId());
-    Serial.println(lights[0].getId());
-    response = deviceController.handleRequest(request);
-    i++;
-}
+   threadController.run();
     
 }
 

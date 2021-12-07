@@ -25,7 +25,7 @@
  */
 SensorController::SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                                    Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
-                                   WaterLeakage waterLeakage, Window (&windows)[2])
+                                   WaterLeakage waterLeakage, Window * windows)
         : _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _stove(stove),
           _twilightAutomaticSystem(twilightAutomaticSystem), _waterLeakage(waterLeakage), _windows(windows) {
 }
@@ -41,7 +41,7 @@ Response SensorController::runSensorController() {
     Response response{500, "error in loop"};
     Request request;
     while(true) {
-        int size = sizeof(_windows) / sizeof(_windows[0]);
+        int size = 2;
         for (int i = 0; i < size; ++i) {
             if (_windows[i].getIsActive()) {
                 _windows[i].readDigitalSensor();
@@ -66,5 +66,5 @@ Response SensorController::runSensorController() {
        _waterLeakage.readWaterLeakSensor();
     }
 
-    return response
+    return response;
 }

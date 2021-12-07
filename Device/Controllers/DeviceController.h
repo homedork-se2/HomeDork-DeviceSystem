@@ -29,21 +29,21 @@
 class DeviceController {
 private:
     Alarm _securityAlarm;
-    Curtains (&_curtains)[2];
-    Fan (&_fans)[2];
+    Curtains  * _curtains;
+    Fan * _fans;
     Light *_lights;
     Response _response;
     Stove _stove;
     TemperatureController _temperatureController;
-    Timer (&_timers)[2];
+    Timer * _timers;
     TwilightAutomaticSystem _twilightSystem;
-    Window (&_windows)[2];
+    Window * _windows;
 
 
 
 public:
-    DeviceController(Alarm securityAlarm, Curtains (&curtains)[2], Fan (&fans)[2], Light *lights,
-                     Response response, Stove stove, TemperatureController temperatureController, Timer (&timers)[2], TwilightAutomaticSystem twilightSystem, Window (&windows)[2]);
+    DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
+                     TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
     void initializeDevices();
     Response runListen();
     Response handleRequest(Request request);

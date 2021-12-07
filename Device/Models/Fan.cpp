@@ -62,15 +62,38 @@ void Fan::setHasOscillation(bool hasOscillation) {
 }
 
 /**
+ * A setter for the mode
+ * @param value (int): The value of the fan sent by the user.
+ */
+void Fan::setMode(int value) {
+    if (value > 200) {
+        _fanMode = High;
+    } else if (value < 200 && value > 64) {
+        _fanMode = Medium;
+    } else {
+        _fanMode = Low;
+    }
+}
+
+/**
+ * A getter for the mode.
+ * @return (Mode): The mode that the fan is set at.
+ */
+Mode Fan:getMode() {
+    return _fanMode;
+}
+
+/**
  * The function that handles a command from the server to
  * @param isActive (boolean): The state of the fan.
  * @return (Response): A response is returned to the server.
  */
-Response Fan::handleFanSwitch(bool isActive) {
+Response Fan::handleFanSwitch(Request request) {
     setIsActive(isActive);
     if (getHasMultiMode()) {
         if (getIsActive()) {
             //turn on fan with the current MODE
+            setMode(request.getValue());
             if (_fanMode == Mode::High) {
                 analogWrite(getId(), 200);
                 Response response{200, "Success Fan set  High...\n"};

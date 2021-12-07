@@ -16,7 +16,7 @@
  * @param radiators (Radiators)[]: The radiators array.
  * @param thermometerOut (Thermometer): The outdoors thermometer.
  */
-TemperatureController::TemperatureController(Thermometer (&thermometersIn)[2], Radiator (&radiators)[2], Thermometer thermometerOut) : _thermometerOut(thermometerOut), _desiredTemp(20),
+TemperatureController::TemperatureController(Thermometer * thermometersIn, Radiator * radiators, Thermometer thermometerOut) : _thermometerOut(thermometerOut), _desiredTemp(20),
                                             _thermometersIn(thermometersIn), _radiators(radiators){
 }
 
@@ -50,7 +50,7 @@ Response TemperatureController::runTempController() {
     Response response{500, "Unknown Error Exited Loop"};
     while (true) {
 
-        int size = sizeof(_thermometersIn) / sizeof(_thermometersIn[0]);
+        int size = 2;
         for (int i = 0; i < size; ++i) {
             double temp = _thermometersIn[i].getCurrentTemp();
             if (temp > _desiredTemp) {

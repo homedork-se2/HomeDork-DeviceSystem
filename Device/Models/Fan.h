@@ -14,6 +14,7 @@
 
 #include <Arduino.h>
 #include <Device.h>
+#include <Request.h>
 
 enum Mode{Low, Medium, High};
 
@@ -30,7 +31,9 @@ public:
     void setHasOscillation(bool hasOscillation);
     Response setOscillation(bool isOscillating);
     bool getHasOscillation();
-    Response handleFanSwitch(bool isActive);
+    void setMode(int value);
+    Mode getMode();
+    Response handleFanSwitch(Request request);
 
 };
 
