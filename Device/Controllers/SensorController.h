@@ -33,7 +33,7 @@ public:
     SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
                      WaterLeakage waterLeakage, Window * windows);
-    Response runSensorController();
+    void runSensorController();
 
 };
 

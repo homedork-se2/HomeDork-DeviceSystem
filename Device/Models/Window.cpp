@@ -23,6 +23,22 @@ Window::Window(unsigned int id): Sensor(id) {
  * @return (Response): A response that is sent to the server to handle
  * the state change
  */
-Response Window::handleWindowSwitch() {
+void Window::handleWindowSwitch(bool state) {
+    String string = "ERROR";
+    if(state){
+        string = "Window:" + getId() + ":OPEN";
+    } else {
+        string = "Window:" + getId() + ":CLOSED";
+    }
+    Response response{200, string};
+    response.sendMessage();
+}
 
+
+void Window::readSensor() {
+    if (readDigitalSensor() == HIGH && !getIsActive()) {
+        handleWindowSwitch(true);
+    } else if (readDigitalSensor() == LOW && getIsActive()) {
+        handleWindowSwitch(false);
+    }
 }

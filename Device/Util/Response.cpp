@@ -49,3 +49,12 @@ void Response::setMessage(String message) {
 void Response::setStatusCode(int statusCode) {
     _statusCode = statusCode;
 }
+
+void Response::sendMessage() {
+    int length = getMessage().length();
+    byte buf[length];
+    String string = getMessage();
+    string.getBytes(buf, length);
+
+    Serial.write(buf, length);
+}

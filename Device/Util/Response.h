@@ -22,6 +22,7 @@ public:
     void setStatusCode(int statusCode);
     String getMessage();
     void setMessage(String message);
+    void sendMessage();
 };
 
 

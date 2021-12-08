@@ -17,7 +17,7 @@
  * @param muxPins (unsigned int[]): The array containing the multiplexor
  * pins.
  */
-Sound::Sound(unsigned int id, unsigned int (&muxPins)[4]): Device(id), _muxPins(muxPins){
+Sound::Sound(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxPins){
 }
 
 /**
@@ -26,8 +26,7 @@ Sound::Sound(unsigned int id, unsigned int (&muxPins)[4]): Device(id), _muxPins(
  * should be set to.
  * @return (Response): A response sent back to the server.
  */
-Response Sound::handleSoundSwitch(bool isActive) {
-    Response response{500, "Error Sound not set"};
+bool Sound::handleSoundSwitch(bool isActive) {
     setIsActive(isActive);
     if (getIsActive()) {
         digitalWrite(_muxPins[0], HIGH);
@@ -35,19 +34,11 @@ Response Sound::handleSoundSwitch(bool isActive) {
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
 
-        response.setMessage("Success sound is active");
-        response.setStatusCode(200);
-
     } else {
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
 
-        response.setMessage("Success sound is inactive");
-        response.setStatusCode(200);
-
     }
-
-    return response;
 }

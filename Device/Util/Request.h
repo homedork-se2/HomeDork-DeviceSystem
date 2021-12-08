@@ -29,7 +29,7 @@ public:
     void setValue(int value);
     int getDeviceType();
     void setDeviceType(String deviceName);
-    void parseRequest(char * buf);
+    void parseRequest(byte * buf);
 
 };
 

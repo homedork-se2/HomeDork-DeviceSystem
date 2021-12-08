@@ -24,7 +24,7 @@ Radiator::Radiator(unsigned int id, unsigned int (&muxPins)[4]): Device(id), _mu
  * @return (Response): A response that will be sent
  * back to the server.
  */
-Response Radiator::adjustTemp(bool isCold) {
+void Radiator::adjustTemp(bool isCold) {
     Response response{404, "Fail"};
 
     if (getId() == 23 ) {
@@ -36,7 +36,7 @@ Response Radiator::adjustTemp(bool isCold) {
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
             response.setStatusCode(200);
-            response.setMessage("Success Light is ON... \n");
+            response.setMessage("radiator" + getId() + ":ON");
 
         } else {
             digitalWrite(_muxPins[0], HIGH);
@@ -44,7 +44,7 @@ Response Radiator::adjustTemp(bool isCold) {
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
             response.setStatusCode(200);
-            response.setMessage("Success Light is OFF... \n");
+            response.setMessage("radiator" + getId() + ":OFF");
 
         }
 
@@ -57,7 +57,7 @@ Response Radiator::adjustTemp(bool isCold) {
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
         response.setStatusCode(200);
-        response.setMessage("Success Light is ON... \n");
+        response.setMessage("radiator" + getId() + ":ON");
 
     } else {
         digitalWrite(_muxPins[0], HIGH);
@@ -65,8 +65,8 @@ Response Radiator::adjustTemp(bool isCold) {
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
         response.setStatusCode(200);
-        response.setMessage("Success Light is OFF... \n");
+        response.setMessage("radiator" + getId() + ":OFF");
 
     }
-    return response;
+    response.sendMessage();
 }

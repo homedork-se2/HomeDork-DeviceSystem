@@ -21,14 +21,33 @@
 TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLight): _lightSensor(sensor), _outdoorLight(outdoorLight) {}
 
 /**
+ *
+ * @return
+ */
+bool TwilightAutomaticSystem::isActive() {
+    return _isActive;
+}
+
+void TwilightAutomaticSystem::setActive(bool isActive) {
+    _isActive = isActive;
+}
+
+/**
  * The function that will handle the reading of the light sensor to help determine
  * the light state.
  * @return (boolean): A returns to state of the light sensor
  */
-bool TwilightAutomaticSystem::getSensorState() {
-    float value = _lightSensor.readAnalogSensor();
+void TwilightAutomaticSystem::readLightSensor() {
+    if (_isActive) {
+        int value = _lightSensor.readAnalogSensor();
+        if (value < 200 && !_outdoorLight.getIsActive()) {
+            handleTwilightSystem(true);
 
-    return false;
+        } else if (_outdoorLight.getIsActive()){
+            handleTwilightSystem(false);
+        }
+
+    }
 }
 
 /**
@@ -36,8 +55,10 @@ bool TwilightAutomaticSystem::getSensorState() {
  * @return (Response): A response that is sent to the server to handle
  * the state change in the twilight system.
  */
-Response TwilightAutomaticSystem::handleTwilightSystem(Request request) {
-    Response response{200, "Starting System"};
+void TwilightAutomaticSystem::handleTwilightSystem(bool state) {
+    Request request;
+    request.setId(_outdoorLight.getId());
+    request.setState(state);
     _outdoorLight.handleLightSwitch(request);
-    return response;
+
 }

@@ -8,6 +8,7 @@
 // Log: 2021-10-14 Created the file,
 //      2021-10-18 Revised by Mustafa Ismail, added functionality to the
 //      thermomter reading methods.
+//      2021-12-07 Revised added a check for time.
 //-----------------------------------------------------------------------
 
 #include "Thermometer.h"
@@ -20,14 +21,12 @@
 Thermometer::Thermometer(unsigned int id) :Sensor(id){
 }
 
-double Thermometer::getCurrentTemp() {
-    if (getId() == A1 || getId() == A2){
-
+float Thermometer::getCurrentTemp() {
+    unsigned int thermometer = A1, window = A2;
+    if (getId() == thermometer || getId() == window){
         _currentTemp = readTempIn();
-        _currentTemp = _currentTemp * 0.48828125;
     } else {
         _currentTemp = readTempOut();
-        _currentTemp = _currentTemp * 0.48828125;
     }
 
     return _currentTemp;
@@ -38,16 +37,38 @@ double Thermometer::getCurrentTemp() {
  * inside thermometers.
  * @return
  */
-double Thermometer::readTempIn() {
-    float value = readAnalogSensor();
-    return value;
+float Thermometer::readTempIn() {
+    int value = readAnalogSensor();
+    float voltage = value * (5000 / 1024.0);
+    _currentTemp = (voltage - 500) / 10;
 }
 
 /**
  * Handles the reading of the sensor for the outside thermometer.
  * @return The outdoor temperature value as a double.
  */
-double Thermometer::readTempOut() {
-    float value = readDigitalSensor();
-    return value;
+float Thermometer::readTempOut() {
+    float dutyCycle = 0;
+    unsigned long temperature = 0;
+    unsigned long squareWaveHighTime = 0;
+    unsigned long squareWaveLowTime = 0;
+
+    const uint8_t beginning  = readDigitalSensor();
+    while (readDigitalSensor() == beginning);
+
+    const uint32_t start = micros();
+    while (readDigitalSensor() != beginning);
+
+    const uint32_t middle = micros();
+    while (readDigitalSensor() == beginning);
+
+    const uint32_t end = micros();
+    squareWaveHighTime = beginning?(end-middle):(middle-start);
+    squareWaveLowTime = (!beginning)?(end-middle):(middle-start) ;
+
+    dutyCycle = squareWaveHighTime;
+    dutyCycle /= (squareWaveHighTime + squareWaveLowTime);
+
+    temperature = (dutyCycle - 0.320) / 0.00470;
+    return (float) temperature;
 }

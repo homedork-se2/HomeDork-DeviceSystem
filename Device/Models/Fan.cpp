@@ -88,7 +88,8 @@ Mode Fan:getMode() {
  * @param isActive (boolean): The state of the fan.
  * @return (Response): A response is returned to the server.
  */
-Response Fan::handleFanSwitch(Request request) {
+void Fan::handleFanSwitch(Request request) {
+    Response response{200,  "ERROR"};
     setIsActive(isActive);
     if (getHasMultiMode()) {
         if (getIsActive()) {
@@ -96,18 +97,16 @@ Response Fan::handleFanSwitch(Request request) {
             setMode(request.getValue());
             if (_fanMode == Mode::High) {
                 analogWrite(getId(), 200);
-                Response response{200, "Success Fan set  High...\n"};
             } else if (_fanMode == Mode::Medium) {
                 analogWrite(getId(), 124);
-                Response response{200, "Success Fan set  Medium...\n"};
             } else if (_fanMode == Mode::Low){
                 analogWrite(getId(), 64);
-                Response response{200, "Success Fan set  Low...\n"};
             }
+            response.setMessage(200,  "Fan:" + getId() + ":" + request.getValue());
 
         } else {
             analogWrite(getId(), 0);
-            Response response{200, "Success Fan set OFF\n"};
+            response.setMessage(200,  "Fan:" + getId() + ":OFF");
         }
     } else {
         if (getIsActive()) {

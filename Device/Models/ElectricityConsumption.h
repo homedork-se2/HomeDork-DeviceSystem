@@ -17,9 +17,12 @@
 #include <Sensor.h>
 
 class ElectricityConsumption : public Sensor {
+private:
+    float getElectricUsage();
+
 public:
     ElectricityConsumption(unsigned int id);
-    float getElectricUsage();
+    void readSensor();
 
 };
 

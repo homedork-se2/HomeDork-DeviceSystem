@@ -16,9 +16,12 @@
 #include <Sensor.h>
 
 class Window: public Sensor {
+private:
+    void handleWindowSwitch(bool state);
+
 public:
     Window(unsigned int id);
-    Response handleWindowSwitch();
+    void readSensor();
 
 };
 

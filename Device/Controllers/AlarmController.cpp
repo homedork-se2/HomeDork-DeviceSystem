@@ -23,27 +23,22 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAl
  * alarm when the sensor is
  * @return
  */
-Response AlarmController::runAlarm() {
-    Response response {500, "exit while loop error"};
-    while (true) {
-        int reading = _fireAlarm.alarmSensor.readDigitalSensor();
-        if (reading == HIGH) {
-            _fireAlarm.handleAlarmTrigger(true);
-            //Serial.println("Alarm is Triggered!");
-        } else {
-            _fireAlarm.handleAlarmTrigger(false);
-            //Serial.println("Alarm is OFF");
-        }
-
-        reading = _securityAlarm.alarmSensor.readDigitalSensor();
-        if (reading == HIGH && _securityAlarm.getIsArmed()) {
-            _securityAlarm.handleAlarmTrigger(true);
-            //Serial.println("Alarm is Triggered!");
-        } else {
-            _securityAlarm.handleAlarmTrigger(false);
-            //Serial.println("Alarm is OFF");
-        }
+void AlarmController::runAlarm() {
+    int reading = _fireAlarm.alarmSensor.readDigitalSensor();
+    if (reading == HIGH && !_fireAlarm.getIsActive) {
+        _fireAlarm.handleAlarmTrigger(true);
+    } else if (_fireAlarm.getIsActive()) {
+        _fireAlarm.handleAlarmTrigger(false);
     }
 
-    return response;
+    reading = _securityAlarm.alarmSensor.readDigitalSensor();
+    if (reading == LOW && _securityAlarm.getIsArmed() && !_securityAlarm.getIsActive()) {
+        _securityAlarm.handleAlarmTrigger(true);
+    } else if (reading == HIGH && _securityAlarm.getIsActive()){
+        _securityAlarm.handleAlarmTrigger(false);
+        //Serial.println("Alarm is OFF");
+    }
+
+
+
 }

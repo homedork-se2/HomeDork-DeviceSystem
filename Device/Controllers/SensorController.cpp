@@ -37,34 +37,15 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
  * @return (Response): It returns a response if a failure occur so it can be
  * logged on the server.
  */
-Response SensorController::runSensorController() {
-    Response response{500, "error in loop"};
-    Request request;
-    while(true) {
-        int size = 2;
-        for (int i = 0; i < size; ++i) {
-            if (_windows[i].getIsActive()) {
-                _windows[i].readDigitalSensor();
-            }
-        }
-
-        if (_electricityConsumption.getIsActive()) {
-            float kwh = _electricityConsumption.getElectricUsage();
-
-        }
-        if (_powerCutOff.getIsActive()) {
-            _powerCutOff.handlePowerCutOff();
-        }
-        if (_stove.getIsActive()) {
-            _stove.readDigitalSensor();
-
-        }
-        if (_twilightAutomaticSystem.getSensorState()) {
-            _twilightAutomaticSystem.handleTwilightSystem(request);
-
-        }
-       _waterLeakage.readWaterLeakSensor();
+void SensorController::runSensorController() {
+    int size = 2;
+    for (int i = 0; i < size; ++i) {
+        _windows[i].readSensor();
     }
+    _electricityConsumption.readSensor();
+    _powerCutOff.readSensor();
+    _stove.readStoveSensor();
+    _twilightAutomaticSystem.readLightSensor();
+    _waterLeakage.readWaterLeakSensor();
 
-    return response;
 }

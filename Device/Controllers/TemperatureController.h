@@ -18,17 +18,16 @@
 
 class TemperatureController {
 private:
-    double _desiredTemp;
+    float _desiredTemp;
     Thermometer * _thermometersIn;
     Thermometer _thermometerOut;
     Radiator * _radiators;
-    unsigned long _fiveMinutes;
 
 public:
     TemperatureController(Thermometer * thermometersIn, Radiator * radiators, Thermometer thermometerOut);
-    Response setDesiredTemp(double desiredTemp);
-    double getDesiredTemp();
-    Response runTempController();
+    Response setDesiredTemp(float desiredTemp);
+    float getDesiredTemp();
+    void runTempController();
 
 };
 

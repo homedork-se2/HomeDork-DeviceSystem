@@ -18,7 +18,7 @@ class Sensor : public Device{
 public :
     Sensor(unsigned int id);
     float readDigitalSensor();
-    float readAnalogSensor();
+    int readAnalogSensor();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_SENSOR_H

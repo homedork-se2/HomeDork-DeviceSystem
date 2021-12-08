@@ -25,19 +25,17 @@ TemperatureController::TemperatureController(Thermometer * thermometersIn, Radia
  * @param temp (double): The users desired temperature for the corresponding room
  * @return (Response): A response to send back to the server.
  */
-Response TemperatureController::setDesiredTemp(double temp) {
+void TemperatureController::setDesiredTemp(float temp) {
     _desiredTemp = temp;
-    Response response{200, "Success"};
-    return response;
+    Response response{200, "desiredtemp:" + _thermometersIn[i].getId() + ":" + _desiredTemp};
+    response.sendMessage();
 }
 
 /**
  * A getter function for the desiredTemp variable.
  * @return (double): returns a double of the current desired temp value.
  */
-double TemperatureController::getDesiredTemp(
-
-        ) {
+float TemperatureController::getDesiredTemp() {
     return _desiredTemp;
 }
 
@@ -46,27 +44,22 @@ double TemperatureController::getDesiredTemp(
  * within the smart house, the indexs of the arrays correspond to one another.
  * @return (Response): A response is returned based on the
  */
-Response TemperatureController::runTempController() {
+void TemperatureController::runTempController() {
     Response response{500, "Unknown Error Exited Loop"};
-    while (true) {
-
+    float temp = _thermometerOut.getCurrentTemp();
+    response.setMessage("temp:" + _thermometersOut.getId() + ":" + temp);
+    response.sendMessage();
         int size = 2;
         for (int i = 0; i < size; ++i) {
-            double temp = _thermometersIn[i].getCurrentTemp();
+            temp = _thermometersIn[i].getCurrentTemp();
+            response.setMessage("temp:" + _thermometersIn[i].getId() + ":" + temp);
+            response.sendMessage();
             if (temp > _desiredTemp) {
                 _radiators[i].adjustTemp(false);
-                //Serial.print("radiator off..");
             } else if (temp < _desiredTemp) {
                 _radiators[i].adjustTemp(true);
-                //Serial.print("radiator on..");
-            }
-
-            delay(1000);
-            if (_fiveMinutes <= millis()) {
-                _fiveMinutes = millis() + 300000L;
             }
         }
+        re
     }
-
-    return response;
 }

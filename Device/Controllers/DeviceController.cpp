@@ -6,7 +6,8 @@
 // Owner: Samuel Mcmurray
 //-----------------------------------------------------------------------
 // Log: 2021-10-21 Created the file,
-// 2021-11-10 Revised by Samuel Mcmurray added handle request function.
+//      2021-11-10 Revised by Samuel Mcmurray added handle request function.
+//      2021-12-06 Revised by Samuel Mcmurray fixed errors with
 //-----------------------------------------------------------------------
 
 #include "DeviceController.h"
@@ -44,15 +45,14 @@ void DeviceController::initializeDevices() {
  * This function listens for a request from the server
  * @return response (Response): A response is returned upon completion of the command.
  */
-Response DeviceController::runListen() {
+void DeviceController::runListen() {
     Request request;
-    while (true) {
-        int BUFFER_SIZE = Serial.available();
-        char buf[BUFFER_SIZE];
-        if (BUFFER_SIZE > 0) {
+
+        if (Serial.available() > 0) {
+            int BUFFER_SIZE = Serial.available();
+            byte buf[BUFFER_SIZE];
             for (int i = 0; i < BUFFER_SIZE; ++i) {
                 int length = Serial.readBytes(buf, BUFFER_SIZE);
-
             }
             request.parseRequest(buf);
             _response = handleRequest(request);
@@ -68,22 +68,15 @@ Response DeviceController::runListen() {
  * @return response (Response): The response is returned and the values based on the completion and
  * success of the command.
  */
-Response DeviceController::handleRequest(Request request) {
-    _response.setStatusCode(404);
-    _response.setMessage("Device Does Not Exist");
+void DeviceController::handleRequest(Request request) {
+
     int size = 0;
     switch (request.getDeviceType()) {
         case 1:
             size = 3;
             for (int i = 0; i < size; ++i) {
                 if (_lights[i].getId() == request.getId()) {
-                    _response = _lights[i].handleLightSwitch(request);
-                    int length = _response.getMessage().length();
-                    byte buf[length];
-                    String string = _response.getMessage();
-                    string.getBytes(buf, length);
-
-                    Serial.write(buf, length);
+                    _lights[i].handleLightSwitch(request);
                     break;
                 }
             }
@@ -92,7 +85,7 @@ Response DeviceController::handleRequest(Request request) {
             size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_fans[i].getId() == request.getId()) {
-                    _response = _fans[i].handleFanSwitch(request.isState());
+                    _fans[i].handleFanSwitch(request.isState());
                     break;
                 }
             }
@@ -101,19 +94,19 @@ Response DeviceController::handleRequest(Request request) {
             size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_curtains[i].getId() == request.getId()) {
-                    _response = _curtains[i].handleCurtainSwitch(request.isState());
+                    _curtains[i].handleCurtainSwitch(request.isState());
                     break;
                 }
             }
             break;
         case 4:
-            _response = _securityAlarm.setAlarm(request);
+            _securityAlarm.setAlarm(request.isState());
             break;
         case 5:
-            _response = _temperatureController.setDesiredTemp(request.getValue());
+            _temperatureController.setDesiredTemp(request.getValue());
             break;
         case 6:
-            _response = _twilightSystem.handleTwilightSystem(request);
+            //twilight
             break;
         case 7:
             size = 2;
@@ -127,12 +120,10 @@ Response DeviceController::handleRequest(Request request) {
             size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_windows[i].getId() == request.getId()) {
-                    _response = _windows[i].handleWindowSwitch();
+                    _windows[i].handleWindowSwitch(request.isState());
                     break;
                 }
             }
             break;
     }
-
-    return _response;
 }

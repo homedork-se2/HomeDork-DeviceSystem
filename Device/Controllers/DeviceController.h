@@ -45,7 +45,7 @@ public:
     DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
                      TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
     void initializeDevices();
-    Response runListen();
+    void runListen();
     Response handleRequest(Request request);
 };
 

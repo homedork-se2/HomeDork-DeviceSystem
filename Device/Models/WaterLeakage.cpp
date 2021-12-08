@@ -20,23 +20,29 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
 
 }
 
-
-
 /**
  *  The function that handles the change in state of the waterleakage sensor.
  * @return (Response): A response that is sent to the server to handle
  * the state change.
  */
-Response WaterLeakage::handleWaterLeakage(){
-
-
+void WaterLeakage::handleWaterLeakage(bool state){
+    String string = "ERROR";
+    if(state){
+        string = "WaterLeak:" + getId() + ":Leaking";
+    } else {
+        string = "WaterLeak:" + getId() + ":Stopped";
+    }
+    Response response{200, string};
+    response.sendMessage();
 }
 
 /**
  * The function that handles the reading of the waterleakage sensor.
  */
 void WaterLeakage::readWaterLeakSensor() {
-    if (readDigitalSensor() == HIGH) {
-        handleWaterLeakage();
+    if (readDigitalSensor() == HIGH && !getIsActive()) {
+        handleWaterLeakage(true);
+    } else if (readDigitalSensor() == LOW && getIsActive()) {
+        handleWaterLeakage(false);
     }
 }

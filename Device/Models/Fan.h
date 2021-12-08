@@ -33,7 +33,7 @@ public:
     bool getHasOscillation();
     void setMode(int value);
     Mode getMode();
-    Response handleFanSwitch(Request request);
+    void handleFanSwitch(Request request);
 
 };
 

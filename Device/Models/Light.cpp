@@ -56,14 +56,14 @@ int Light::getDim() {
  * @param value (int): The dim value to be set.
  * @return (Response): A response to the server.
  */
-Response Light::setDim(int value) {
+void Light::setDim(int value) {
     Response response{500, "Fail"};
     _dim = value;
 
     response.setStatusCode(200);
-    response.setMessage("Success");
+    response.setMessage("lamp:" + getId() + ":" + _dim);
 
-    return response;
+    response.sendMessage();
 }
 /**
  * The function that handles the light switch.
@@ -72,10 +72,10 @@ Response Light::setDim(int value) {
  * @return (Response): The response from the command sent by the
  * server.
  */
-Response Light::handleLightSwitch(Request request) {
+void Light::handleLightSwitch(Request request) {
     Response response{500, "Fail"};
     response.setStatusCode(404);
-    response.setMessage("The Light doesn't exist in the system.");
+    response.setMessage("lamp:ERROR");
     //Indoors Light
     if (request.getId() == 11) {
     setIsActive(request.isState());
@@ -87,7 +87,7 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[3], LOW);
 
         response.setStatusCode(200);
-        response.setMessage("Success Indoor Light is ON... \n");
+        response.setMessage("lamp:" + request.getId() + ":ON");
 
         } else {
         //OFF
@@ -97,7 +97,7 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[3], LOW);
 
         response.setStatusCode(200);
-        response.setMessage("Success Indoor Light is OFF...\n");
+        response.setMessage("lamp:" + request.getId() + ":OFF");
 
         }
 
@@ -112,7 +112,7 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
-        response.setMessage("Success Outdoor Light is ON...\n");
+        response.setMessage("lamp:" + request.getId() + ":ON");
 
         } else {
         //OFF
@@ -122,7 +122,7 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
-        response.setMessage("Success Outdoor Light is OFF...\n");
+        response.setMessage("lamp:" + request.getId() + ":OFF");
         }
 
     } else if (request.getId() == 22){
@@ -136,7 +136,7 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
-        response.setMessage("Success Alarm Light is ON...\n");
+        response.setMessage("lamp:" + request.getId() + ":ON");
 
         } else {
         //OFF
@@ -146,11 +146,11 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[3], HIGH);
 
         response.setStatusCode(200);
-        response.setMessage("Success Alarm Light is OFF...\n");
+        response.setMessage("lamp:" + request.getId() + ":OFF");
 
         }
     }
 
-    return response;
+    response.sendMessage();
 }
 

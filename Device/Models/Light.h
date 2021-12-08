@@ -27,8 +27,8 @@ public:
     Light(unsigned int id, unsigned int (&muxPins)[4]);
     bool getIsDimmable() const;
     int getDim();
-    Response setDim(int dim);
-    Response handleLightSwitch(Request request);
+    void setDim(int dim);
+    void handleLightSwitch(Request request);
 
 };
 
