@@ -26,7 +26,7 @@
 
 
 //Multiplexor Pins
-unsigned int muxPins[4]= {12, 13, 11, 8};
+unsigned int * muxPins = new unsigned int[4]{12, 13, 11, 8};
 int i = 0;
 
 //Declare and instantiate Models
@@ -35,14 +35,14 @@ Curtains curtain2{29};
 ElectricityConsumption electricityConsumption{A0};
 Fan fanLoft{10, false, true};
 Fan fanFake{38,false, true};
-Light indoorLight{11, (&muxPins)[4]};
-Light outdoorLight{20, (&muxPins)[4]};
-Light alarmLight{22, (&muxPins)[4]};
+Light indoorLight{11, muxPins};
+Light outdoorLight{20, muxPins};
+Light alarmLight{22, muxPins};
 PowerCutOff powerCutOff{7};
-Radiator radiator{25, (&muxPins)[4]};
-Radiator radiatorWindow{23, (&muxPins)[4]};
+Radiator radiator{25, muxPins};
+Radiator radiatorWindow{23, muxPins};
 Response response{500, "Failed"};
-Sound siren{21, (&muxPins)[4]};
+Sound siren{21, muxPins};
 Sensor switchSecuritySensor{3};
 Sensor switchFireSensor{2};
 Sensor lightSensor{A3};
@@ -50,8 +50,8 @@ Stove stove{5};
 Thermometer thermometerIn{A1};
 Thermometer thermometerInWindow{A2};
 Thermometer thermometerOut{9};
-Timer timer1{18, (&muxPins)[4]};
-Timer timer2{19, (&muxPins)[4]};
+Timer timer1{18, muxPins};
+Timer timer2{19, muxPins};
 WaterLeakage waterLeakage{7};
 Window window{6};
 Window fakeWindow{27};
@@ -104,16 +104,16 @@ void setup() {
 
     //Connect threads to callbacks
     alarmControllerThread.onRun(alarmCallback);
-    alarmControllerThread.setInterval(10);
+    alarmControllerThread.setInterval(100);
 
     deviceControllerThread.onRun(deviceControllerCallback);
-    deviceControllerThread.setInterval(10);
+    deviceControllerThread.setInterval(100);
 
     sensorControllerThread.onRun(sensorControllerCallback);
-    sensorControllerThread.setInterval(10);
+    sensorControllerThread.setInterval(100);
 
     temperatureControllerThread.onRun(temperatureControllerCallback);
-    temperatureControllerThread.setInterval(10);
+    temperatureControllerThread.setInterval(100);
 
     //Add threads to thread Controller
     threadController.add(&alarmControllerThread);
@@ -128,21 +128,26 @@ void setup() {
     }
     delay(500);
 
-
 }
 
 void loop() {
     //handles all threads runs those that should run.
-   threadController.run();
-    
+//   threadController.run();
+    deviceControllerCallback();
 }
 
 void alarmCallback() {
 //    Serial.println("Starting Fire Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the fire alarm to check its sensor and return a response from the alarm has been triggered.
-    response = alarmController.runAlarm();
-    Serial.println(response.getMessage());
+    alarmController.runAlarm();
+
+    String message = "alarm thread";
+    int length = message.length();
+    byte buf[length];
+    message.getBytes(buf, length);
+
+    Serial.write(buf, length);
 }
 
 
@@ -151,20 +156,39 @@ void deviceControllerCallback() {
 //    Serial.println("Starting Device Control System...");
 //    Serial.println(millis());
     deviceController.runListen();
+
+    String message = "device thread";
+    int length = message.length();
+    byte buf[length];
+    message.getBytes(buf, length);
+
+    Serial.write(buf, length);
 }
 
 void sensorControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the sensor controller to check its sensor and return a response from the alarm has been triggered.
-    response = sensorController.runSensorController();
-    Serial.println(response.getMessage());
+    sensorController.runSensorController();
+
+    String message = "sensor thread";
+    int length = message.length();
+    byte buf[length];
+    message.getBytes(buf, length);
+
+    Serial.write(buf, length);
 }
 
 void temperatureControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run  the temperature controller to check its sensor and return a response if and only if they want updates.
-    response = temperatureController.runTempController();
-    Serial.println(response.getMessage());
+    temperatureController.runTempController();
+
+    String message = "temperature thread";
+    int length = message.length();
+    byte buf[length];
+    message.getBytes(buf, length);
+
+    Serial.write(buf, length);
 }

@@ -36,9 +36,5 @@ void AlarmController::runAlarm() {
         _securityAlarm.handleAlarmTrigger(true);
     } else if (reading == HIGH && _securityAlarm.getIsActive()){
         _securityAlarm.handleAlarmTrigger(false);
-        //Serial.println("Alarm is OFF");
     }
-
-
-
 }

@@ -47,7 +47,6 @@ void DeviceController::initializeDevices() {
  */
 void DeviceController::runListen() {
     Request request;
-
         if (Serial.available() > 0) {
             int BUFFER_SIZE = Serial.available();
             byte buf[BUFFER_SIZE];
@@ -69,7 +68,6 @@ void DeviceController::runListen() {
  * success of the command.
  */
 void DeviceController::handleRequest(Request request) {
-
     int size = 0;
     switch (request.getDeviceType()) {
         case 1:

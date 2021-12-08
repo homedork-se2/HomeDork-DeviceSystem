@@ -79,7 +79,7 @@ void Fan::setMode(int value) {
  * A getter for the mode.
  * @return (Mode): The mode that the fan is set at.
  */
-Mode Fan:getMode() {
+Mode Fan::getMode() {
     return _fanMode;
 }
 

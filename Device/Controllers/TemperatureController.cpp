@@ -45,7 +45,7 @@ float TemperatureController::getDesiredTemp() {
  * @return (Response): A response is returned based on the
  */
 void TemperatureController::runTempController() {
-    Response response{500, "Unknown Error Exited Loop"};
+    Response response{500, "ERROR"};
     float temp = _thermometerOut.getCurrentTemp();
     response.setMessage("temp:" + _thermometersOut.getId() + ":" + temp);
     response.sendMessage();
@@ -59,7 +59,7 @@ void TemperatureController::runTempController() {
             } else if (temp < _desiredTemp) {
                 _radiators[i].adjustTemp(true);
             }
+
         }
-        re
     }
 }

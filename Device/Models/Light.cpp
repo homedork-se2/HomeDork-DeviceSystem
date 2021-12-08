@@ -19,7 +19,7 @@
  * @param isDimmable (boolean): The boolean that determines if a light
  * is dimmable or not.
  */
-Light::Light(unsigned int id, bool isDimmable, unsigned int (&muxPins)[4])
+Light::Light(unsigned int id, bool isDimmable, unsigned int * muxPins)
         : Device(id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
 
 }
@@ -31,7 +31,7 @@ Light::Light(unsigned int id, bool isDimmable, unsigned int (&muxPins)[4])
  * device is connected to.
  * @param muxPins (unsigned int[]): An array of the multiplexor pins.
  */
-Light::Light(unsigned int id, unsigned int (&muxPins)[4]) : Device(id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
+Light::Light(unsigned int id, unsigned int * muxPins) : Device(id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
 }
 
 /**

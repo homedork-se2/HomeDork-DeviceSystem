@@ -39,14 +39,14 @@ private:
     TwilightAutomaticSystem _twilightSystem;
     Window * _windows;
 
-
+    void handleRequest(Request request);
 
 public:
     DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
                      TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
     void initializeDevices();
     void runListen();
-    Response handleRequest(Request request);
+
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_DEVICECONTROLLER_H
