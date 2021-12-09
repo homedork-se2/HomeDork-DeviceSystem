@@ -61,6 +61,7 @@ void Light::setDim(int value) {
     _dim = value;
 
     response.createMessage("Lamp:", String(getId()), String(_dim));
+    Serial.println(response.getMessage());
     response.sendMessage();
 }
 /**
@@ -132,7 +133,7 @@ void Light::handleLightSwitch(Request request) {
 
         }
     }
-
+    Serial.println(response.getMessage());
     response.sendMessage();
 }
 

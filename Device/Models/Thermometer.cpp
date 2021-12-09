@@ -39,8 +39,7 @@ float Thermometer::getCurrentTemp() {
  */
 float Thermometer::readTempIn() {
     int value = readAnalogSensor();
-    float voltage = value * (5000 / 1024.0);
-    _currentTemp = (voltage - 500) / 10;
+    return (float)value * 0.48828125;
 }
 
 /**

@@ -31,7 +31,9 @@ void Stove::handleStoveSwitch(bool isActive) {
         setIsActive(isActive);
     } else if (!isActive && getIsActive()){
         response.createMessage("Stove:", String(getId()), "OFF");
+        setIsActive(isActive);
     }
+    Serial.println(response.getMessage());
     response.sendMessage();
 }
 

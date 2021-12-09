@@ -28,6 +28,7 @@ private:
     TwilightAutomaticSystem _twilightAutomaticSystem;
     WaterLeakage _waterLeakage;
     Window * _windows;
+    unsigned long timeCounter = 0;
 
 public:
     SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,

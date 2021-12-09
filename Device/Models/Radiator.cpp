@@ -35,14 +35,14 @@ void Radiator::adjustTemp(bool isCold) {
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.createMessage("Radiator", String(getId()), "ON");
+            response.createMessage("Radiator:", String(getId()), "ON");
 
         } else {
             digitalWrite(_muxPins[0], HIGH);
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.createMessage("Radiator", String(getId()), "OFF");
+            response.createMessage("Radiator:", String(getId()), "OFF");
 
         }
 
@@ -54,15 +54,16 @@ void Radiator::adjustTemp(bool isCold) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Radiator", String(getId()), "ON");;
+        response.createMessage("Radiator:", String(getId()), "ON");;
 
     } else {
         digitalWrite(_muxPins[0], HIGH);
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Radiator", String(getId()), "OFF");
+        response.createMessage("Radiator:", String(getId()), "OFF");
 
     }
     response.sendMessage();
+    Serial.println(response.getMessage());
 }

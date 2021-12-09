@@ -87,9 +87,9 @@ void Alarm::setIsArmed(bool armed) {
 void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
     Response response{500, "Failure"};
     Request request;
-    if (isTriggered) {
-        siren.handleSoundSwitch(true);
 
+    if (isTriggered) {
+        siren.handleSoundSwitch(isTriggered);
         if (fireAlarm) {
             response.setMessage("FireAlarm:Triggered");
         } else {
@@ -99,10 +99,12 @@ void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
             alarmLight.handleLightSwitch(request);
             response.setMessage("SecurityAlarm:Triggered");
         }
-        setIsActive(true);
+        setIsActive(isTriggered);
+        Serial.println(response.getMessage());
+        response.sendMessage();
 
-    } else {
-        siren.handleSoundSwitch(false);
+    } else if (!isTriggered && getIsActive()){
+        siren.handleSoundSwitch(isTriggered);
 
         if (fireAlarm) {
             response.setMessage("FireAlarm:Clear");
@@ -113,8 +115,10 @@ void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
             alarmLight.handleLightSwitch(request);
             response.setMessage("SecurityAlarm:Clear");
         }
-        setIsActive(false);
+        setIsActive(isTriggered);
+        Serial.println(response.getMessage());
+        response.sendMessage();
     }
 
-    response.sendMessage();
+
 }

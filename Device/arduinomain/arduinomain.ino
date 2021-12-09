@@ -104,20 +104,19 @@ void setup() {
 
     //Connect threads to callbacks
     alarmControllerThread.onRun(alarmCallback);
-    alarmControllerThread.setInterval(100);
+    alarmControllerThread.setInterval(1000);
 
     deviceControllerThread.onRun(deviceControllerCallback);
-    deviceControllerThread.setInterval(100);
+    deviceControllerThread.setInterval(10);
 
     sensorControllerThread.onRun(sensorControllerCallback);
-    sensorControllerThread.setInterval(100);
+    sensorControllerThread.setInterval(1000);
 
     temperatureControllerThread.onRun(temperatureControllerCallback);
-    temperatureControllerThread.setInterval(100);
+    temperatureControllerThread.setInterval(30000);
 
     //Add threads to thread Controller
     threadController.add(&alarmControllerThread);
-    threadController.add(&deviceControllerThread);
     threadController.add(&sensorControllerThread);
     threadController.add(&temperatureControllerThread);
 
@@ -133,6 +132,9 @@ void setup() {
 void loop() {
     //handles all threads runs those that should run.
 //   threadController.run();
+if (Serial.available()) {
+    deviceControllerCallback();
+}
     threadController.run();
 }
 

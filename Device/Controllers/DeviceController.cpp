@@ -48,9 +48,10 @@ void DeviceController::initializeDevices() {
 void DeviceController::runListen() {
     Request request;
     int count = 0;
+    byte buf[65];
     while (Serial.available() > 0) {
         byte incomingByte = 0;
-        byte buf[65];
+
         incomingByte = Serial.read();
         buf[count] = incomingByte;
     }

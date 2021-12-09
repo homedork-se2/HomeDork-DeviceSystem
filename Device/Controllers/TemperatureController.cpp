@@ -48,10 +48,12 @@ void TemperatureController::runTempController() {
     Response response{500, "ERROR"};
     float temp = _thermometerOut.getCurrentTemp();
     response.createMessage("Temp:", String(_thermometerOut.getId()), String(temp));
+    Serial.println(response.getMessage());
     int size = 2;
     for (int i = 0; i < size; ++i) {
         temp = _thermometersIn[i].getCurrentTemp();
         response.createMessage("Temp:", String(_thermometersIn[i].getId()), String(temp));
+        Serial.println(response.getMessage());
         if (temp > _desiredTemp) {
             _radiators[i].adjustTemp(false);
         } else if (temp < _desiredTemp) {
@@ -59,4 +61,5 @@ void TemperatureController::runTempController() {
         }
 
     }
+    Serial.println(response.getMessage());
 }

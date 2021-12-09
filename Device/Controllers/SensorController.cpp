@@ -42,7 +42,11 @@ void SensorController::runSensorController() {
     for (int i = 0; i < size; ++i) {
         _windows[i].readSensor();
     }
-    _electricityConsumption.readSensor();
+    if (timeCounter == 0 || timeCounter == millis()) {
+        _electricityConsumption.readSensor();
+        timeCounter = millis() + 60000;
+    }
+
     _powerCutOff.readSensor();
     _stove.readStoveSensor();
     _twilightAutomaticSystem.readLightSensor();

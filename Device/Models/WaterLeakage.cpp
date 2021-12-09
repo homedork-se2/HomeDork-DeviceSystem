@@ -27,13 +27,12 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
  */
 void WaterLeakage::handleWaterLeakage(bool state){
     Response response{404, "ERROR"};
-    if(state && !getIsActive()) {
-        setIsActive(true);
+    if(state) {
         response.createMessage("WaterLeak:", String(getId()), "Leaking");
-    } else if(!state && getIsActive()) {
-        setIsActive(false);
+    } else if(!state) {
         response.createMessage("WaterLeak:", String(getId()), "Stopped");
     }
+    Serial.println(response.getMessage());
     response.sendMessage();
 }
 
@@ -43,7 +42,9 @@ void WaterLeakage::handleWaterLeakage(bool state){
 void WaterLeakage::readWaterLeakSensor() {
     if (readDigitalSensor() == HIGH && !getIsActive()) {
         handleWaterLeakage(true);
+        setIsActive(true);
     } else if (readDigitalSensor() == LOW && getIsActive()) {
         handleWaterLeakage(false);
+        setIsActive(false);
     }
 }

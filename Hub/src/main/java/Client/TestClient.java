@@ -16,10 +16,16 @@ public class TestClient extends Thread {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("Enter the command:(devicetype:id:state)");
-            String message = scanner.nextLine();
-            serialController.setStringBuffer(message);
-            serialController.sendRequest();
+            try {
+                Thread.sleep(2000);
+                System.out.println("Enter the command:(devicetype:id:state)");
+                String message = scanner.nextLine();
+                serialController.setStringBuffer(message);
+                serialController.sendRequest();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
