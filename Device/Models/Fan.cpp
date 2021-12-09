@@ -89,8 +89,8 @@ Mode Fan::getMode() {
  * @return (Response): A response is returned to the server.
  */
 void Fan::handleFanSwitch(Request request) {
-    Response response{200,  "ERROR"};
-    setIsActive(isActive);
+    Response response{404,  "ERROR"};
+    setIsActive(request.isState());
     if (getHasMultiMode()) {
         if (getIsActive()) {
             //turn on fan with the current MODE
@@ -102,18 +102,21 @@ void Fan::handleFanSwitch(Request request) {
             } else if (_fanMode == Mode::Low){
                 analogWrite(getId(), 64);
             }
-            response.setMessage(200,  "Fan:" + getId() + ":" + request.getValue());
+            response.createMessage("Fan:", String(getId()), String(request.getValue()));
 
         } else {
             analogWrite(getId(), 0);
-            response.setMessage(200,  "Fan:" + getId() + ":OFF");
+            response.createMessage("Fan:", String(getId()), "OFF");
         }
     } else {
         if (getIsActive()) {
             digitalWrite(getId(), HIGH);
+            response.createMessage("Fan:", String(getId()), "ON");
         } else {
             digitalWrite(getId(), LOW);
+            response.createMessage("Fan:", String(getId()), "OFF");
         }
 
     }
+    response.sendMessage();
 }

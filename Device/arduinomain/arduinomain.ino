@@ -133,7 +133,7 @@ void setup() {
 void loop() {
     //handles all threads runs those that should run.
 //   threadController.run();
-    deviceControllerCallback();
+    threadController.run();
 }
 
 void alarmCallback() {
@@ -141,13 +141,6 @@ void alarmCallback() {
 //    Serial.println(millis());
     // Run the loop for the fire alarm to check its sensor and return a response from the alarm has been triggered.
     alarmController.runAlarm();
-
-    String message = "alarm thread";
-    int length = message.length();
-    byte buf[length];
-    message.getBytes(buf, length);
-
-    Serial.write(buf, length);
 }
 
 
@@ -156,13 +149,6 @@ void deviceControllerCallback() {
 //    Serial.println("Starting Device Control System...");
 //    Serial.println(millis());
     deviceController.runListen();
-
-    String message = "device thread";
-    int length = message.length();
-    byte buf[length];
-    message.getBytes(buf, length);
-
-    Serial.write(buf, length);
 }
 
 void sensorControllerCallback() {
@@ -171,12 +157,6 @@ void sensorControllerCallback() {
     // Run the loop for the sensor controller to check its sensor and return a response from the alarm has been triggered.
     sensorController.runSensorController();
 
-    String message = "sensor thread";
-    int length = message.length();
-    byte buf[length];
-    message.getBytes(buf, length);
-
-    Serial.write(buf, length);
 }
 
 void temperatureControllerCallback() {
@@ -184,11 +164,4 @@ void temperatureControllerCallback() {
 //    Serial.println(millis());
     // Run  the temperature controller to check its sensor and return a response if and only if they want updates.
     temperatureController.runTempController();
-
-    String message = "temperature thread";
-    int length = message.length();
-    byte buf[length];
-    message.getBytes(buf, length);
-
-    Serial.write(buf, length);
 }

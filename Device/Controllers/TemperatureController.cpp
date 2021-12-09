@@ -27,8 +27,8 @@ TemperatureController::TemperatureController(Thermometer * thermometersIn, Radia
  */
 void TemperatureController::setDesiredTemp(float temp) {
     _desiredTemp = temp;
-    Response response{200, "desiredtemp:" + _thermometersIn[i].getId() + ":" + _desiredTemp};
-    response.sendMessage();
+    Response response{404, "ERROR"};
+    response.createMessage("DesiredTemp:", "0", String(temp));
 }
 
 /**
@@ -47,19 +47,16 @@ float TemperatureController::getDesiredTemp() {
 void TemperatureController::runTempController() {
     Response response{500, "ERROR"};
     float temp = _thermometerOut.getCurrentTemp();
-    response.setMessage("temp:" + _thermometersOut.getId() + ":" + temp);
-    response.sendMessage();
-        int size = 2;
-        for (int i = 0; i < size; ++i) {
-            temp = _thermometersIn[i].getCurrentTemp();
-            response.setMessage("temp:" + _thermometersIn[i].getId() + ":" + temp);
-            response.sendMessage();
-            if (temp > _desiredTemp) {
-                _radiators[i].adjustTemp(false);
-            } else if (temp < _desiredTemp) {
-                _radiators[i].adjustTemp(true);
-            }
-
+    response.createMessage("Temp:", String(_thermometerOut.getId()), String(temp));
+    int size = 2;
+    for (int i = 0; i < size; ++i) {
+        temp = _thermometersIn[i].getCurrentTemp();
+        response.createMessage("Temp:", String(_thermometersIn[i].getId()), String(temp));
+        if (temp > _desiredTemp) {
+            _radiators[i].adjustTemp(false);
+        } else if (temp < _desiredTemp) {
+            _radiators[i].adjustTemp(true);
         }
+
     }
 }

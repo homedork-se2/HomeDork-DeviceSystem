@@ -25,16 +25,16 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAl
  */
 void AlarmController::runAlarm() {
     int reading = _fireAlarm.alarmSensor.readDigitalSensor();
-    if (reading == HIGH && !_fireAlarm.getIsActive) {
-        _fireAlarm.handleAlarmTrigger(true);
+    if (reading == HIGH && !_fireAlarm.getIsActive()) {
+        _fireAlarm.handleAlarmTrigger(true, true);
     } else if (_fireAlarm.getIsActive()) {
-        _fireAlarm.handleAlarmTrigger(false);
+        _fireAlarm.handleAlarmTrigger(false, true);
     }
 
     reading = _securityAlarm.alarmSensor.readDigitalSensor();
     if (reading == LOW && _securityAlarm.getIsArmed() && !_securityAlarm.getIsActive()) {
-        _securityAlarm.handleAlarmTrigger(true);
+        _securityAlarm.handleAlarmTrigger(true, false);
     } else if (reading == HIGH && _securityAlarm.getIsActive()){
-        _securityAlarm.handleAlarmTrigger(false);
+        _securityAlarm.handleAlarmTrigger(false, false);
     }
 }

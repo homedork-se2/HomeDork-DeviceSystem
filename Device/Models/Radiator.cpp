@@ -25,7 +25,7 @@ Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id), _muxPin
  * back to the server.
  */
 void Radiator::adjustTemp(bool isCold) {
-    Response response{404, "Fail"};
+    Response response{404, "ERROR"};
 
     if (getId() == 23 ) {
         //Window
@@ -35,16 +35,14 @@ void Radiator::adjustTemp(bool isCold) {
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.setStatusCode(200);
-            response.setMessage("radiator" + getId() + ":ON");
+            response.createMessage("Radiator", String(getId()), "ON");
 
         } else {
             digitalWrite(_muxPins[0], HIGH);
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.setStatusCode(200);
-            response.setMessage("radiator" + getId() + ":OFF");
+            response.createMessage("Radiator", String(getId()), "OFF");
 
         }
 
@@ -56,16 +54,14 @@ void Radiator::adjustTemp(bool isCold) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.setStatusCode(200);
-        response.setMessage("radiator" + getId() + ":ON");
+        response.createMessage("Radiator", String(getId()), "ON");;
 
     } else {
         digitalWrite(_muxPins[0], HIGH);
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.setStatusCode(200);
-        response.setMessage("radiator" + getId() + ":OFF");
+        response.createMessage("Radiator", String(getId()), "OFF");
 
     }
     response.sendMessage();

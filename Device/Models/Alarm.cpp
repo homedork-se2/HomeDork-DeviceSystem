@@ -24,7 +24,7 @@ Alarm::Alarm(Light light, Sound sound, Sensor sensor): alarmLight(light), siren(
  * @param request: (Request): A parameter created from the message sent by the user
  * @return (Response): returns on the success or failure of setting the alarm.
  */
-void Alarm::setAlarm(isSet) {
+void Alarm::setAlarm(bool isSet) {
     Response response{400, "ERROR"};
     if (isSet) {
         setIsArmed(true);
@@ -32,7 +32,7 @@ void Alarm::setAlarm(isSet) {
     } else {
         setIsArmed(false);
         if (getIsActive()) {
-            handleAlarmTrigger(false);
+            handleAlarmTrigger(false, false);
         }
         response.setMessage("SecurityAlarm:Disarmed");
     }

@@ -57,12 +57,10 @@ int Light::getDim() {
  * @return (Response): A response to the server.
  */
 void Light::setDim(int value) {
-    Response response{500, "Fail"};
+    Response response{404, "DIM:ERROR"};
     _dim = value;
 
-    response.setStatusCode(200);
-    response.setMessage("lamp:" + getId() + ":" + _dim);
-
+    response.createMessage("Lamp:", String(getId()), String(_dim));
     response.sendMessage();
 }
 /**
@@ -73,21 +71,17 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{500, "Fail"};
-    response.setStatusCode(404);
-    response.setMessage("lamp:ERROR");
+    Response response{404, "lamp:ERROR"};
     //Indoors Light
-    if (request.getId() == 11) {
     setIsActive(request.isState());
+    if (request.getId() == 11) {
         if (getIsActive()) {
         //ON
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-
-        response.setStatusCode(200);
-        response.setMessage("lamp:" + request.getId() + ":ON");
+        response.createMessage("Lamp:", String(getId()), "ON");
 
         } else {
         //OFF
@@ -95,24 +89,19 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-
-        response.setStatusCode(200);
-        response.setMessage("lamp:" + request.getId() + ":OFF");
+        response.createMessage("Lamp:", String(getId()), "OFF");
 
         }
 
     } else if(request.getId() == 20) {
     //Outdoors Light
-    setIsActive(request.isState());
         if (getIsActive()) {
         //ON
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("lamp:" + request.getId() + ":ON");
+        response.createMessage("Lamp:", String(getId()), "ON");
 
         } else {
         //OFF
@@ -120,23 +109,18 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("lamp:" + request.getId() + ":OFF");
+        response.createMessage("Lamp:", String(getId()), "OFF");
         }
 
     } else if (request.getId() == 22){
     //Alarm Light
-    setIsActive(request.isState());
         if (getIsActive()) {
         //ON
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("lamp:" + request.getId() + ":ON");
+        response.createMessage("Lamp:", String(getId()), "ON");
 
         } else {
         //OFF
@@ -144,9 +128,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("lamp:" + request.getId() + ":OFF");
+        response.createMessage("Lamp:", String(getId()), "OFF");
 
         }
     }

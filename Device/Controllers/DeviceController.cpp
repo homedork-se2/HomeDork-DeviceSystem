@@ -47,18 +47,16 @@ void DeviceController::initializeDevices() {
  */
 void DeviceController::runListen() {
     Request request;
-        if (Serial.available() > 0) {
-            int BUFFER_SIZE = Serial.available();
-            byte buf[BUFFER_SIZE];
-            for (int i = 0; i < BUFFER_SIZE; ++i) {
-                int length = Serial.readBytes(buf, BUFFER_SIZE);
-            }
-            request.parseRequest(buf);
-            _response = handleRequest(request);
-            return _response;
-            break;
-        }
+    int count = 0;
+    while (Serial.available() > 0) {
+        byte incomingByte = 0;
+        byte buf[65];
+        incomingByte = Serial.read();
+        buf[count] = incomingByte;
     }
+    request.parseRequest(buf);
+    handleRequest(request);
+
 }
 
 /**
@@ -83,7 +81,7 @@ void DeviceController::handleRequest(Request request) {
             size = 2;
             for (int i = 0; i < size; ++i) {
                 if (_fans[i].getId() == request.getId()) {
-                    _fans[i].handleFanSwitch(request.isState());
+                    _fans[i].handleFanSwitch(request);
                     break;
                 }
             }

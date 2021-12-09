@@ -26,14 +26,13 @@ Sound::Sound(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxP
  * should be set to.
  * @return (Response): A response sent back to the server.
  */
-bool Sound::handleSoundSwitch(bool isActive) {
+void Sound::handleSoundSwitch(bool isActive) {
     setIsActive(isActive);
     if (getIsActive()) {
         digitalWrite(_muxPins[0], HIGH);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-
     } else {
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);

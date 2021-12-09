@@ -6,23 +6,14 @@ import com.sun.tools.javac.Main;
 
 import java.util.Scanner;
 
-public class TestClient {
-    public static void main(String[] args) {
-        TestClient testClient = new TestClient();
+public class TestClient extends Thread {
+    SerialController serialController;
 
-        SerialController serialController = new SerialController();
-        serialController.setSerialPort(SerialPort.getCommPorts()[0]);
-
-        SerialPort serialPort = serialController.getSerialPort();
-        serialPort.openPort();
-
-        System.out.println("Com port open: " + serialPort.getDescriptivePortName());
-        serialPort.addDataListener(serialController);
-
-        testClient.runTestClient(serialController);
+    public TestClient(SerialController serialController) {
+        this.serialController = serialController;
     }
 
-    public void runTestClient(SerialController serialController) {
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Enter the command:(devicetype:id:state)");

@@ -34,5 +34,5 @@ float ElectricityConsumption::getElectricUsage() {
 
 void ElectricityConsumption::readSensor() {
     Response response{400, "ERROR"};
-    response.setMessage("Electricity:" + getElectricUsage());
+    response.createMessage("Electricity:", String(getId()), String(getElectricUsage()));
 }

@@ -25,7 +25,7 @@ private:
 
 public:
     TemperatureController(Thermometer * thermometersIn, Radiator * radiators, Thermometer thermometerOut);
-    Response setDesiredTemp(float desiredTemp);
+    void setDesiredTemp(float desiredTemp);
     float getDesiredTemp();
     void runTempController();
 

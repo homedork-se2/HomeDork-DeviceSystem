@@ -26,13 +26,14 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
  * the state change.
  */
 void WaterLeakage::handleWaterLeakage(bool state){
-    String string = "ERROR";
-    if(state){
-        string = "WaterLeak:" + getId() + ":Leaking";
-    } else {
-        string = "WaterLeak:" + getId() + ":Stopped";
+    Response response{404, "ERROR"};
+    if(state && !getIsActive()) {
+        setIsActive(true);
+        response.createMessage("WaterLeak:", String(getId()), "Leaking");
+    } else if(!state && getIsActive()) {
+        setIsActive(false);
+        response.createMessage("WaterLeak:", String(getId()), "Stopped");
     }
-    Response response{200, string};
     response.sendMessage();
 }
 

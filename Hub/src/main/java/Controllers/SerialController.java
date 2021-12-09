@@ -6,6 +6,9 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 
 /**
@@ -28,6 +31,8 @@ public class SerialController implements SerialPortDataListener {
     private SerialPort serialPort;
     private String stringBuffer;
     private boolean isResponse;
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
     /**
      * A method that sends a request from the server to the Arduino, the response is
@@ -35,15 +40,15 @@ public class SerialController implements SerialPortDataListener {
      */
     public void sendRequest() {
         setResponse(true);
-        stringBuffer = stringBuffer.replace("'","").trim();
-        int length = stringBuffer.length();
+        stringBuffer = stringBuffer.replace("'","").trim() + "\r\n";
+
         byte[] bytes = stringBuffer.getBytes();
-        serialPort.writeBytes(bytes, length);
-        System.out.println(Arrays.toString(bytes));
         try {
+            outputStream.write(bytes, 0, bytes.length);
+            outputStream.flush();
             Thread.sleep(500);
             setResponse(false);
-        } catch (InterruptedException interruptedException) {
+        } catch (InterruptedException | IOException interruptedException) {
             System.out.println("InterruptedException: " + interruptedException.getMessage());
         }
     }
@@ -73,8 +78,14 @@ public class SerialController implements SerialPortDataListener {
             return;
 
         byte[] newData = new byte[serialPort.bytesAvailable()];
-        int numRead = serialPort.readBytes(newData, newData.length);
-        stringBuffer = new String(newData,0,numRead).trim();
+        while (serialPort.bytesAvailable() > 0) {
+            try {
+                int numRead = inputStream.read(newData, 0, newData.length);
+                stringBuffer = new String(newData, 0, numRead).trim();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (!isResponse()) {
             ServerClient serverClient = new ServerClient();
@@ -91,6 +102,8 @@ public class SerialController implements SerialPortDataListener {
      */
     public void setSerialPort(SerialPort serialPort) {
         this.serialPort = serialPort;
+        inputStream = serialPort.getInputStream();
+        outputStream = serialPort.getOutputStream();
     }
 
     /**

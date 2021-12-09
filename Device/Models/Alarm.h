@@ -33,7 +33,7 @@ public:
     void setIsArmed(bool armed);
     bool getIsActive();
     void setIsActive(bool active);
-    void handleAlarmTrigger(bool isTriggered);
+    void handleAlarmTrigger(bool isTriggered, bool fireAlarm);
 
 };
 
