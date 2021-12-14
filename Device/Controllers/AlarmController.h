@@ -23,7 +23,7 @@ private:
     Alarm _securityAlarm;
 public:
     AlarmController(Alarm fireAlarm, Alarm securityAlarm);
-    Response runAlarm();
+    void runAlarm();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_ALARMCONTROLLER_H

@@ -25,7 +25,7 @@
  */
 SensorController::SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                                    Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
-                                   WaterLeakage waterLeakage, Window (&windows)[2])
+                                   WaterLeakage waterLeakage, Window * windows)
         : _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _stove(stove),
           _twilightAutomaticSystem(twilightAutomaticSystem), _waterLeakage(waterLeakage), _windows(windows) {
 }
@@ -37,32 +37,19 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
  * @return (Response): It returns a response if a failure occur so it can be
  * logged on the server.
  */
-Response SensorController::runSensorController() {
-    Response response{500, "error in loop"};
-    Request request;
-    while(true) {
-        int size = sizeof(_windows) / sizeof(_windows[0]);
-        for (int i = 0; i < size; ++i) {
-            if (_windows[i].getIsActive()) {
-                _windows[i].readDigitalSensor();
-            }
-        }
-
-        if (_electricityConsumption.getIsActive()) {
-            _electricityConsumption.getElectricUsage();
-
-        }
-        if (_powerCutOff.getIsActive()) {
-            _powerCutOff.handlePowerCutOff();
-        }
-        if (_stove.getIsActive()) {
-            _stove.readDigitalSensor();
-
-        }
-        if (_twilightAutomaticSystem.getSensorState()) {
-            _twilightAutomaticSystem.handleTwilightSystem(request);
-
-        }
-       _waterLeakage.readWaterLeakSensor();
+void SensorController::runSensorController() {
+    int size = 2;
+    for (int i = 0; i < size; ++i) {
+        _windows[i].readSensor();
     }
+    if (timeCounter == 0 || timeCounter == millis()) {
+        _electricityConsumption.readSensor();
+        timeCounter = millis() + 60000;
+    }
+
+    _powerCutOff.readSensor();
+    _stove.readStoveSensor();
+    _twilightAutomaticSystem.readLightSensor();
+    _waterLeakage.readWaterLeakSensor();
+
 }

@@ -17,9 +17,10 @@
 #include <Sensor.h>
 
 class Stove: public Sensor{
+private:
+    void handleStoveSwitch(bool isActive);
 public:
     explicit Stove(unsigned int id);
-    Response handleStoveSwitch(bool isActive);
     void readStoveSensor();
 
 };

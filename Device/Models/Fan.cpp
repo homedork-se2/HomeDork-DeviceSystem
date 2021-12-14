@@ -62,36 +62,62 @@ void Fan::setHasOscillation(bool hasOscillation) {
 }
 
 /**
+ * A setter for the mode
+ * @param value (int): The value of the fan sent by the user.
+ */
+void Fan::setMode(int value) {
+    if (value > 200) {
+        _fanMode = High;
+    } else if (value < 200 && value > 64) {
+        _fanMode = Medium;
+    } else {
+        _fanMode = Low;
+    }
+}
+
+/**
+ * A getter for the mode.
+ * @return (Mode): The mode that the fan is set at.
+ */
+Mode Fan::getMode() {
+    return _fanMode;
+}
+
+/**
  * The function that handles a command from the server to
  * @param isActive (boolean): The state of the fan.
  * @return (Response): A response is returned to the server.
  */
-Response Fan::handleFanSwitch(bool isActive) {
-    setIsActive(isActive);
+void Fan::handleFanSwitch(Request request) {
+    Response response{404,  "ERROR"};
+    setIsActive(request.isState());
     if (getHasMultiMode()) {
         if (getIsActive()) {
             //turn on fan with the current MODE
+            setMode(request.getValue());
             if (_fanMode == Mode::High) {
                 analogWrite(getId(), 200);
-                Response response{200, "Success Fan set  High...\n"};
             } else if (_fanMode == Mode::Medium) {
                 analogWrite(getId(), 124);
-                Response response{200, "Success Fan set  Medium...\n"};
             } else if (_fanMode == Mode::Low){
                 analogWrite(getId(), 64);
-                Response response{200, "Success Fan set  Low...\n"};
             }
+            response.createMessage("Fan:", String(getId()), String(request.getValue()));
 
         } else {
             analogWrite(getId(), 0);
-            Response response{200, "Success Fan set OFF\n"};
+            response.createMessage("Fan:", String(getId()), "OFF");
         }
     } else {
         if (getIsActive()) {
             digitalWrite(getId(), HIGH);
+            response.createMessage("Fan:", String(getId()), "ON");
         } else {
             digitalWrite(getId(), LOW);
+            response.createMessage("Fan:", String(getId()), "OFF");
         }
 
     }
+    Serial.println(response.getMessage());
+    response.sendMessage();
 }

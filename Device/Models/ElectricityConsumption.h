@@ -17,8 +17,13 @@
 #include <Sensor.h>
 
 class ElectricityConsumption : public Sensor {
+private:
+    float getElectricUsage();
+
 public:
-    explicit ElectricityConsumption(unsigned int id);
-    Response getElectricUsage();
+    ElectricityConsumption(unsigned int id);
+    void readSensor();
 
 };
+
+#endif //HOMEDORK_DEVICESYSTEM_ELECTRICITYCONSUMPTION_H

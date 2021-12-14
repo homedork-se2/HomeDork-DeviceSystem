@@ -15,14 +15,25 @@
  * @param id (unsigned int): The id represents the pin value
  * of the power cut off device sensor.
  */
-PowerCutOff::PowerCutOff(unsigned int id): Device(id){
+PowerCutOff::PowerCutOff(unsigned int id): Sensor(id){
 
+}
+
+void PowerCutOff::readSensor() {
+    int supplyVoltage = readAnalogSensor();
+    if (supplyVoltage == 12) {
+        handlePowerCutOff();
+    }
 }
 
 /**
  * The function that will handle the power cut off.
  * @return (Response): A response to be sent back to the server.
  */
-Response PowerCutOff::handlePowerCutOff(){
-
+void PowerCutOff::handlePowerCutOff(){
+    Response response{200, "PowerCutOff:Triggered"};
+    Serial.println(response.getMessage());
+    response.sendMessage();
 }
+
+

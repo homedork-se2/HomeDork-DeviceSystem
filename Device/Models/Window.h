@@ -18,7 +18,8 @@
 class Window: public Sensor {
 public:
     Window(unsigned int id);
-    Response handleWindowSwitch();
+    void readSensor();
+    void handleWindowSwitch(bool state);
 
 };
 

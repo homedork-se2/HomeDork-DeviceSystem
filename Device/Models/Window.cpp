@@ -23,6 +23,25 @@ Window::Window(unsigned int id): Sensor(id) {
  * @return (Response): A response that is sent to the server to handle
  * the state change
  */
-Response Window::handleWindowSwitch() {
+void Window::handleWindowSwitch(bool state) {
+    String string = "ERROR";
+    Response response{400, string};
+    if(state && !getIsActive()){
+        setIsActive(state);
+        response.createMessage("Window:", String(getId()), "OPEN");
+    } else if (!state && getIsActive()) {
+        setIsActive(state);
+        response.createMessage("Window:", String(getId()), "CLOSED");
+    }
+    Serial.println(response.getMessage());
+    response.sendMessage();
+}
 
+
+void Window::readSensor() {
+    if (readDigitalSensor() == HIGH && !getIsActive()) {
+        handleWindowSwitch(true);
+    } else if (readDigitalSensor() == LOW && getIsActive()) {
+        handleWindowSwitch(false);
+    }
 }

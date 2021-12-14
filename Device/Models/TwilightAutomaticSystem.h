@@ -21,13 +21,16 @@
 
 class TwilightAutomaticSystem {
 private:
+    bool _isActive;
     Sensor _lightSensor;
     Light _outdoorLight;
+
+    void handleTwilightSystem(bool state);
 public:
     TwilightAutomaticSystem(Sensor sensor, Light outdoorLight);
-    bool getSensorState();
-    Response handleTwilightSystem(Request request);
-
+    void readLightSensor();
+    bool isActive();
+    void setActive(bool isActive);
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_TWILIGHTAUTOMATICSYSTEM_H

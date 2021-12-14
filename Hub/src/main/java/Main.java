@@ -1,3 +1,4 @@
+import Client.TestClient;
 import Controllers.SerialController;
 import Server.Server;
 
@@ -18,14 +19,16 @@ public class Main {
         System.out.println("Com port open: " + serialPort.getDescriptivePortName());
         serialPort.addDataListener(serialController);
 
-        Server server = new Server();
-        Thread serverThread = new Thread() {
-            @Override
-            public void run() {
-                server.run(serialController);
-            }
-        };
-        serverThread.start();
+//        Server server = new Server();
+//        Thread serverThread = new Thread() {
+//            @Override
+//            public void run() {
+//                server.run(serialController);
+//            }
+//        };
+        TestClient testClient = new TestClient(serialController);
+        testClient.start();
+//        serverThread.start();
 
     }
 }

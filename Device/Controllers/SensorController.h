@@ -27,13 +27,14 @@ private:
     Stove _stove;
     TwilightAutomaticSystem _twilightAutomaticSystem;
     WaterLeakage _waterLeakage;
-    Window (&_windows)[2];
+    Window * _windows;
+    unsigned long timeCounter = 0;
 
 public:
     SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
-                     WaterLeakage waterLeakage, Window (&windows)[2]);
-    Response runSensorController();
+                     WaterLeakage waterLeakage, Window * windows);
+    void runSensorController();
 
 };
 

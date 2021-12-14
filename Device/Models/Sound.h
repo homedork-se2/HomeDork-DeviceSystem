@@ -17,11 +17,11 @@
 
 class Sound: public Device {
 private:
-    unsigned int _muxPins[4];
+    unsigned int * _muxPins;
 
 public:
-    Sound(unsigned int id, unsigned int  muxPins[]);
-    Response handleSoundSwitch(bool isActive);
+    Sound(unsigned int id, unsigned int * muxPins);
+    void handleSoundSwitch(bool isActive);
 
 };
 

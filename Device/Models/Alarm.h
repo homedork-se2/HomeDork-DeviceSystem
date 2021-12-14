@@ -28,12 +28,12 @@ public:
     Light alarmLight;
 
     Alarm(Light light, Sound sound, Sensor sensor);
-    Response setAlarm(Request request);
+    void setAlarm(bool isSet);
     bool getIsArmed();
     void setIsArmed(bool armed);
     bool getIsActive();
     void setIsActive(bool active);
-    Response handleAlarmTrigger(bool isTriggered);
+    void handleAlarmTrigger(bool isTriggered, bool fireAlarm);
 
 };
 

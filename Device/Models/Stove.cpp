@@ -24,29 +24,26 @@ Stove::Stove(unsigned int id) : Sensor(id) {
  * @param isActive (boolean): The new state is either active or inactive.
  * @return A response that will be sent to the server.
  */
-Response Stove::handleStoveSwitch(bool isActive) {
-    Response response{500, "Fail"};
-    if (getIsActive()) {
+void Stove::handleStoveSwitch(bool isActive) {
+    Response response{200, "ERROR"};
+    if(isActive && !getIsActive()){
+        response.createMessage("Stove:", String(getId()), "ON");
         setIsActive(isActive);
-        response.setMessage("Stove is on");
-        response.setStatusCode(200);
-    } else{
+    } else if (!isActive && getIsActive()){
+        response.createMessage("Stove:", String(getId()), "OFF");
         setIsActive(isActive);
-        response.setMessage("Stove is off");
-        response.setStatusCode(200);
     }
-
-    return response;
+    Serial.println(response.getMessage());
+    response.sendMessage();
 }
 
 /**
  * This function handles the reading of the stove sensor.
  */
 void Stove::readStoveSensor() {
-    float value = readDigitalSensor();
-    if (value == HIGH) {
+    if (readDigitalSensor() == HIGH && !getIsActive()) {
         handleStoveSwitch(true);
-    } else {
+    } else if (readDigitalSensor() == LOW && getIsActive()){
         handleStoveSwitch(false);
     }
 }

@@ -24,8 +24,17 @@ ElectricityConsumption::ElectricityConsumption(unsigned int id) : Sensor(id) {
  * home.
  * @return (Response): A response is returned to the server.
  */
-Response ElectricityConsumption::getElectricUsage() {
-    ElectricityConsumption::readAnalogSensor();
-    Response response{200, "Success"};
-    return response;
+float ElectricityConsumption::getElectricUsage() {
+    int value = readAnalogSensor();
+    float voltage = value * (5000 / 1024.0);
+    float kwH = voltage * 4;
+
+    return kwH;
+}
+
+void ElectricityConsumption::readSensor() {
+    Response response{400, "ERROR"};
+    response.createMessage("Electricity:", String(getId()), String(getElectricUsage()));
+    Serial.println(response.getMessage());
+    response.sendMessage();
 }

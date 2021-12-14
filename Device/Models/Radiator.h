@@ -17,10 +17,12 @@
 
 class Radiator: public Device {
 private:
-    unsigned int _muxPins[4];
+    unsigned int * _muxPins;
+
 public:
     Radiator(unsigned int id, unsigned int * muxPins);
-    Response adjustTemp(bool isCold);
+    void adjustTemp(bool isCold);
+
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_RADIATOR_H

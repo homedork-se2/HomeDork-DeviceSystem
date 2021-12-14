@@ -10,6 +10,7 @@
 
 #include "Light.h"
 
+
 /**
  * A constructor for the light class this constructor handles lights that
  * are not connected to a multiplexor.
@@ -18,7 +19,8 @@
  * @param isDimmable (boolean): The boolean that determines if a light
  * is dimmable or not.
  */
-Light::Light(unsigned int id, bool isDimmable) : Device(id), _isDimmable(isDimmable), _dim(0) {
+Light::Light(unsigned int id, bool isDimmable, unsigned int * muxPins)
+        : Device(id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
 
 }
 
@@ -29,10 +31,7 @@ Light::Light(unsigned int id, bool isDimmable) : Device(id), _isDimmable(isDimma
  * device is connected to.
  * @param muxPins (unsigned int[]): An array of the multiplexor pins.
  */
-Light::Light(unsigned int id, const unsigned int muxPins[]) : Device(id), _isDimmable(false), _dim(0) {
-    for (int i = 0; i < 4; ++i) {
-        _muxPins[i] = muxPins[i];
-    }
+Light::Light(unsigned int id, unsigned int * muxPins) : Device(id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
 }
 
 /**
@@ -57,14 +56,13 @@ int Light::getDim() {
  * @param value (int): The dim value to be set.
  * @return (Response): A response to the server.
  */
-Response Light::setDim(int value) {
-    Response response{500, "Fail"};
+void Light::setDim(int value) {
+    Response response{404, "DIM:ERROR"};
     _dim = value;
 
-    response.setStatusCode(200);
-    response.setMessage("Success");
-
-    return response;
+    response.createMessage("Lamp:", String(getId()), String(_dim));
+    Serial.println(response.getMessage());
+    response.sendMessage();
 }
 /**
  * The function that handles the light switch.
@@ -73,22 +71,18 @@ Response Light::setDim(int value) {
  * @return (Response): The response from the command sent by the
  * server.
  */
-Response Light::handleLightSwitch(Request request) {
-    Response response{500, "Fail"};
-    response.setStatusCode(404);
-    response.setMessage("The Light doesn't exist in the system.");
+void Light::handleLightSwitch(Request request) {
+    Response response{404, "lamp:ERROR"};
     //Indoors Light
-    if (request.getId() == 11) {
     setIsActive(request.isState());
+    if (request.getId() == 11) {
         if (getIsActive()) {
         //ON
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-
-        response.setStatusCode(200);
-        response.setMessage("Success Indoor Light is ON... \n");
+        response.createMessage("Lamp:", String(getId()), "ON");
 
         } else {
         //OFF
@@ -96,24 +90,19 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-
-        response.setStatusCode(200);
-        response.setMessage("Success Indoor Light is OFF...\n");
+        response.createMessage("Lamp:", String(getId()), "OFF");
 
         }
 
     } else if(request.getId() == 20) {
     //Outdoors Light
-    setIsActive(request.isState());
         if (getIsActive()) {
         //ON
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("Success Outdoor Light is ON...\n");
+        response.createMessage("Lamp:", String(getId()), "ON");
 
         } else {
         //OFF
@@ -121,23 +110,18 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("Success Outdoor Light is OFF...\n");
+        response.createMessage("Lamp:", String(getId()), "OFF");
         }
 
     } else if (request.getId() == 22){
     //Alarm Light
-    setIsActive(request.isState());
         if (getIsActive()) {
         //ON
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("Success Alarm Light is ON...\n");
+        response.createMessage("Lamp:", String(getId()), "ON");
 
         } else {
         //OFF
@@ -145,21 +129,11 @@ Response Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-
-        response.setStatusCode(200);
-        response.setMessage("Success Alarm Light is OFF...\n");
+        response.createMessage("Lamp:", String(getId()), "OFF");
 
         }
     }
-
-    return response;
+    Serial.println(response.getMessage());
+    response.sendMessage();
 }
 
-/**
- * A getter for the mutiplexor pins
- * @return (unsigned int[]): Returns an array of the pins for the
- * multiplexor pins.
- */
-const unsigned int *Light::getMuxPins() const {
-    return _muxPins;
-}

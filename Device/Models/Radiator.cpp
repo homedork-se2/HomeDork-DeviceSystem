@@ -15,11 +15,8 @@
  * @param id (unsigned int): The id of the radiator.
  * @param muxPins (unsigned int[]): The array for the multiplexor pins.
  */
-Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id) {
-    int size = sizeof(&muxPins) / sizeof(&muxPins[0]);
-    for (int i = 0; i < size; ++i) {
-        _muxPins[i] = muxPins[i];
-    }
+Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxPins){
+
 }
 
 /**
@@ -27,8 +24,8 @@ Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id) {
  * @return (Response): A response that will be sent
  * back to the server.
  */
-Response Radiator::adjustTemp(bool isCold) {
-    Response response{404, "Fail"};
+void Radiator::adjustTemp(bool isCold) {
+    Response response{404, "ERROR"};
 
     if (getId() == 23 ) {
         //Window
@@ -38,16 +35,14 @@ Response Radiator::adjustTemp(bool isCold) {
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.setStatusCode(200);
-            response.setMessage("Success Light is ON... \n");
+            response.createMessage("Radiator:", String(getId()), "ON");
 
         } else {
             digitalWrite(_muxPins[0], HIGH);
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.setStatusCode(200);
-            response.setMessage("Success Light is OFF... \n");
+            response.createMessage("Radiator:", String(getId()), "OFF");
 
         }
 
@@ -59,17 +54,16 @@ Response Radiator::adjustTemp(bool isCold) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.setStatusCode(200);
-        response.setMessage("Success Light is ON... \n");
+        response.createMessage("Radiator:", String(getId()), "ON");;
 
     } else {
         digitalWrite(_muxPins[0], HIGH);
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.setStatusCode(200);
-        response.setMessage("Success Light is OFF... \n");
+        response.createMessage("Radiator:", String(getId()), "OFF");
 
     }
-    return response;
+    response.sendMessage();
+    Serial.println(response.getMessage());
 }

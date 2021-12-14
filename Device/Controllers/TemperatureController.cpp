@@ -16,7 +16,7 @@
  * @param radiators (Radiators)[]: The radiators array.
  * @param thermometerOut (Thermometer): The outdoors thermometer.
  */
-TemperatureController::TemperatureController(Thermometer (&thermometersIn)[2], Radiator (&radiators)[2], Thermometer thermometerOut) : _thermometerOut(thermometerOut), _desiredTemp(20),
+TemperatureController::TemperatureController(Thermometer * thermometersIn, Radiator * radiators, Thermometer thermometerOut) : _thermometerOut(thermometerOut), _desiredTemp(20),
                                             _thermometersIn(thermometersIn), _radiators(radiators){
 }
 
@@ -25,19 +25,17 @@ TemperatureController::TemperatureController(Thermometer (&thermometersIn)[2], R
  * @param temp (double): The users desired temperature for the corresponding room
  * @return (Response): A response to send back to the server.
  */
-Response TemperatureController::setDesiredTemp(double temp) {
+void TemperatureController::setDesiredTemp(float temp) {
     _desiredTemp = temp;
-    Response response{200, "Success"};
-    return response;
+    Response response{404, "ERROR"};
+    response.createMessage("DesiredTemp:", "0", String(temp));
 }
 
 /**
  * A getter function for the desiredTemp variable.
  * @return (double): returns a double of the current desired temp value.
  */
-double TemperatureController::getDesiredTemp(
-
-        ) {
+float TemperatureController::getDesiredTemp() {
     return _desiredTemp;
 }
 
@@ -46,27 +44,22 @@ double TemperatureController::getDesiredTemp(
  * within the smart house, the indexs of the arrays correspond to one another.
  * @return (Response): A response is returned based on the
  */
-Response TemperatureController::runTempController() {
-    Response response{500, "Unknown Error Exited Loop"};
-    while (true) {
-
-        int size = sizeof(_thermometersIn) / sizeof(_thermometersIn[0]);
-        for (int i = 0; i < size; ++i) {
-            double temp = _thermometersIn[i].getCurrentTemp();
-            if (temp > _desiredTemp) {
-                _radiators[i].adjustTemp(false);
-                //Serial.print("radiator off..");
-            } else if (temp < _desiredTemp) {
-                _radiators[i].adjustTemp(true);
-                //Serial.print("radiator on..");
-            }
-
-            delay(1000);
-            if (_fiveMinutes <= millis()) {
-                _fiveMinutes = millis() + 300000L;
-            }
+void TemperatureController::runTempController() {
+    Response response{500, "ERROR"};
+    float temp = _thermometerOut.getCurrentTemp();
+    response.createMessage("Temp:", String(_thermometerOut.getId()), String(temp));
+    Serial.println(response.getMessage());
+    int size = 2;
+    for (int i = 0; i < size; ++i) {
+        temp = _thermometersIn[i].getCurrentTemp();
+        response.createMessage("Temp:", String(_thermometersIn[i].getId()), String(temp));
+        Serial.println(response.getMessage());
+        if (temp > _desiredTemp) {
+            _radiators[i].adjustTemp(false);
+        } else if (temp < _desiredTemp) {
+            _radiators[i].adjustTemp(true);
         }
-    }
 
-    return response;
+    }
+    Serial.println(response.getMessage());
 }

@@ -26,5 +26,4 @@ public:
 
 };
 
-
 #endif //HOMEDORK_DEVICESYSTEM_DEVICE_H

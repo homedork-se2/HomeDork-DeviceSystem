@@ -21,13 +21,13 @@
 class Thermometer:public Sensor {
 
 private:
-    double _currentTemp;
-    double readTempIn();
-    double readTempOut();
+    float _currentTemp;
+    float readTempIn();
+    float readTempOut();
 
 public:
     Thermometer(unsigned int id);
-    double getCurrentTemp();
+    float getCurrentTemp();
 
 };
 

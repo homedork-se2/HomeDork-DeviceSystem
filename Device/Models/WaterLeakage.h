@@ -17,7 +17,7 @@
 
 class WaterLeakage: public Sensor{
 private:
-    Response handleWaterLeakage();
+    void handleWaterLeakage(bool state);
 
 public :
     explicit WaterLeakage(unsigned int id);

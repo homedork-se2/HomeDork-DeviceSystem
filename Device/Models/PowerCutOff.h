@@ -12,13 +12,16 @@
 #define HOMEDORK_DEVICESYSTEM_POWERCUTOFF_H
 
 #include <Arduino.h>
-#include <Device.h>
 #include <Response.h>
+#include <Sensor.h>
 
-class PowerCutOff : public Device{
+class PowerCutOff : public Sensor{
+private:
+    void handlePowerCutOff();
 public :
     explicit PowerCutOff(unsigned int id);
-    Response handlePowerCutOff();
+    void readSensor();
+
 
 };
 

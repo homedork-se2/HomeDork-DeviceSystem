@@ -31,6 +31,6 @@ float Sensor::readDigitalSensor() {
  * @return (float): returns the value of the sensor to make calculations based
  * off the use case for the subclass.
  */
-float Sensor::readAnalogSensor() {
+int Sensor::readAnalogSensor() {
     return analogRead(getId());
 }
