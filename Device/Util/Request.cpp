@@ -16,7 +16,7 @@
  * @return (unsigned int): An integer who's value is the id of an instance
  * of a device that will be used in handling the command.
  */
-unsigned int Request::getId() const {
+unsigned int Request::getId() {
     return _id;
 }
 
@@ -34,7 +34,7 @@ void Request::setId(unsigned int id) {
  * @return (bool): A boolean who's value is the state of an instance
  * of a device that will be used in handling the command.
  */
-bool Request::isState() const {
+bool Request::isState() {
     return _state;
 }
 
@@ -50,7 +50,7 @@ void Request::setState(bool state) {
  * A getter that gets the value of the the device for the command.
  * @return (int): The value as an integer.
  */
-int Request::getValue() const {
+int Request::getValue() {
     return _value;
 }
 
@@ -76,6 +76,7 @@ int Request::getDeviceType() {
  * device type.
  */
 void Request::setDeviceType(String deviceName) {
+    Serial.println(deviceName);
     if (deviceName == "lamp") {
         _deviceType = 1;
     } else if (deviceName == "fan") {
@@ -101,30 +102,40 @@ void Request::setDeviceType(String deviceName) {
  * The function that parses the server request into the request class.
  * @param buf (char[]): The command in a char array.
  */
-void Request::parseRequest(byte * buf) {
+void Request::parseRequest(const char * buf) {
     char input[15];
     int count = 0;
+    int i = 0;
     int flag = 0;
-    int bufSize = sizeof(&buf) / sizeof(&buf[0]);
-    for (int i = 0; i < bufSize; ++i) {
+    int bufSize;
+    while (true) {
         char c = (char) buf[i];
         if (c == ':') {
             if (flag == 0) {
-                String stringValue = input;
-                setDeviceType(stringValue);
+                String deviceType = String(input);
+                Serial.println("Request: " + deviceType + "\r\n");
+                Request::setDeviceType(deviceType);
             } else if (flag == 1) {
-                String id = input;
-                setId(id.toInt());
+                String id = String(input);
+                Serial.println("Request: " + id + "\r\n");
+                Request::setId(id.toInt());
             } else if (flag == 2) {
-                String stateString = input;
-                if (stateString == "ON") {
-                    setState(true);
+                String stateString = String(input);
+                Serial.println("Request: " + stateString + "\r\n");
+                if (stateString.equals("ON") || stateString.equals("OPEN")) {
+                    Request::setState(true);
+                    break;
+                } else if (stateString.equals("OFF") || stateString.equals("CLOSED")) {
+                    Request::setState(false);
+                    break;
                 } else {
-                    setState(false);
+                    String value = input;
+                    Request::setValue(value.toInt());
+                    if (getValue() > 0) {
+                        Request::setState(true);
+                    }
+                    break;
                 }
-            } else {
-                String value = input;
-                setValue(value.toInt());
             }
             count = 0;
             flag++;

@@ -1,6 +1,9 @@
 package Server;
 
 import Controllers.SerialController;
+import Util.Logger;
+import Util.ReaderWriter;
+import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,6 +16,8 @@ import java.net.Socket;
 public class ServerThread extends Thread {
     Socket clientSocket;
     SerialController serialController;
+    InputStream in = null;
+    OutputStream out = null;
 
     /**
      * This is the constructor of the ServerThread class is takes the serialController
@@ -32,56 +37,34 @@ public class ServerThread extends Thread {
      * thread, this method in particular handles the communication of the client server.
      */
     public void run() {
-
-        InputStream in = null;
-        OutputStream out = null;
-
-        String message = "";
+        SerialPort serialPort = serialController.getSerialPort();
         try {
             in = clientSocket.getInputStream();
             out = clientSocket.getOutputStream();
-
         } catch (IOException ioException) {
             System.out.println("I/O Exception connecting the streams to the client...\n" + ioException.getMessage());
         }
-
-        System.out.println(clientSocket);
+        serialController.setStringBuffer("");
+        ReaderWriter readerWriter = new ReaderWriter();
+        String message = readerWriter.read(in);
+        Logger.writeToLog("src/logs/command.txt", message + "\r\n");
+        serialController.setResponse(true);
+        serialController.sendRequest(message);
+        System.out.println(serialController.getStringBuffer());
+        readerWriter.writer(serialController.getStringBuffer(), out);
+        serialController.setResponse(false);
         try {
-            while (true) {
-                byte[] bytes = new byte[1024];
-                int length;
-
-                while((length = in.read(bytes)) != -1) {
-                    message = new String(bytes).trim();
-                    System.out.println(message);
-
-                    serialController.setStringBuffer(message);
-                    serialController.sendRequest();
-                }
-
-                message = serialController.getStringBuffer().trim();
-                bytes = message.getBytes();
-                out.write(bytes, 0, bytes.length);
-
-            }
-
-        } catch (IOException ioException) {
-            System.out.println("I/O Exception in reading and/or writing...\n" + ioException.getMessage());
-        }
-
-        try {
-            if (clientSocket != null) {
-                clientSocket.close();
-            }
             if (in != null) {
                 in.close();
             }
             if (out != null) {
                 out.close();
             }
+            if (clientSocket != null) {
+                clientSocket.close();
+            }
         } catch (IOException ioException) {
-            System.out.println("I/O Exception couldn't close\n" + ioException.getMessage());
+            System.out.println(ioException.getMessage());
         }
-
     }
 }

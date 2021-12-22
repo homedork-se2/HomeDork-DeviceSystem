@@ -118,6 +118,6 @@ void Fan::handleFanSwitch(Request request) {
         }
 
     }
-    Serial.println(response.getMessage());
+    delay(100);
     response.sendMessage();
 }

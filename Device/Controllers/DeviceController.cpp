@@ -41,24 +41,21 @@ void DeviceController::initializeDevices() {
 
 }
 
-/**
- * This function listens for a request from the server
- * @return response (Response): A response is returned upon completion of the command.
- */
-void DeviceController::runListen() {
-    Request request;
-    int count = 0;
-    byte buf[65];
-    while (Serial.available() > 0) {
-        byte incomingByte = 0;
-
-        incomingByte = Serial.read();
-        buf[count] = incomingByte;
-    }
-    request.parseRequest(buf);
-    handleRequest(request);
-
-}
+///**
+// * This function listens for a request from the server
+// * @return response (Response): A response is returned upon completion of the command.
+// */
+//void DeviceController::run(char * ) {
+//    Request request;
+//    int count = 0;
+//    int bytesAvailable = Serial.available() + 1;
+//    char buf[bytesAvailable];
+//    Serial.readBytes(buf, bytesAvailable);
+//    Serial.println("In the arduino " + String(buf));
+//    request.parseRequest(buf);
+//    handleRequest(request);
+//
+//}
 
 /**
  * This function handles the request from the server.
@@ -67,6 +64,8 @@ void DeviceController::runListen() {
  * success of the command.
  */
 void DeviceController::handleRequest(Request request) {
+    Serial.println(String(request.getDeviceType()));
+    Serial.println(String(request.getId()));
     int size = 0;
     switch (request.getDeviceType()) {
         case 1:

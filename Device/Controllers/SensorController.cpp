@@ -28,6 +28,7 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
                                    WaterLeakage waterLeakage, Window * windows)
         : _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _stove(stove),
           _twilightAutomaticSystem(twilightAutomaticSystem), _waterLeakage(waterLeakage), _windows(windows) {
+    _twilightAutomaticSystem.setActive(true);
 }
 
 
@@ -44,12 +45,15 @@ void SensorController::runSensorController() {
     }
     if (timeCounter == 0 || timeCounter == millis()) {
         _electricityConsumption.readSensor();
-        timeCounter = millis() + 60000;
+        timeCounter = millis() + 10000;
     }
 
     _powerCutOff.readSensor();
+    delay(100);
     _stove.readStoveSensor();
+    delay(100);
     _twilightAutomaticSystem.readLightSensor();
+    delay(100);
     _waterLeakage.readWaterLeakSensor();
 
 }

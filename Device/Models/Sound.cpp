@@ -34,13 +34,15 @@ void Sound::handleSoundSwitch(bool isActive) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.setMessage("Sound:ON");
+        response.createMessage("Sound", String(getId()), "ON");
     } else {
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.setMessage("Sound:OFF");
+        response.createMessage("Sound", String(getId()), "OFF");
     }
-    Serial.println(response.getMessage());
+    //Serial.println(response.getMessage());
+    delay(100);
+    response.sendMessage();
 }

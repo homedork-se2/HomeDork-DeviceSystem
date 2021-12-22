@@ -11,6 +11,7 @@
 #ifndef HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
 #define HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
 
+#include <Arduino.h>
 #include <ElectricityConsumption.h>
 #include <PowerCutOff.h>
 #include <Response.h>

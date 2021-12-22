@@ -21,15 +21,15 @@ private:
     int _deviceType;
 
 public:
-    unsigned int getId() const;
+    unsigned int getId();
     void setId(unsigned int id);
-    bool isState() const;
+    bool isState();
     void setState(bool state);
-    int getValue() const;
+    int getValue();
     void setValue(int value);
     int getDeviceType();
     void setDeviceType(String deviceName);
-    void parseRequest(byte * buf);
+    void parseRequest(const char * buf);
 
 };
 

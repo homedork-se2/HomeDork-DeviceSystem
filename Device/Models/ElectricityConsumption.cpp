@@ -27,14 +27,14 @@ ElectricityConsumption::ElectricityConsumption(unsigned int id) : Sensor(id) {
 float ElectricityConsumption::getElectricUsage() {
     int value = readAnalogSensor();
     float voltage = value * (5000 / 1024.0);
-    float kwH = voltage * 4;
+    float kw = voltage * 4;
 
-    return kwH;
+    return kw;
 }
 
 void ElectricityConsumption::readSensor() {
     Response response{400, "ERROR"};
     response.createMessage("Electricity:", String(getId()), String(getElectricUsage()));
-    Serial.println(response.getMessage());
+    delay(100);
     response.sendMessage();
 }

@@ -21,19 +21,20 @@ class Alarm {
 private:
     bool _isActive;
     bool _isArmed;
+    bool _isFireAlarm;
 
 public:
     Sound siren;
     Sensor alarmSensor;
     Light alarmLight;
 
-    Alarm(Light light, Sound sound, Sensor sensor);
+    Alarm(Light light, Sound sound, Sensor sensor, bool fireAlarm);
     void setAlarm(bool isSet);
     bool getIsArmed();
     void setIsArmed(bool armed);
     bool getIsActive();
     void setIsActive(bool active);
-    void handleAlarmTrigger(bool isTriggered, bool fireAlarm);
+    void handleAlarmTrigger();
 
 };
 

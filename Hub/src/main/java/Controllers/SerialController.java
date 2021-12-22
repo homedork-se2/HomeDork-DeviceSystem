@@ -2,6 +2,7 @@ package Controllers;
 
 import Client.ServerClient;
 
+import Util.Logger;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
@@ -31,6 +32,7 @@ public class SerialController implements SerialPortDataListener {
     private SerialPort serialPort;
     private String stringBuffer;
     private boolean isResponse;
+    private boolean commandFlag;
     private InputStream inputStream;
     private OutputStream outputStream;
 
@@ -38,19 +40,13 @@ public class SerialController implements SerialPortDataListener {
      * A method that sends a request from the server to the Arduino, the response is
      *  set to true because a response is expected the message is sent via bytes.
      */
-    public void sendRequest() {
+    public void sendRequest(String message) {
         setResponse(true);
-        stringBuffer = stringBuffer.replace("'","").trim() + "\r\n";
-
+        stringBuffer = message.replace("'","").trim() + "\r\n";
         byte[] bytes = stringBuffer.getBytes();
-        try {
-            outputStream.write(bytes, 0, bytes.length);
-            outputStream.flush();
-            Thread.sleep(500);
-            setResponse(false);
-        } catch (InterruptedException | IOException interruptedException) {
-            System.out.println("InterruptedException: " + interruptedException.getMessage());
-        }
+        serialPort.writeBytes(bytes, 0, bytes.length);
+        setResponse(false);
+        stringBuffer = "";
     }
 
     /**
@@ -74,26 +70,27 @@ public class SerialController implements SerialPortDataListener {
      */
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
-        if (serialPortEvent.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
-            return;
-
-        byte[] newData = new byte[serialPort.bytesAvailable()];
-        while (serialPort.bytesAvailable() > 0) {
+        new Thread(() -> {
+            if (serialPortEvent.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
+                return;
+            stringBuffer = "";
             try {
-                int numRead = inputStream.read(newData, 0, newData.length);
-                stringBuffer = new String(newData, 0, numRead).trim();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    byte[] newData = new byte[serialPort.bytesAvailable()];
+                    int numRead = inputStream.read(newData, 0, newData.length);
+                    stringBuffer = new String(newData).trim();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            if (!isResponse()) {
+//            ServerClient serverClient = new ServerClient();
+                Logger.writeToLog("src/logs/sensor.txt", getStringBuffer());
+//            serverClient.sendMessage(stringBuffer);
+            } else {
+                Logger.writeToLog("./src/logs/arduinoResponse.txt", getStringBuffer());
             }
-        }
-
-        if (!isResponse()) {
-            ServerClient serverClient = new ServerClient();
-            serverClient.sendMessage(stringBuffer);
-        }
-
-        System.out.println(stringBuffer);
-
+        }).start();
     }
 
     /**

@@ -72,7 +72,7 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{404, "lamp:ERROR"};
+    Response response{404, "lamp:ERROR\r\n"};
     //Indoors Light
     setIsActive(request.isState());
     if (request.getId() == 11) {
@@ -133,7 +133,7 @@ void Light::handleLightSwitch(Request request) {
 
         }
     }
-    Serial.println(response.getMessage());
+    delay(100);
     response.sendMessage();
 }
 

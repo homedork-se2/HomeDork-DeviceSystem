@@ -1,6 +1,7 @@
 package Server;
 
 import Controllers.SerialController;
+import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -17,16 +18,24 @@ public class Server {
      * This method is to start the server, get the server socket, and get the client socket.
      * once the client connects the socket is created and then a thread is created to run
      * the server.
-     * @param serialController This method takes the Serial Controller as a parameter in order to
-     *                         give the server access to the serial port for communication.
      */
-    public void run(SerialController serialController) {
+    public void run() {
         ServerSocket serverSocket = null;
+        SerialController serialController = null;
         try {
             serverSocket = new ServerSocket(1234);
             InetAddress localAddress = InetAddress.getLocalHost();
+
             System.out.println(localAddress);
             System.out.println(serverSocket.getLocalPort());
+            serialController = new SerialController();
+            serialController.setSerialPort(SerialPort.getCommPorts()[0]);
+
+            SerialPort serialPort = serialController.getSerialPort();
+            serialPort.openPort();
+            serialPort.setBaudRate(9600);
+            System.out.println("Com port open: " + serialPort.getDescriptivePortName());
+            serialPort.addDataListener(serialController);
         } catch (IOException ioException) {
             System.out.println("I/O Exception couldn't initialize socket to listen\n" + ioException.getMessage());
         }

@@ -18,7 +18,6 @@ import java.net.Socket;
  *          server.
  */
 public class ServerClient {
-
     private final String hostname = "194.47.32.227";
     private Socket serverSocket;
     private InputStream in;
