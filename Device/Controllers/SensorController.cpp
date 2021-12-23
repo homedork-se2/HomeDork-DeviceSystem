@@ -49,11 +49,8 @@ void SensorController::runSensorController() {
     }
 
     _powerCutOff.readSensor();
-    delay(100);
     _stove.readStoveSensor();
-    delay(100);
     _twilightAutomaticSystem.readLightSensor();
-    delay(100);
     _waterLeakage.readWaterLeakSensor();
 
 }

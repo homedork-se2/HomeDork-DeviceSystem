@@ -33,7 +33,7 @@ void Window::handleWindowSwitch(bool state) {
         setIsActive(state);
         response.createMessage("Window:", String(getId()), "CLOSED");
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 

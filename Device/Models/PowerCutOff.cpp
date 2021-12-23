@@ -32,7 +32,7 @@ void PowerCutOff::readSensor() {
  */
 void PowerCutOff::handlePowerCutOff(){
     Response response{200, "PowerCutOff:Triggered"};
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 

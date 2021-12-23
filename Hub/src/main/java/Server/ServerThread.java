@@ -50,7 +50,6 @@ public class ServerThread extends Thread {
         Logger.writeToLog("src/logs/command.txt", message + "\r\n");
         serialController.setResponse(true);
         serialController.sendRequest(message);
-        System.out.println(serialController.getStringBuffer());
         readerWriter.writer(serialController.getStringBuffer(), out);
         serialController.setResponse(false);
         try {

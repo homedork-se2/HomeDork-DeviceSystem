@@ -104,7 +104,7 @@ void setup() {
 
     //Connect threads to callbacks
     alarmControllerThread.onRun(alarmCallback);
-    alarmControllerThread.setInterval(500);
+    alarmControllerThread.setInterval(1000);
 
     sensorControllerThread.onRun(sensorControllerCallback);
     sensorControllerThread.setInterval(1000);
@@ -122,29 +122,21 @@ void setup() {
     while (!Serial) {
         ; // wait for serial port to connect. Needed for native USB port only
     }
-    delay(500);
-
+    delay(10);
 }
 
 void loop() {
-    //handles all threads runs those that should run.
-//   threadController.run();
-int length = 0;
-if ((length = Serial.available()) > 0) {
     Request request;
-    noInterrupts();
-    String string = Serial.readString();
 
-    char buf[length] = string.toCharArray();
-    
-
-    request.parseRequest(buf);
-    deviceController.handleRequest(request);
-        interrupts();
-
-} else {
-    threadController.run();
-}
+    if (Serial.available() > 0) {
+        String string = Serial.readString();
+        char * buf;
+        string.toCharArray(buf, string.length());
+        request.parseRequest(buf);
+        deviceController.handleRequest(request);
+    } else {
+        threadController.run();
+    }
 
 }
 
@@ -152,25 +144,25 @@ void alarmCallback() {
 //    Serial.println("Starting Fire Alarm System...");
 //    Serial.println(millis());
     //
-    noInterrupts();
+    
     alarmController.runAlarm();
-    interrupts();
+    
 }
 
 void sensorControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the sensor controller to check its sensor and return a response from the alarm has been triggered.
-    noInterrupts();
+    
     sensorController.runSensorController();
-    interrupts();
+    
 }
 
 void temperatureControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run  the temperature controller to check its sensor and return a response if and only if they want updates.
-    noInterrupts();
+    
     temperatureController.runTempController();
-    interrupts();
+    
 }

@@ -33,7 +33,7 @@ void Stove::handleStoveSwitch(bool isActive) {
         response.createMessage("Stove:", String(getId()), "OFF");
         setIsActive(isActive);
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 

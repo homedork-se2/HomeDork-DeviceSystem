@@ -92,7 +92,6 @@ void Alarm::handleAlarmTrigger() {
 
     if (getIsActive()) {
         siren.handleSoundSwitch(true);
-        delay(200);
         if (_isFireAlarm) {
             response.createMessage("Alarm", "Fire", "TRIGGERED");
         } else {
@@ -105,7 +104,6 @@ void Alarm::handleAlarmTrigger() {
 
     } else {
         siren.handleSoundSwitch(false);
-        delay(200);
         if (_isFireAlarm) {
             response.createMessage("Alarm", "Fire", "CLEAR");
         } else {
@@ -115,7 +113,7 @@ void Alarm::handleAlarmTrigger() {
             alarmLight.handleLightSwitch(request);
             response.createMessage("Alarm", "Security", "CLEAR");
         }
-        delay(100);
+        delay(10);
         response.sendMessage();
     }
 

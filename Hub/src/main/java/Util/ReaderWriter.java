@@ -13,11 +13,9 @@ public class ReaderWriter {
             int length = in.read(bytes);
             message = new String(bytes).trim();
             //System.out.println(message);
-
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-
         return message;
     }
 

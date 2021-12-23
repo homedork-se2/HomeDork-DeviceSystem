@@ -43,6 +43,6 @@ void Sound::handleSoundSwitch(bool isActive) {
         response.createMessage("Sound", String(getId()), "OFF");
     }
     //Serial.println(response.getMessage());
-    delay(100);
+    delay(10);
     response.sendMessage();
 }

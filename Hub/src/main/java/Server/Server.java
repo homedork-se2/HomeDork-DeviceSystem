@@ -28,15 +28,20 @@ public class Server {
 
             System.out.println(localAddress);
             System.out.println(serverSocket.getLocalPort());
+
             serialController = new SerialController();
             serialController.setSerialPort(SerialPort.getCommPorts()[0]);
-
             SerialPort serialPort = serialController.getSerialPort();
-            serialPort.openPort();
             serialPort.setBaudRate(9600);
+            serialPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0,0 );
+            serialPort.openPort();
+
+            Thread.sleep(100);
+
             System.out.println("Com port open: " + serialPort.getDescriptivePortName());
             serialPort.addDataListener(serialController);
-        } catch (IOException ioException) {
+
+        } catch (IOException | InterruptedException ioException) {
             System.out.println("I/O Exception couldn't initialize socket to listen\n" + ioException.getMessage());
         }
 

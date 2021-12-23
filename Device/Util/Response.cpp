@@ -58,10 +58,6 @@ void Response::createMessage(String type, String id, String state) {
 }
 
 void Response::sendMessage() {
-    int length = getMessage().length();
-    byte buf[length];
-    String string = getMessage();
-    string.getBytes(buf, length);
-
-    Serial.write(buf, length);
+    Serial.println(getMessage());
+    Serial.flush();
 }

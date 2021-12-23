@@ -1,16 +1,14 @@
 package Controllers;
 
-import Client.ServerClient;
-
 import Util.Logger;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
+import java.io.PrintWriter;
+import java.nio.BufferOverflowException;
+import java.util.Scanner;
 
 /**
  * The Serial Controller class is a class for sending data to the Arduino
@@ -33,20 +31,23 @@ public class SerialController implements SerialPortDataListener {
     private String stringBuffer;
     private boolean isResponse;
     private boolean commandFlag;
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private Scanner scanner;
+    private PrintWriter writer;
 
     /**
      * A method that sends a request from the server to the Arduino, the response is
      *  set to true because a response is expected the message is sent via bytes.
      */
     public void sendRequest(String message) {
+        writer = new PrintWriter(serialPort.getOutputStream());
         setResponse(true);
         stringBuffer = message.replace("'","").trim() + "\r\n";
-        byte[] bytes = stringBuffer.getBytes();
-        serialPort.writeBytes(bytes, 0, bytes.length);
-        setResponse(false);
+        writer.write(message);
+        writer.flush();
         stringBuffer = "";
+        setResponse(false);
+        writer.close();
+
     }
 
     /**
@@ -70,27 +71,32 @@ public class SerialController implements SerialPortDataListener {
      */
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
+
         new Thread(() -> {
             if (serialPortEvent.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
                 return;
-            stringBuffer = "";
             try {
-                    byte[] newData = new byte[serialPort.bytesAvailable()];
-                    int numRead = inputStream.read(newData, 0, newData.length);
-                    stringBuffer = new String(newData).trim();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                stringBuffer = "";
+
+                scanner = new Scanner(serialPortEvent.getSerialPort().getInputStream());
+
+                stringBuffer = scanner.nextLine();
+                if (!isResponse()) {
+    //            ServerClient serverClient = new ServerClient();
+                    Logger.writeToLog("src/logs/sensor.txt", getStringBuffer());
+    //            serverClient.sendMessage(stringBuffer);
+                } else {
+                    Logger.writeToLog("./src/logs/arduinoResponse.txt", getStringBuffer());
                 }
+                scanner.close();
 
-            if (!isResponse()) {
-//            ServerClient serverClient = new ServerClient();
-                Logger.writeToLog("src/logs/sensor.txt", getStringBuffer());
-//            serverClient.sendMessage(stringBuffer);
-            } else {
-                Logger.writeToLog("./src/logs/arduinoResponse.txt", getStringBuffer());
+                Thread.currentThread().join();
+            } catch (InterruptedException | BufferOverflowException e ) {
+                e.printStackTrace();
             }
         }).start();
+
     }
 
     /**
@@ -99,8 +105,6 @@ public class SerialController implements SerialPortDataListener {
      */
     public void setSerialPort(SerialPort serialPort) {
         this.serialPort = serialPort;
-        inputStream = serialPort.getInputStream();
-        outputStream = serialPort.getOutputStream();
     }
 
     /**

@@ -140,7 +140,7 @@ public class TestClient {
             InputStream in = null;
             Socket socket = null;
             try {
-                String hostname = "194.47.32.191";
+                String hostname = "192.168.56.1";
                 socket = new Socket(hostname, 1234);
                 in = socket.getInputStream();
                 out = socket.getOutputStream();

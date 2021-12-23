@@ -118,6 +118,6 @@ void Fan::handleFanSwitch(Request request) {
         }
 
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }

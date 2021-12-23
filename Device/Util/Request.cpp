@@ -113,7 +113,7 @@ void Request::parseRequest(const char * buf) {
         if (c == ':') {
             if (flag == 0) {
                 String deviceType = String(input);
-                Serial.println("Request: " + deviceType + "\r\n");
+                Serial.println("Request: " + deviceType);
                 Request::setDeviceType(deviceType);
             } else if (flag == 1) {
                 String id = String(input);
@@ -121,7 +121,7 @@ void Request::parseRequest(const char * buf) {
                 Request::setId(id.toInt());
             } else if (flag == 2) {
                 String stateString = String(input);
-                Serial.println("Request: " + stateString + "\r\n");
+                Serial.println("Request: " + stateString );
                 if (stateString.equals("ON") || stateString.equals("OPEN")) {
                     Request::setState(true);
                     break;
@@ -129,7 +129,7 @@ void Request::parseRequest(const char * buf) {
                     Request::setState(false);
                     break;
                 } else {
-                    String value = input;
+                    String value = String(input);
                     Request::setValue(value.toInt());
                     if (getValue() > 0) {
                         Request::setState(true);

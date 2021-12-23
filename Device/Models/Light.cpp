@@ -133,7 +133,7 @@ void Light::handleLightSwitch(Request request) {
 
         }
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 
