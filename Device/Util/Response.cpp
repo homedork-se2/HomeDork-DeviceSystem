@@ -11,14 +11,6 @@
 #include "Response.h"
 
 /**
- * The Response class constructor.
- * @param statusCode (int): An integer who's value represents the success or failure of the command given.
- * @param message (String):
- */
-Response::Response(int statusCode, String message): _statusCode(statusCode), _message(message) {
-}
-
-/**
  * A getter for the status code.
  * @return (int): The status code.
  */
@@ -38,8 +30,9 @@ String Response::getMessage() {
  * A setter to set the message.
  * @param message (String): The message.
  */
-void Response::setMessage(String message) {
+void Response::setMessage(String message, int size) {
     _message = message;
+    _messageLength = size;
 }
 
 /**
@@ -50,18 +43,31 @@ void Response::setStatusCode(int statusCode) {
     _statusCode = statusCode;
 }
 
-void Response::createMessage(String type, String id, String state) {
-    setMessage("");
-    String string = String(type + ":" + id + ":" + state);
-    setMessage(string);
-    setStatusCode(200);
+void Response::createMessage(String type, int tSize, String id, int idSize, String state, int stateSize) {
+    String string = type;
+    string.concat(":");
+    string.concat(id);
+    string.concat(":");
+    string.concat(state);
+    setMessage(string, string.length());
 }
+
 
 void Response::sendMessage() {
-    int length = getMessage().length();
-    byte buf[length];
-    String string = getMessage();
-    string.getBytes(buf, length);
+    byte buf[_messageLength];
+    for (int i = 0; i < _messageLength; ++i) {
+        buf[i] = (byte) _message[i];
+    }
 
-    Serial.write(buf, length);
+    Serial.write(buf, _messageLength);
 }
+
+void Response::setMessageLength(int len) {
+    _messageLength = len;
+}
+
+int Response::getMessageLength() {
+    return _messageLength;
+}
+
+

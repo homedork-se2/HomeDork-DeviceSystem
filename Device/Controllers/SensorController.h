@@ -12,6 +12,7 @@
 #define HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H
 
 #include <Arduino.h>
+#include <DeviceController.h>
 #include <ElectricityConsumption.h>
 #include <PowerCutOff.h>
 #include <Response.h>
@@ -36,7 +37,7 @@ public:
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
                      WaterLeakage waterLeakage, Window * windows);
     void runSensorController();
-
+    bool shouldRun();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_TWILIGHTCONTROLLER_H

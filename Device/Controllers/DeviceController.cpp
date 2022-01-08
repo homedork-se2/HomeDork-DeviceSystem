@@ -25,10 +25,10 @@
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
 * @param windows (Window)[]: This is an array of the windows in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
-                                   TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
-                                   Window * windows): _securityAlarm(securityAlarm), _response(response), _stove(stove),
-                                   _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights),
+DeviceController::DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Stove stove,
+                                   TemperatureController *temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
+                                   Window * windows): _securityAlarm(securityAlarm), _stove(stove),
+                                   _temperatureController(*temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights),
                                     _timers(timers), _windows(windows){
 
 
@@ -41,21 +41,25 @@ void DeviceController::initializeDevices() {
 
 }
 
-///**
-// * This function listens for a request from the server
-// * @return response (Response): A response is returned upon completion of the command.
-// */
-//void DeviceController::run(char * ) {
-//    Request request;
-//    int count = 0;
-//    int bytesAvailable = Serial.available() + 1;
-//    char buf[bytesAvailable];
-//    Serial.readBytes(buf, bytesAvailable);
-//    Serial.println("In the arduino " + String(buf));
-//    request.parseRequest(buf);
-//    handleRequest(request);
-//
-//}
+
+/**
+ * This function listens for a request from the server
+ * @return response (Response): A response is returned upon completion of the command.
+ */
+void DeviceController::run() {
+    Request request;
+    int length = Serial.available();
+    char buf[length];
+    int counter = 0;
+    bool hasRequest = false;
+    while ((length = Serial.available()) > 0) {
+        buf[counter] = Serial.read();
+        counter++;
+    }
+    request.parseRequest(buf, counter);
+    handleRequest(request);
+
+}
 
 /**
  * This function handles the request from the server.
@@ -64,8 +68,6 @@ void DeviceController::initializeDevices() {
  * success of the command.
  */
 void DeviceController::handleRequest(Request request) {
-    Serial.println(String(request.getDeviceType()));
-    Serial.println(String(request.getId()));
     int size = 0;
     switch (request.getDeviceType()) {
         case 1:

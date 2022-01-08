@@ -42,7 +42,6 @@ Light fakeLight{26, muxPins};
 PowerCutOff powerCutOff{7};
 Radiator radiator{25, muxPins};
 Radiator radiatorWindow{23, muxPins};
-Response response{500, "Failed"};
 Sound siren{21, muxPins};
 Sensor switchSecuritySensor{3};
 Sensor switchFireSensor{2};
@@ -77,14 +76,15 @@ Window * windows = new Window[2]{window, fakeWindow};
 AlarmController alarmController{fireAlarm, securityAlarm};
 SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, windows};
 TemperatureController temperatureController{thermometersIn, radiators, thermometerOut};
-DeviceController deviceController{securityAlarm, curtains, fans, lights, response,  stove, temperatureController,
-                                  timers, twilightSystem, windows};
+DeviceController deviceController{securityAlarm, curtains, fans, lights, stove, *temperatureController,
+                                   timers, twilightSystem, windows};
 
 ThreadController threadController = ThreadController();
 //Create Thread pool
 Thread alarmControllerThread = Thread();
 Thread sensorControllerThread = Thread();
 Thread temperatureControllerThread = Thread();
+Thread deviceControllerThread = Thread();
 
 
 void setup() {
@@ -104,18 +104,18 @@ void setup() {
 
     //Connect threads to callbacks
     alarmControllerThread.onRun(alarmCallback);
-    alarmControllerThread.setInterval(500);
 
     sensorControllerThread.onRun(sensorControllerCallback);
-    sensorControllerThread.setInterval(1000);
 
     temperatureControllerThread.onRun(temperatureControllerCallback);
-    temperatureControllerThread.setInterval(10000);
+
+    deviceControllerThread.onRun(deviceCallback);
 
     //Add threads to thread Controller
     threadController.add(&alarmControllerThread);
     threadController.add(&sensorControllerThread);
     threadController.add(&temperatureControllerThread);
+    threadController.add(&deviceControllerThread);
 
 //    //Get Database States
 
@@ -124,53 +124,35 @@ void setup() {
     }
     delay(500);
 
+
 }
 
 void loop() {
     //handles all threads runs those that should run.
-//   threadController.run();
-int length = 0;
-if ((length = Serial.available()) > 0) {
-    Request request;
-    noInterrupts();
-    String string = Serial.readString();
-
-    char buf[length] = string.toCharArray();
-    
-
-    request.parseRequest(buf);
-    deviceController.handleRequest(request);
-        interrupts();
-
-} else {
     threadController.run();
 }
 
+void deviceCallback() {
+    deviceController.run();
 }
 
 void alarmCallback() {
 //    Serial.println("Starting Fire Alarm System...");
 //    Serial.println(millis());
     //
-    noInterrupts();
     alarmController.runAlarm();
-    interrupts();
 }
 
 void sensorControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the sensor controller to check its sensor and return a response from the alarm has been triggered.
-    noInterrupts();
     sensorController.runSensorController();
-    interrupts();
 }
 
 void temperatureControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run  the temperature controller to check its sensor and return a response if and only if they want updates.
-    noInterrupts();
     temperatureController.runTempController();
-    interrupts();
 }

@@ -33,8 +33,10 @@ float ElectricityConsumption::getElectricUsage() {
 }
 
 void ElectricityConsumption::readSensor() {
-    Response response{400, "ERROR"};
-    response.createMessage("Electricity:", String(getId()), String(getElectricUsage()));
+    Response response;
+    char electricity[11] = {'e', 'l', 'e', 'c', 't', 'r', 'i', 'c', 'i', 't', 'y'};
+    float electricUsage = getElectricUsage();
+    response.createMessage(String(electricity), 11, String(getId()), 2, String(electricUsage),3);
     delay(100);
     response.sendMessage();
 }

@@ -25,12 +25,15 @@ Stove::Stove(unsigned int id) : Sensor(id) {
  * @return A response that will be sent to the server.
  */
 void Stove::handleStoveSwitch(bool isActive) {
-    Response response{200, "ERROR"};
+    Response response;
+    char stove[5] = {'s', 't', 'o', 'v', 'e'};
     if(isActive && !getIsActive()){
-        response.createMessage("Stove:", String(getId()), "ON");
+        char state[2] = {'O', 'N'};
+        response.createMessage(String(stove), 5, String(getId()), 2, String(state), 2);
         setIsActive(isActive);
     } else if (!isActive && getIsActive()){
-        response.createMessage("Stove:", String(getId()), "OFF");
+        char state[3] = {'O', 'F', 'F'};
+        response.createMessage(String(stove), 5, String(getId()), 2, String(state), 3);
         setIsActive(isActive);
     }
     delay(100);

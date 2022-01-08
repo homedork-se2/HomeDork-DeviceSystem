@@ -15,7 +15,6 @@ import java.net.Socket;
  */
 public class ServerThread extends Thread {
     Socket clientSocket;
-    SerialController serialController;
     InputStream in = null;
     OutputStream out = null;
 
@@ -24,11 +23,10 @@ public class ServerThread extends Thread {
      * to handle serial port communication of the arduino and the clientSocket to handle
      * communication between the server client.
      * @param clientSocket the client socket
-     * @param serialController the serial controller for the Arduino.
+     *  the serial controller for the Arduino.
      */
-    public ServerThread(Socket clientSocket, SerialController serialController) {
+    public ServerThread(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        this.serialController = serialController;
     }
 
 
@@ -37,8 +35,9 @@ public class ServerThread extends Thread {
      * thread, this method in particular handles the communication of the client server.
      */
     public void run() {
-        SerialPort serialPort = serialController.getSerialPort();
+        SerialController serialController = SerialController.getInstance();
         try {
+
             in = clientSocket.getInputStream();
             out = clientSocket.getOutputStream();
         } catch (IOException ioException) {
@@ -47,11 +46,12 @@ public class ServerThread extends Thread {
         serialController.setStringBuffer("");
         ReaderWriter readerWriter = new ReaderWriter();
         String message = readerWriter.read(in);
-        Logger.writeToLog("src/logs/command.txt", message + "\r\n");
+        System.out.println(message.trim());
+        Logger.writeToLog("src/logs/command.txt", message.trim() + "\r\n");
         serialController.setResponse(true);
-        serialController.sendRequest(message);
+        serialController.sendRequest(message.trim());
         System.out.println(serialController.getStringBuffer());
-        readerWriter.writer(serialController.getStringBuffer(), out);
+        readerWriter.writer(serialController.getStringBuffer().trim(), out);
         serialController.setResponse(false);
         try {
             if (in != null) {

@@ -3,9 +3,7 @@ package Client;
 import Util.Logger;
 import Util.ReaderWriter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -14,6 +12,7 @@ import java.util.Scanner;
 public class TestClient {
     private Scanner scanner;
     private String message = "";
+    private boolean isLegit = false;
 
     public static void main(String[] args) {
         TestClient run = new TestClient();
@@ -55,7 +54,6 @@ public class TestClient {
     }
 
     private void handleChoice(String choice) throws InterruptedException {
-        boolean isLegit = false;
         switch (choice) {
             case "1" -> {
                 message = "lamp:11:ON";
@@ -140,14 +138,20 @@ public class TestClient {
             InputStream in = null;
             Socket socket = null;
             try {
-                String hostname = "194.47.32.191";
+                String hostname = "192.168.1.242";
                 socket = new Socket(hostname, 1234);
                 in = socket.getInputStream();
                 out = socket.getOutputStream();
 
-                ReaderWriter readerWriter = new ReaderWriter();
-                readerWriter.writer(message, out);
-                System.out.println(readerWriter.read(in));
+                byte[] outBuf = message.getBytes();
+                out.write(outBuf, 0, outBuf.length);
+                out.flush();
+
+                byte[] inBuf = new byte[8*1024];
+                in.read(inBuf, 0, inBuf.length);
+
+                System.out.println(new String(inBuf).trim());
+
 
             } catch (IOException e) {
                 e.printStackTrace();

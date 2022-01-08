@@ -57,10 +57,10 @@ int Light::getDim() {
  * @return (Response): A response to the server.
  */
 void Light::setDim(int value) {
-    Response response{404, "DIM:ERROR"};
+    Response response;
     _dim = value;
-
-    response.createMessage("Lamp:", String(getId()), String(_dim));
+    char lamp[4] = {'l', 'a', 'm', 'p'};
+    response.createMessage(String(lamp), 4, String(getId()), 2, String(_dim), 3);
     Serial.println(response.getMessage());
     response.sendMessage();
 }
@@ -72,66 +72,69 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{404, "lamp:ERROR\r\n"};
-    //Indoors Light
+    Response response;
+    char lamp[4] = {'l', 'a', 'm', 'p'};
     setIsActive(request.isState());
-    if (request.getId() == 11) {
-        if (getIsActive()) {
-        //ON
-        digitalWrite(_muxPins[0], LOW);
-        digitalWrite(_muxPins[1], LOW);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Lamp:", String(getId()), "ON");
+    unsigned char id[2];
+    id[0] = getId() & 0xFF;
+    id[1] = (getId() >> 8) & 0xFF;
 
-        } else {
-        //OFF
-        digitalWrite(_muxPins[0], HIGH);
-        digitalWrite(_muxPins[1], LOW);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+    if (getIsActive()) {
+        char state[2] = {'O', 'N'};
+        if (request.getId() == 11) {
+            //Indoors Light
+            //ON
+            digitalWrite(_muxPins[0], LOW);
+            digitalWrite(_muxPins[1], LOW);
+            digitalWrite(_muxPins[2], HIGH);
+            digitalWrite(_muxPins[3], LOW);
 
-        }
+        } else if (request.getId() == 20) {
+            //Outdoors Light
+            //ON
+            digitalWrite(_muxPins[0], LOW);
+            digitalWrite(_muxPins[1], HIGH);
+            digitalWrite(_muxPins[2], HIGH);
+            digitalWrite(_muxPins[3], HIGH);
 
-    } else if(request.getId() == 20) {
-    //Outdoors Light
-        if (getIsActive()) {
-        //ON
-        digitalWrite(_muxPins[0], LOW);
-        digitalWrite(_muxPins[1], HIGH);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "ON");
-
-        } else {
-        //OFF
-        digitalWrite(_muxPins[0], HIGH);
-        digitalWrite(_muxPins[1], HIGH);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "OFF");
-        }
-
-    } else if (request.getId() == 22){
-    //Alarm Light
-        if (getIsActive()) {
-        //ON
-        digitalWrite(_muxPins[0], LOW);
-        digitalWrite(_muxPins[1], LOW);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "ON");
-
-        } else {
-        //OFF
-        digitalWrite(_muxPins[0], HIGH);
-        digitalWrite(_muxPins[1], LOW);
-        digitalWrite(_muxPins[2], HIGH);
-        digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        } else if (request.getId() == 22){
+            //Security Light
+            //ON
+            digitalWrite(_muxPins[0], LOW);
+            digitalWrite(_muxPins[1], LOW);
+            digitalWrite(_muxPins[2], HIGH);
+            digitalWrite(_muxPins[3], HIGH);
 
         }
+        response.createMessage(String(lamp), 4, String(getId()), 2, String(state), 2);
+    } else {
+        char state[3] = {'O', 'F', 'F'};
+        if (request.getId() == 11) {
+            //Indoors Light
+            //OFF
+            digitalWrite(_muxPins[0], HIGH);
+            digitalWrite(_muxPins[1], LOW);
+            digitalWrite(_muxPins[2], HIGH);
+            digitalWrite(_muxPins[3], LOW);
+
+        } else if (request.getId() == 20) {
+            //Outdoors Light
+            //OFF
+            digitalWrite(_muxPins[0], HIGH);
+            digitalWrite(_muxPins[1], HIGH);
+            digitalWrite(_muxPins[2], HIGH);
+            digitalWrite(_muxPins[3], HIGH);
+
+        } else if (request.getId() == 22){
+            //Security Light
+            //OFF
+            digitalWrite(_muxPins[0], HIGH);
+            digitalWrite(_muxPins[1], LOW);
+            digitalWrite(_muxPins[2], HIGH);
+            digitalWrite(_muxPins[3], HIGH);
+
+        }
+        response.createMessage(String(lamp), 4, String(getId()), 2, String(state), 3);
     }
     delay(100);
     response.sendMessage();

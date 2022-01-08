@@ -23,7 +23,7 @@
  * water leak.
  * @param windows (Window[]): The window in the smart house.
  */
-SensorController::SensorController(ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
+SensorController::SensorController( ElectricityConsumption electricityConsumption, PowerCutOff powerCutOff,
                                    Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
                                    WaterLeakage waterLeakage, Window * windows)
         : _electricityConsumption(electricityConsumption), _powerCutOff(powerCutOff), _stove(stove),
@@ -39,21 +39,39 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
  * logged on the server.
  */
 void SensorController::runSensorController() {
+
     int size = 2;
     for (int i = 0; i < size; ++i) {
-        _windows[i].readSensor();
+        if (SensorController::shouldRun()) {
+            _windows[i].readSensor();
+        }
     }
-    if (timeCounter == 0 || timeCounter == millis()) {
+    if (SensorController::shouldRun() && (timeCounter == 0 || timeCounter < millis())) {
+
         _electricityConsumption.readSensor();
-        timeCounter = millis() + 10000;
+
+        timeCounter = millis() + 1000;
+    }
+    if (SensorController::shouldRun()) {
+        _powerCutOff.readSensor();
     }
 
-    _powerCutOff.readSensor();
-    delay(100);
-    _stove.readStoveSensor();
-    delay(100);
-    _twilightAutomaticSystem.readLightSensor();
-    delay(100);
-    _waterLeakage.readWaterLeakSensor();
+    if (SensorController::shouldRun()) {
+        _stove.readStoveSensor();
+    }
 
+    if (SensorController::shouldRun()) {
+        _twilightAutomaticSystem.readLightSensor();
+    }
+
+    if (SensorController::shouldRun()) {
+        _waterLeakage.readWaterLeakSensor();
+    }
+}
+
+bool shouldRun() {
+    if (Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

@@ -27,8 +27,12 @@ TemperatureController::TemperatureController(Thermometer * thermometersIn, Radia
  */
 void TemperatureController::setDesiredTemp(float temp) {
     _desiredTemp = temp;
-    Response response{404, "ERROR"};
-    response.createMessage("DesiredTemp:", "0", String(temp));
+    char tempString[4];
+    dtostrf(temp, 2, 2, tempString);
+    char desiredTemp[11] = {'d', 'e', 's', 'i', 'r', 'e', 'd', 'T', 'e', 'm', 'p'};
+    char house[5] = {'h', 'o', 'u', 's', 'e'};
+    Response response;
+    response.createMessage(String(desiredTemp), 11, String(house), 2, String(tempString), 4);
 }
 
 /**
@@ -45,20 +49,36 @@ float TemperatureController::getDesiredTemp() {
  * @return (Response): A response is returned based on the
  */
 void TemperatureController::runTempController() {
-    Response response{500, "ERROR"};
-    float temp = _thermometerOut.getCurrentTemp();
-    response.createMessage("Temp:", String(_thermometerOut.getId()), String(temp));
-    response.sendMessage();
-    int size = 2;
-    for (int i = 0; i < size; ++i) {
-        delay(100);
-        temp = _thermometersIn[i].getCurrentTemp();
-        response.createMessage("Temp:", String(_thermometersIn[i].getId()), String(temp));
-        if (temp > _desiredTemp) {
-            _radiators[i].adjustTemp(false);
-        } else if (temp < _desiredTemp) {
-            _radiators[i].adjustTemp(true);
-        }
+    Response response;
+    if (TemperatureController::shouldRun()) {
+        char name[4] = {'t', 'e', 'm', 'p'};
+        float temp = _thermometerOut.getCurrentTemp();
+        char idOut[8] = {'o', 'u', 't', 'd', 'o', 'o', 'r', 's'};
+        response.createMessage(String(name), 4, String(idOut), 8, String(temp), 4);
         response.sendMessage();
     }
+
+    int size = 2;
+    for (int i = 0; i < size; ++i) {
+        temp = _thermometersIn[i].getCurrentTemp();
+        if (TemperatureController::shouldRun()) {
+            response.createMessage(String(name), 4, String(i+1), 2, String(temp), 4);
+            if (temp > _desiredTemp) {
+                deviceController->shouldRun();
+                _radiators[i].adjustTemp(false);
+            } else if (temp < _desiredTemp) {
+                deviceController->shouldRun();
+                _radiators[i].adjustTemp(true);
+            }
+            response.sendMessage();
+        }
+
+    }
+}
+
+bool shouldRun() {
+    if (Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

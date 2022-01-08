@@ -28,8 +28,8 @@ public:
     int getValue();
     void setValue(int value);
     int getDeviceType();
-    void setDeviceType(String deviceName);
-    void parseRequest(const char * buf);
+    void setDeviceType(char * deviceName, int size);
+    void parseRequest(char * buf, int size);
 
 };
 

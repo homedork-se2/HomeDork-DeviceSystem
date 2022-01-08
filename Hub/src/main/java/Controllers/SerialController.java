@@ -29,6 +29,7 @@ import java.util.Arrays;
  *
  */
 public class SerialController implements SerialPortDataListener {
+    private static SerialController  serialController = null;
     private SerialPort serialPort;
     private String stringBuffer;
     private boolean isResponse;
@@ -36,13 +37,28 @@ public class SerialController implements SerialPortDataListener {
     private InputStream inputStream;
     private OutputStream outputStream;
 
+    private SerialController() {
+        setSerialPort(SerialPort.getCommPorts()[0]);
+        serialPort.openPort();
+        serialPort.setBaudRate(9600);
+        System.out.println("Com port open: " + serialPort.getDescriptivePortName());
+        serialPort.addDataListener(this);
+    }
+
+    public static SerialController getInstance() {
+        if (serialController == null) {
+            serialController = new SerialController();
+        }
+        return serialController;
+    }
+
     /**
      * A method that sends a request from the server to the Arduino, the response is
      *  set to true because a response is expected the message is sent via bytes.
      */
     public void sendRequest(String message) {
         setResponse(true);
-        stringBuffer = message.replace("'","").trim() + "\r\n";
+        stringBuffer = message.replace("'","").trim();
         byte[] bytes = stringBuffer.getBytes();
         serialPort.writeBytes(bytes, 0, bytes.length);
         setResponse(false);
@@ -85,10 +101,10 @@ public class SerialController implements SerialPortDataListener {
 
             if (!isResponse()) {
 //            ServerClient serverClient = new ServerClient();
-                Logger.writeToLog("src/logs/sensor.txt", getStringBuffer());
+                Logger.writeToLog("src/logs/sensor.txt", getStringBuffer().trim() + "\r\n");
 //            serverClient.sendMessage(stringBuffer);
             } else {
-                Logger.writeToLog("./src/logs/arduinoResponse.txt", getStringBuffer());
+                Logger.writeToLog("./src/logs/arduinoResponse.txt", "Response: "+ getStringBuffer().trim() + "\r\n");
             }
         }).start();
     }

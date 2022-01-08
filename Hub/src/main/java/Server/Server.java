@@ -21,21 +21,13 @@ public class Server {
      */
     public void run() {
         ServerSocket serverSocket = null;
-        SerialController serialController = null;
         try {
             serverSocket = new ServerSocket(1234);
             InetAddress localAddress = InetAddress.getLocalHost();
 
             System.out.println(localAddress);
             System.out.println(serverSocket.getLocalPort());
-            serialController = new SerialController();
-            serialController.setSerialPort(SerialPort.getCommPorts()[0]);
-
-            SerialPort serialPort = serialController.getSerialPort();
-            serialPort.openPort();
-            serialPort.setBaudRate(9600);
-            System.out.println("Com port open: " + serialPort.getDescriptivePortName());
-            serialPort.addDataListener(serialController);
+            SerialController serialController = SerialController.getInstance();
         } catch (IOException ioException) {
             System.out.println("I/O Exception couldn't initialize socket to listen\n" + ioException.getMessage());
         }
@@ -45,7 +37,7 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println(serverSocket.getInetAddress());
                 System.out.println("Client: " + clientSocket.getInetAddress());
-                ServerThread server = new ServerThread(clientSocket, serialController);
+                ServerThread server = new ServerThread(clientSocket);
                 server.start();
             } catch (IOException ioException) {
                 System.out.println("I/O Exception couldn't begin accepting.\n" + ioException.getMessage());

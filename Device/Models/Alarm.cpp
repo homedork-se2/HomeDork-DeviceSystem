@@ -26,17 +26,17 @@ Alarm::Alarm(Light light, Sound sound, Sensor sensor, bool fireAlarm): alarmLigh
  * @return (Response): returns on the success or failure of setting the alarm.
  */
 void Alarm::setAlarm(bool isSet) {
-    Response response{400, "ERROR"};
+    Response response;
     if (isSet) {
         setIsArmed(true);
-        response.createMessage("Alarm", "Security", "Armed");
+        response.createMessage("alarm", 5, "security", 8, "armed", 5);
     } else {
         setIsArmed(false);
         if (getIsActive()) {
             setIsActive(false);
             handleAlarmTrigger();
         }
-        response.createMessage("Alarm", "Security", "Armed");
+        response.createMessage("alarm", 5, "security", 8 , "disarmed", 8 );
     }
     response.sendMessage();
 }
@@ -87,37 +87,56 @@ void Alarm::setIsArmed(bool armed) {
  * successful.
  */
 void Alarm::handleAlarmTrigger() {
-    Response response{500, "Failure"};
+    Response response;
     Request request;
+    char alarm[5] = {'a', 'l', 'a', 'r', 'm'};
+    if (_isFireAlarm) {
+        char type[4] = {'f', 'i', 'r', 'e'};
+        if (getIsActive()) {
+            siren.handleSoundSwitch(true);
+            delay(20);
 
-    if (getIsActive()) {
-        siren.handleSoundSwitch(true);
-        delay(200);
-        if (_isFireAlarm) {
-            response.createMessage("Alarm", "Fire", "TRIGGERED");
+            char state[9] = {'t', 'r', 'i', 'g', 'g', 'e', 'r', 'e', 'd'};
+            response.createMessage(String(alarm), 5, String(type), 4, String(state), 9);
+            response.sendMessage();
+
         } else {
-            request.setDeviceType("lamp");
+            siren.handleSoundSwitch(false);
+            delay(20);
+
+            char state[5] = {'c', 'l', 'e', 'a', 'r'};
+            response.createMessage(String(alarm), 5, String(type), 4, String(state), 5);
+            response.sendMessage();
+        }
+    } else {
+        char type[8] = {'s', 'e', 'c', 'u', 'r', 'i', 't', 'y'};
+        char lamp[4] = {'l', 'a', 'm', 'p'};
+        if (getIsActive()) {
+            siren.handleSoundSwitch(true);
+            delay(20);
+
+            char state[9] = {'t', 'r', 'i', 'g', 'g', 'e', 'r', 'e', 'd'};
+            request.setDeviceType(*lamp, 4);
             request.setState(true);
             request.setId(alarmLight.getId());
-            alarmLight.handleLightSwitch(request);
-            response.createMessage("Alarm", "Security", "TRIGGERED");
-        }
 
-    } else {
-        siren.handleSoundSwitch(false);
-        delay(200);
-        if (_isFireAlarm) {
-            response.createMessage("Alarm", "Fire", "CLEAR");
+            alarmLight.handleLightSwitch(request);
+
+            response.createMessage(String(alarm), 5, String(type), 8, String(state), 9);
+            response.sendMessage();
         } else {
-            request.setDeviceType("lamp");
+            siren.handleSoundSwitch(false);
+            delay(20);
+            char state[5] = {'c', 'l', 'e', 'a', 'r'};
+
+            request.setDeviceType(*lamp, 4);
             request.setState(false);
             request.setId(alarmLight.getId());
+
             alarmLight.handleLightSwitch(request);
-            response.createMessage("Alarm", "Security", "CLEAR");
+
+            response.createMessage(String(alarm), 5, String(type), 8, String(state), 5);
+            response.sendMessage();
         }
-        delay(100);
-        response.sendMessage();
     }
-
-
 }

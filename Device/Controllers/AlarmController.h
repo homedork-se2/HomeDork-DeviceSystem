@@ -14,6 +14,7 @@
 #define HOMEDORK_DEVICESYSTEM_ALARMCONTROLLER_H
 
 #include <Alarm.h>
+#include <DeviceController.h>
 #include <Arduino.h>
 #include <Response.h>
 
@@ -24,6 +25,7 @@ private:
 public:
     AlarmController(Alarm fireAlarm, Alarm securityAlarm);
     void runAlarm();
+    bool shouldRun();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_ALARMCONTROLLER_H

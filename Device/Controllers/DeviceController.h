@@ -32,7 +32,6 @@ private:
     Curtains  * _curtains;
     Fan * _fans;
     Light *_lights;
-    Response _response;
     Stove _stove;
     TemperatureController _temperatureController;
     Timer * _timers;
@@ -40,10 +39,10 @@ private:
     Window * _windows;
 
 public:
-    DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
-                     TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
+    DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Stove stove,TemperatureController *temperatureController,
+                     Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
     void initializeDevices();
-    void runListen();
+    void run();
     void handleRequest(Request request);
 
 };

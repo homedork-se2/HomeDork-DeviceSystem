@@ -66,9 +66,9 @@ void Fan::setHasOscillation(bool hasOscillation) {
  * @param value (int): The value of the fan sent by the user.
  */
 void Fan::setMode(int value) {
-    if (value > 200) {
+    if (value > 75) {
         _fanMode = High;
-    } else if (value < 200 && value > 64) {
+    } else if (value < 75 && value > 30) {
         _fanMode = Medium;
     } else {
         _fanMode = Low;
@@ -89,7 +89,10 @@ Mode Fan::getMode() {
  * @return (Response): A response is returned to the server.
  */
 void Fan::handleFanSwitch(Request request) {
-    Response response{404,  "ERROR"};
+    Response response;
+    char fan[3] = {'f', 'a', 'n'};
+    char error[5] = {'e', 'r', 'r', 'o', 'r'};
+    response.createMessage(String(fan), 3, String(getId()), 2, String(error), 5);
     setIsActive(request.isState());
     if (getHasMultiMode()) {
         if (getIsActive()) {
@@ -102,19 +105,23 @@ void Fan::handleFanSwitch(Request request) {
             } else if (_fanMode == Mode::Low){
                 analogWrite(getId(), 64);
             }
-            response.createMessage("Fan:", String(getId()), String(request.getValue()));
+            response.createMessage(String(fan), 3, String(getId()), 2, String(request.getValue()), 3);
 
         } else {
+            char state[3] = {'O', 'F', 'F'};
             analogWrite(getId(), 0);
-            response.createMessage("Fan:", String(getId()), "OFF");
+
+            response.createMessage(String(fan), 3, String(getId()), 2, String(state), 3);
         }
     } else {
         if (getIsActive()) {
+            char state[2] = {'O', 'N'};
             digitalWrite(getId(), HIGH);
-            response.createMessage("Fan:", String(getId()), "ON");
+            response.createMessage(String(fan), 3, String(getId()), 2, String(state), 2);
         } else {
+            char state[3] = {'O', 'F', 'F'};
             digitalWrite(getId(), LOW);
-            response.createMessage("Fan:", String(getId()), "OFF");
+            response.createMessage(String(fan), 3, String(getId()), 2, String(state), 3);
         }
 
     }

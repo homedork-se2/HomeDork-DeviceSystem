@@ -25,45 +25,46 @@ Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id), _muxPin
  * back to the server.
  */
 void Radiator::adjustTemp(bool isCold) {
-    Response response{404, "ERROR"};
-
-    if (getId() == 23 ) {
-        //Window
-        setIsActive(isCold);
-        if (getIsActive()) {
+    Response response;
+    char radiator[8] = {'r', 'a', 'd', 'i', 'a', 't', 'o', 'r'};
+    setIsActive(isCold);
+    if (getIsActive()) {
+        char state[2] = {'O', 'N'};
+        if (getId() == 23) {
+            //Window ON
             digitalWrite(_muxPins[0], LOW);
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.createMessage("Radiator:", String(getId()), "ON");
+        }else if(getId() == 25) {
+            //Non window ON
+            digitalWrite(_muxPins[0], LOW);
+            digitalWrite(_muxPins[1], HIGH);
+            digitalWrite(_muxPins[2], LOW);
+            digitalWrite(_muxPins[3], HIGH);
 
-        } else {
+        }
+        response.createMessage(String(radiator), 8, String(getId()), 2, String(state), 2);
+
+    } else  {
+        char state[3] = {'O', 'F', 'F'};
+        if(getId() == 23) {
+            //Window OFF
             digitalWrite(_muxPins[0], HIGH);
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.createMessage("Radiator:", String(getId()), "OFF");
+
+        } else if (getId() == 25) {
+            //Non window OFF
+            digitalWrite(_muxPins[0], HIGH);
+            digitalWrite(_muxPins[1], HIGH);
+            digitalWrite(_muxPins[2], LOW);
+            digitalWrite(_muxPins[3], HIGH);
 
         }
-
-    } else if(getId() == 25)
-        //Non window
-        setIsActive(isCold);
-    if (getIsActive()) {
-        digitalWrite(_muxPins[0], LOW);
-        digitalWrite(_muxPins[1], HIGH);
-        digitalWrite(_muxPins[2], LOW);
-        digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Radiator:", String(getId()), "ON");;
-
-    } else {
-        digitalWrite(_muxPins[0], HIGH);
-        digitalWrite(_muxPins[1], HIGH);
-        digitalWrite(_muxPins[2], LOW);
-        digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Radiator:", String(getId()), "OFF");
-
+        response.createMessage(String(radiator), 8, String(getId()), 2, String(state), 3);
     }
-    delay(100);
+    delay(50);
     response.sendMessage();
 }

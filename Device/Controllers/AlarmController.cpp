@@ -24,21 +24,34 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAl
  * @return
  */
 void AlarmController::runAlarm() {
-    int reading = _fireAlarm.alarmSensor.readDigitalSensor();
-    if (reading == HIGH && !_fireAlarm.getIsActive()) {
-        _fireAlarm.setIsActive(true);
-        _fireAlarm.handleAlarmTrigger();
-    } else if (reading == LOW && _fireAlarm.getIsActive()) {
-        _fireAlarm.setIsActive(false);
-        _fireAlarm.handleAlarmTrigger();
+    int reading = 0;
+    if (AlarmController::shouldRun()) {
+        reading = _fireAlarm.alarmSensor.readDigitalSensor();
+        if (reading == HIGH && !_fireAlarm.getIsActive()) {
+            _fireAlarm.setIsActive(true);
+            _fireAlarm.handleAlarmTrigger();
+        } else if (reading == LOW && _fireAlarm.getIsActive()) {
+            _fireAlarm.setIsActive(false);
+            _fireAlarm.handleAlarmTrigger();
+        }
     }
 
-    reading = _securityAlarm.alarmSensor.readDigitalSensor();
-    if ((reading == LOW && _securityAlarm.getIsArmed()) && !_securityAlarm.getIsActive()) {
-        _securityAlarm.setIsActive(true);
-        _securityAlarm.handleAlarmTrigger();
-    } else if ((reading == HIGH && _securityAlarm.getIsActive()) && !_securityAlarm.getIsArmed()){
-        _securityAlarm.setIsActive(false);
-        _securityAlarm.handleAlarmTrigger();
+    if (AlarmController::shouldRun()) {
+        reading = _securityAlarm.alarmSensor.readDigitalSensor();
+        if ((reading == LOW && _securityAlarm.getIsArmed()) && !_securityAlarm.getIsActive()) {
+            _securityAlarm.setIsActive(true);
+            _securityAlarm.handleAlarmTrigger();
+        } else if ((reading == HIGH && _securityAlarm.getIsActive()) && !_securityAlarm.getIsArmed()){
+            _securityAlarm.setIsActive(false);
+            _securityAlarm.handleAlarmTrigger();
+        }
     }
+
+}
+
+bool shouldRun() {
+    if (Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

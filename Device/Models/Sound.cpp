@@ -27,22 +27,24 @@ Sound::Sound(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxP
  * @return (Response): A response sent back to the server.
  */
 void Sound::handleSoundSwitch(bool isActive) {
-    Response response{404, "ERROR"};
+    Response response;
+    char sound[5] = {'s', 'o', 'u', 'n', 'd'};
     setIsActive(isActive);
     if (getIsActive()) {
+        char stateString[2] = {'O', 'N'};
         digitalWrite(_muxPins[0], HIGH);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Sound", String(getId()), "ON");
+        response.createMessage(String(sound), 5, String(getId()), 2, String(stateString), 2);
     } else {
+        char stateString[3] = {'O', 'F', 'F'};
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Sound", String(getId()), "OFF");
+        response.createMessage(String(sound), 5, String(getId()), 2, String(stateString), 3);
     }
-    //Serial.println(response.getMessage());
     delay(100);
     response.sendMessage();
 }

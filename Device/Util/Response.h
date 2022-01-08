@@ -14,16 +14,20 @@
 
 class Response {
 private:
-    int _statusCode;
+    int _statusCode = 404;
     String _message;
+    int _messageLength = 0;
 public:
-    Response(int statusCode, String message);
     int getStatusCode();
     void setStatusCode(int statusCode);
     String getMessage();
-    void setMessage(String message);
+    void createMessage(String type, int tSize, String id, int idSize, String, int stateSize);
+    void setMessage(String message, int size);
+    int getMessageLength();
+    void setMessageLength(int len);
     void sendMessage();
-    void createMessage(String type, String id, String state);
+
+
 };
 
 

@@ -12,6 +12,7 @@
 #define HOMEDORK_DEVICESYSTEM_TEMPERATURECONTROLLER_H
 
 #include <Arduino.h>
+#include <DeviceController.h>
 #include <Radiator.h>
 #include <Response.h>
 #include <Thermometer.h>
@@ -28,7 +29,7 @@ public:
     void setDesiredTemp(float desiredTemp);
     float getDesiredTemp();
     void runTempController();
-
+    bool shouldRun();
 };
 
 #endif //HOMEDORK_DEVICESYSTEM_TEMPERATURECONTROLLER_H

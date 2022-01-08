@@ -24,14 +24,16 @@ Window::Window(unsigned int id): Sensor(id) {
  * the state change
  */
 void Window::handleWindowSwitch(bool state) {
-    String string = "ERROR";
-    Response response{400, string};
+    Response response;
+    char window[6] = {'w', 'i', 'n', 'd', 'o', 'w'};
     if(state && !getIsActive()){
+        char stateString[4] = {'O', 'P', 'E', 'N'};
         setIsActive(state);
-        response.createMessage("Window:", String(getId()), "OPEN");
+        response.createMessage(String(window), 6, String(getId()), 2, String(stateString), 4);
     } else if (!state && getIsActive()) {
+        char stateString[6] = {'C', 'L', 'O', 'S', 'E', 'D'};
         setIsActive(state);
-        response.createMessage("Window:", String(getId()), "CLOSED");
+        response.createMessage(String(window), 6, String(getId()), 2, String(stateString), 6);
     }
     delay(100);
     response.sendMessage();
