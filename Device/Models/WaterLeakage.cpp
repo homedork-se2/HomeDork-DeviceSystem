@@ -37,7 +37,7 @@ void WaterLeakage::handleWaterLeakage(bool state){
         setIsActive(state);
         response.createMessage(String(waterLeak), 9, String(getId()), 2, String(stateString), 7);
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 

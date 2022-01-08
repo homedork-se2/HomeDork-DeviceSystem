@@ -65,6 +65,10 @@ void Radiator::adjustTemp(bool isCold) {
         }
         response.createMessage(String(radiator), 8, String(getId()), 2, String(state), 3);
     }
+<<<<<<< HEAD
     delay(50);
+=======
+    delay(10);
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
     response.sendMessage();
 }

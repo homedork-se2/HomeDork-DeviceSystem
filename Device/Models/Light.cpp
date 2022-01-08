@@ -136,7 +136,7 @@ void Light::handleLightSwitch(Request request) {
         }
         response.createMessage(String(lamp), 4, String(getId()), 2, String(state), 3);
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 

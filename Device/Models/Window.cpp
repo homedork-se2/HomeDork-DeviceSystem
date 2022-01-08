@@ -35,7 +35,7 @@ void Window::handleWindowSwitch(bool state) {
         setIsActive(state);
         response.createMessage(String(window), 6, String(getId()), 2, String(stateString), 6);
     }
-    delay(100);
+    delay(10);
     response.sendMessage();
 }
 

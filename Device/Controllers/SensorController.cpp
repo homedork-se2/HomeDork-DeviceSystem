@@ -56,9 +56,16 @@ void SensorController::runSensorController() {
         _powerCutOff.readSensor();
     }
 
+<<<<<<< HEAD
     if (SensorController::shouldRun()) {
         _stove.readStoveSensor();
     }
+=======
+    _powerCutOff.readSensor();
+    _stove.readStoveSensor();
+    _twilightAutomaticSystem.readLightSensor();
+    _waterLeakage.readWaterLeakSensor();
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 
     if (SensorController::shouldRun()) {
         _twilightAutomaticSystem.readLightSensor();

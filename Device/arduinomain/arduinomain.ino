@@ -104,6 +104,10 @@ void setup() {
 
     //Connect threads to callbacks
     alarmControllerThread.onRun(alarmCallback);
+<<<<<<< HEAD
+=======
+    alarmControllerThread.setInterval(1000);
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 
     sensorControllerThread.onRun(sensorControllerCallback);
 
@@ -122,6 +126,7 @@ void setup() {
     while (!Serial) {
         ; // wait for serial port to connect. Needed for native USB port only
     }
+<<<<<<< HEAD
     delay(500);
 
 
@@ -131,6 +136,23 @@ void loop() {
     //handles all threads runs those that should run.
     threadController.run();
 }
+=======
+    delay(10);
+}
+
+void loop() {
+    Request request;
+
+    if (Serial.available() > 0) {
+        String string = Serial.readString();
+        char * buf;
+        string.toCharArray(buf, string.length());
+        request.parseRequest(buf);
+        deviceController.handleRequest(request);
+    } else {
+        threadController.run();
+    }
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 
 void deviceCallback() {
     deviceController.run();
@@ -140,19 +162,37 @@ void alarmCallback() {
 //    Serial.println("Starting Fire Alarm System...");
 //    Serial.println(millis());
     //
+<<<<<<< HEAD
     alarmController.runAlarm();
+=======
+    
+    alarmController.runAlarm();
+    
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 }
 
 void sensorControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the sensor controller to check its sensor and return a response from the alarm has been triggered.
+<<<<<<< HEAD
     sensorController.runSensorController();
+=======
+    
+    sensorController.runSensorController();
+    
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 }
 
 void temperatureControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run  the temperature controller to check its sensor and return a response if and only if they want updates.
+<<<<<<< HEAD
     temperatureController.runTempController();
+=======
+    
+    temperatureController.runTempController();
+    
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 }

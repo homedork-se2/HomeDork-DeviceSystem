@@ -142,16 +142,23 @@ void Request::parseRequest(char * buf, int size) {
         char c = (char) buf[count];
         if (c == ':') {
             if (flag == 0) {
+<<<<<<< HEAD
                 char * deviceType = input;
                 Request::setDeviceType(deviceType, count - 1);
                 Serial.print("Request: ");
                 Serial.println(deviceType);
+=======
+                String deviceType = String(input);
+                Serial.println("Request: " + deviceType);
+                Request::setDeviceType(deviceType);
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
             } else if (flag == 1) {
                 unsigned int id = atoi(String(input));
                 Serial.print("Request: ");
                 Serial.println(id);
                 Request::setId(id);
             } else if (flag == 2) {
+<<<<<<< HEAD
                 char * stateString = input;
                 Serial.print("Request: ");
                 Serial.println(stateString);
@@ -163,6 +170,21 @@ void Request::parseRequest(char * buf, int size) {
                         if (getValue() > 0) {
                             Request::setState(true);
                         }
+=======
+                String stateString = String(input);
+                Serial.println("Request: " + stateString );
+                if (stateString.equals("ON") || stateString.equals("OPEN")) {
+                    Request::setState(true);
+                    break;
+                } else if (stateString.equals("OFF") || stateString.equals("CLOSED")) {
+                    Request::setState(false);
+                    break;
+                } else {
+                    String value = String(input);
+                    Request::setValue(value.toInt());
+                    if (getValue() > 0) {
+                        Request::setState(true);
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
                     }
                 } else if (count - 1 == 3) {
                     if (stateString[0] == 'O' && ((stateString[1] == 'F' && stateString[2] == 'F'))){

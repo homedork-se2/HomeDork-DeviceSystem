@@ -31,11 +31,16 @@ void PowerCutOff::readSensor() {
  * @return (Response): A response to be sent back to the server.
  */
 void PowerCutOff::handlePowerCutOff(){
+<<<<<<< HEAD
     Response response;
     char powerCutOff[11] = {'p', 'o', 'w', 'e', 'r', 'C', 'u', 't', 'O', 'f', 'f'};
     char triggered[9] = {'t', 'r', 'i', 'g', 'g', 'e', 'r', 'e', 'd'};
     response.createMessage(String(powerCutOff), 11, String(getId()), 2, String(triggered), 9);
     delay(100);
+=======
+    Response response{200, "PowerCutOff:Triggered"};
+    delay(10);
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
     response.sendMessage();
 }
 

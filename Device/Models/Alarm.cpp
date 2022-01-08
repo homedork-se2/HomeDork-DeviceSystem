@@ -100,6 +100,13 @@ void Alarm::handleAlarmTrigger() {
             response.createMessage(String(alarm), 5, String(type), 4, String(state), 9);
             response.sendMessage();
 
+<<<<<<< HEAD
+=======
+    if (getIsActive()) {
+        siren.handleSoundSwitch(true);
+        if (_isFireAlarm) {
+            response.createMessage("Alarm", "Fire", "TRIGGERED");
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
         } else {
             siren.handleSoundSwitch(false);
             delay(20);
@@ -120,10 +127,17 @@ void Alarm::handleAlarmTrigger() {
             request.setState(true);
             request.setId(alarmLight.getId());
 
+<<<<<<< HEAD
             alarmLight.handleLightSwitch(request);
 
             response.createMessage(String(alarm), 5, String(type), 8, String(state), 9);
             response.sendMessage();
+=======
+    } else {
+        siren.handleSoundSwitch(false);
+        if (_isFireAlarm) {
+            response.createMessage("Alarm", "Fire", "CLEAR");
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
         } else {
             siren.handleSoundSwitch(false);
             delay(20);
@@ -138,5 +152,10 @@ void Alarm::handleAlarmTrigger() {
             response.createMessage(String(alarm), 5, String(type), 8, String(state), 5);
             response.sendMessage();
         }
+<<<<<<< HEAD
+=======
+        delay(10);
+        response.sendMessage();
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
     }
 }

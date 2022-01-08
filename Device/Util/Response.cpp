@@ -54,12 +54,17 @@ void Response::createMessage(String type, int tSize, String id, int idSize, Stri
 
 
 void Response::sendMessage() {
+<<<<<<< HEAD
     byte buf[_messageLength];
     for (int i = 0; i < _messageLength; ++i) {
         buf[i] = (byte) _message[i];
     }
 
     Serial.write(buf, _messageLength);
+=======
+    Serial.println(getMessage());
+    Serial.flush();
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
 }
 
 void Response::setMessageLength(int len) {

@@ -45,6 +45,11 @@ void Sound::handleSoundSwitch(bool isActive) {
         digitalWrite(_muxPins[3], LOW);
         response.createMessage(String(sound), 5, String(getId()), 2, String(stateString), 3);
     }
+<<<<<<< HEAD
     delay(100);
+=======
+    //Serial.println(response.getMessage());
+    delay(10);
+>>>>>>> 40d52950655ecf9ddec15aa4122625812e38c356
     response.sendMessage();
 }
