@@ -52,7 +52,7 @@ Thermometer thermometerInWindow{A2};
 Thermometer thermometerOut{9};
 Timer timer1{18, muxPins};
 Timer timer2{19, muxPins};
-WaterLeakage waterLeakage{7};
+WaterLeakage waterLeakage{4};
 Window window{6};
 Window fakeWindow{27};
 
@@ -107,18 +107,19 @@ void setup() {
     alarmControllerThread.setInterval(1000);
 
     deviceControllerThread.onRun(deviceControllerCallback);
-    deviceControllerThread.setInterval(10);
+    deviceControllerThread.setInterval(100);
 
     sensorControllerThread.onRun(sensorControllerCallback);
-    sensorControllerThread.setInterval(1000);
+    sensorControllerThread.setInterval(2000);
 
     temperatureControllerThread.onRun(temperatureControllerCallback);
-    temperatureControllerThread.setInterval(30000);
+    temperatureControllerThread.setInterval(3000);
 
     //Add threads to thread Controller
     threadController.add(&alarmControllerThread);
     threadController.add(&sensorControllerThread);
     threadController.add(&temperatureControllerThread);
+    threadController.add(&deviceControllerThread);
 
 //    //Get Database States
 
@@ -132,9 +133,6 @@ void setup() {
 void loop() {
     //handles all threads runs those that should run.
 //   threadController.run();
-if (Serial.available()) {
-    deviceControllerCallback();
-}
     threadController.run();
 }
 
@@ -142,7 +140,7 @@ void alarmCallback() {
 //    Serial.println("Starting Fire Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the fire alarm to check its sensor and return a response from the alarm has been triggered.
-    alarmController.runAlarm();
+    //alarmController.runAlarm();
 }
 
 
@@ -157,7 +155,7 @@ void sensorControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run the loop for the sensor controller to check its sensor and return a response from the alarm has been triggered.
-    sensorController.runSensorController();
+    //sensorController.runSensorController();
 
 }
 
@@ -165,5 +163,5 @@ void temperatureControllerCallback() {
 //    Serial.println("Starting Security Alarm System...");
 //    Serial.println(millis());
     // Run  the temperature controller to check its sensor and return a response if and only if they want updates.
-    temperatureController.runTempController();
+    //temperatureController.runTempController();
 }

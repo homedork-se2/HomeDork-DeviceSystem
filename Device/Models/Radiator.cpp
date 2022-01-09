@@ -65,5 +65,4 @@ void Radiator::adjustTemp(bool isCold) {
 
     }
     response.sendMessage();
-    Serial.println(response.getMessage());
 }

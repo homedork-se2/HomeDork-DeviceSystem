@@ -24,18 +24,38 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAl
  * @return
  */
 void AlarmController::runAlarm() {
+
     _securityAlarm.setIsArmed(true);
+
+    if(!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     int reading = _fireAlarm.alarmSensor.readDigitalSensor();
     if (reading == HIGH && !_fireAlarm.getIsActive()) {
         _fireAlarm.handleAlarmTrigger(true, true);
     } else if (_fireAlarm.getIsActive()) {
         _fireAlarm.handleAlarmTrigger(false, true);
     }
-
+    delay(50);
+    interrupts();
+    if(!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     reading = _securityAlarm.alarmSensor.readDigitalSensor();
     if (reading == LOW && _securityAlarm.getIsArmed() && !_securityAlarm.getIsActive()) {
         _securityAlarm.handleAlarmTrigger(true, false);
     } else if (reading == HIGH || (_securityAlarm.getIsActive() && !_securityAlarm.getIsArmed())){
         _securityAlarm.handleAlarmTrigger(false, false);
     }
+    delay(50);
+    interrupts();
+}
+
+bool AlarmController::shouldRun() {
+    if(Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

@@ -46,18 +46,23 @@ void DeviceController::initializeDevices() {
  * @return response (Response): A response is returned upon completion of the command.
  */
 void DeviceController::runListen() {
-    Request request;
-    int count = 0;
-    byte buf[65];
-    while (Serial.available() > 0) {
-        byte incomingByte = 0;
+    noInterrupts();
+    int length = 0;
+    if ((length = Serial.available()) > 0) {
+        Request request;
+        int count = 0;
+        byte buf[65];
+        while (Serial.available() > 0) {
+            byte incomingByte = 0;
+            incomingByte = Serial.read();
+            buf[count] = incomingByte;
+            count++;
+        }
+        request.parseRequest(buf, count);
+        handleRequest(request);
 
-        incomingByte = Serial.read();
-        buf[count] = incomingByte;
     }
-    request.parseRequest(buf);
-    handleRequest(request);
-
+    interrupts();
 }
 
 /**

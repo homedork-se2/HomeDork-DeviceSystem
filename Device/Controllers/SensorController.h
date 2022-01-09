@@ -35,6 +35,7 @@ public:
                      Stove stove, TwilightAutomaticSystem twilightAutomaticSystem,
                      WaterLeakage waterLeakage, Window * windows);
     void runSensorController();
+    bool shouldRun();
 
 };
 

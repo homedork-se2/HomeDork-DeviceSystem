@@ -27,6 +27,7 @@ TemperatureController::TemperatureController(Thermometer * thermometersIn, Radia
  */
 void TemperatureController::setDesiredTemp(float temp) {
     _desiredTemp = temp;
+    delay(50);
     Response response{404, "ERROR"};
     response.createMessage("DesiredTemp:", "0", String(temp));
 }
@@ -46,20 +47,40 @@ float TemperatureController::getDesiredTemp() {
  */
 void TemperatureController::runTempController() {
     Response response{500, "ERROR"};
+    if (!shouldRun()) {
+        return;
+    }
+    interrupts();
     float temp = _thermometerOut.getCurrentTemp();
     response.createMessage("Temp:", String(_thermometerOut.getId()), String(temp));
-    Serial.println(response.getMessage());
+    response.sendMessage();
+    delay(50);
+    interrupts();
     int size = 2;
     for (int i = 0; i < size; ++i) {
+        if (!shouldRun()) {
+            return;
+        }
+        noInterrupts();
         temp = _thermometersIn[i].getCurrentTemp();
         response.createMessage("Temp:", String(_thermometersIn[i].getId()), String(temp));
-        Serial.println(response.getMessage());
+        response.sendMessage();
         if (temp > _desiredTemp) {
             _radiators[i].adjustTemp(false);
         } else if (temp < _desiredTemp) {
             _radiators[i].adjustTemp(true);
+
         }
+        delay(50);
+        interrupts();
 
     }
     Serial.println(response.getMessage());
+}
+
+bool TemperatureController::shouldRun() {
+    if(Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

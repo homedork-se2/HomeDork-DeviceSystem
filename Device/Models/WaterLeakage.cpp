@@ -32,7 +32,6 @@ void WaterLeakage::handleWaterLeakage(bool state){
     } else if(!state) {
         response.createMessage("WaterLeak:", String(getId()), "Stopped");
     }
-    Serial.println(response.getMessage());
     response.sendMessage();
 }
 

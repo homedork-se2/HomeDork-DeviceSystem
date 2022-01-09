@@ -64,8 +64,8 @@ void Response::sendMessage() {
     int length = getMessage().length() + 1;
     byte buf[length];
     String string = getMessage();
-    string.concat("\r\n");
     string.getBytes(buf, length);
-
     Serial.write(buf, length);
+    Serial.flush();
+    _message = "";
 }

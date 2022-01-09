@@ -133,7 +133,6 @@ void Light::handleLightSwitch(Request request) {
 
         }
     }
-    Serial.println(response.getMessage());
     response.sendMessage();
 }
 

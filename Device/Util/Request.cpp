@@ -101,32 +101,40 @@ void Request::setDeviceType(String deviceName) {
  * The function that parses the server request into the request class.
  * @param buf (char[]): The command in a char array.
  */
-void Request::parseRequest(byte * buf) {
-    char input[15];
+void Request::parseRequest(byte * buf, int size) {
+    char input[65];
     int count = 0;
     int flag = 0;
-    int bufSize = sizeof(&buf) / sizeof(&buf[0]);
-    for (int i = 0; i < bufSize; ++i) {
+    int i = 0;
+    while(flag != 3) {
         char c = (char) buf[i];
+        i++;
         if (c == ':') {
+            char cString[count];
+            for (int j = 0; j < count; ++j) {
+                cString[j] = input[j];
+            }
+            String string = String(cString);
             if (flag == 0) {
-                String stringValue = input;
-                setDeviceType(stringValue);
+                setDeviceType(string);
+                Serial.println(string);
             } else if (flag == 1) {
-                String id = input;
-                setId(id.toInt());
+                Serial.println(string);
+                Serial.println(string.toInt());
+                setId(atoi);
+                flag++;
             } else if (flag == 2) {
-                String stateString = input;
-                if (stateString == "ON") {
+                if (string.equalsIgnoreCase("on")) {
                     setState(true);
+                    break;
                 } else {
                     setState(false);
                 }
             } else {
-                String value = input;
-                setValue(value.toInt());
+                String value = String(atoi(cString));
+                setValue(atoi(cString));
+                break;
             }
-            count = 0;
             flag++;
             continue;
         }

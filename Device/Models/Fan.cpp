@@ -66,9 +66,9 @@ void Fan::setHasOscillation(bool hasOscillation) {
  * @param value (int): The value of the fan sent by the user.
  */
 void Fan::setMode(int value) {
-    if (value > 200) {
+    if (value > 70) {
         _fanMode = High;
-    } else if (value < 200 && value > 64) {
+    } else if (value < 70 && value > 25) {
         _fanMode = Medium;
     } else {
         _fanMode = Low;
@@ -118,6 +118,6 @@ void Fan::handleFanSwitch(Request request) {
         }
 
     }
-    Serial.println(response.getMessage());
+
     response.sendMessage();
 }

@@ -42,5 +42,5 @@ void Sound::handleSoundSwitch(bool isActive) {
         digitalWrite(_muxPins[3], LOW);
         response.setMessage("Sound:OFF");
     }
-    Serial.println(response.getMessage());
+    response.sendMessage();
 }

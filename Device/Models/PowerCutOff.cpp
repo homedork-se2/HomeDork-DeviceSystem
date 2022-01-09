@@ -32,7 +32,6 @@ void PowerCutOff::readSensor() {
  */
 void PowerCutOff::handlePowerCutOff(){
     Response response{200, "PowerCutOff:Triggered"};
-    Serial.println(response.getMessage());
     response.sendMessage();
 }
 

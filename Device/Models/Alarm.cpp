@@ -89,10 +89,16 @@ void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
     Request request;
 
     if (isTriggered) {
-        siren.handleSoundSwitch(isTriggered);
         if (fireAlarm) {
+            request.setDeviceType("lamp");
+            request.setState(true);
+            request.setId(alarmLight.getId());
+            alarmLight.handleLightSwitch(request);
+            siren.handleSoundSwitch(isTriggered);
             response.setMessage("FireAlarm:Triggered");
         } else {
+            siren.handleSoundSwitch(isTriggered);
+            delay(50);
             request.setDeviceType("lamp");
             request.setState(true);
             request.setId(alarmLight.getId());
@@ -100,14 +106,14 @@ void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
             response.setMessage("SecurityAlarm:Triggered");
         }
         setIsActive(isTriggered);
-        Serial.println(response.getMessage());
         response.sendMessage();
 
     } else if (!isTriggered && getIsActive()){
         siren.handleSoundSwitch(isTriggered);
+        delay(50);
 
         if (fireAlarm) {
-            response.setMessage("FireAlarm:Clear");
+            response.setMessage("alarm:Clear");
         } else {
             request.setDeviceType("light");
             request.setState(false);
@@ -116,7 +122,6 @@ void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
             response.setMessage("SecurityAlarm:Clear");
         }
         setIsActive(isTriggered);
-        Serial.println(response.getMessage());
         response.sendMessage();
     }
 

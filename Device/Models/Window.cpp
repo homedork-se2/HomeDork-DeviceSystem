@@ -33,7 +33,6 @@ void Window::handleWindowSwitch(bool state) {
         setIsActive(state);
         response.createMessage("Window:", String(getId()), "CLOSED");
     }
-    Serial.println(response.getMessage());
     response.sendMessage();
 }
 
