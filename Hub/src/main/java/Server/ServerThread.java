@@ -1,12 +1,14 @@
 package Server;
 
 import Controllers.SerialController;
+import Util.HashTable;
 import Util.Logger;
 import Util.ReaderWriter;
 import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * The server thread class takes its inheritance from the Thread class, the class
@@ -43,13 +45,42 @@ public class ServerThread extends Thread {
             System.out.println("I/O Exception connecting the streams to the client...\n" + ioException.getMessage());
         }
         SerialController.getInstance().setStringBuffer("");
+        SerialController.getInstance().getSerialPort().openPort();
         ReaderWriter readerWriter = new ReaderWriter();
         String message = readerWriter.read(in);
-        System.out.println(message.trim());
+        if (message.contains("FAN")) {
+            if (message.contains("ON")) {
+                message = "FAN:10:MEDIUM";
+            } else if (message.contains("OFF")) {
+                message = "FAN:10:OFF";
+            } else {
+                message.replace("'", "").trim();
+                String[] strings = message.split(":");
+                float value = Float.parseFloat(strings[2]);
+                if (value == 0) {
+                    message = "FAN:10:OFF";
+                } else if (value > 0 && value < 25) {
+                    message = "FAN:10:LOW";
+                } else if (value > 25 && value < 70) {
+                    message = "FAN:10:MEDIUM";
+                } else {
+                    message = "FAN:10:HIGH";
+                }
+            }
+        }
+        byte outMessage = HashTable.getInstance().get(message.replace("'", "").trim());
+        System.out.println(outMessage);
+
         Logger.writeToLog("src/logs/command.txt", message.trim() + "\r\n");
         SerialController.getInstance().setResponse(true);
+        out = SerialController.getInstance().getSerialPort().getOutputStream();
+        try {
+            out.write(outMessage);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         SerialController.getInstance().sendRequest(message.trim());
-        readerWriter.writer(SerialController.getInstance().getStringBuffer().trim(), out);
         SerialController.getInstance().setResponse(false);
         try {
             if (in != null) {

@@ -102,19 +102,19 @@ void Fan::handleFanSwitch(Request request) {
             } else if (_fanMode == Mode::Low){
                 analogWrite(getId(), 64);
             }
-            response.createMessage("Fan:", String(getId()), String(request.getValue()));
+            response.createMessage("", String(getId()), String(request.getValue()));
 
         } else {
             analogWrite(getId(), 0);
-            response.createMessage("Fan:", String(getId()), "OFF");
+            response.createMessage("", String(getId()), "0");
         }
     } else {
         if (getIsActive()) {
             digitalWrite(getId(), HIGH);
-            response.createMessage("Fan:", String(getId()), "ON");
+            response.createMessage("", String(getId()), "1");
         } else {
             digitalWrite(getId(), LOW);
-            response.createMessage("Fan:", String(getId()), "OFF");
+            response.createMessage("", String(getId()), "0");
         }
 
     }

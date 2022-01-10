@@ -31,7 +31,7 @@ void PowerCutOff::readSensor() {
  * @return (Response): A response to be sent back to the server.
  */
 void PowerCutOff::handlePowerCutOff(){
-    Response response{200, "PowerCutOff:Triggered"};
+    Response response{200, "Pwr:OUT"};
     response.sendMessage();
 }
 

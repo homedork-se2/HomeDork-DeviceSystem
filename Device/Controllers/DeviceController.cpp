@@ -25,9 +25,10 @@
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
 * @param windows (Window)[]: This is an array of the windows in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
-                                   TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
-                                   Window * windows): _securityAlarm(securityAlarm), _response(response), _stove(stove),
+DeviceController::DeviceController(AlarmController alarmController, Alarm securityAlarm, Curtains * curtains,
+                                   Fan * fans, Light * lights, Response response, SensorController sensorController, Stove stove, TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
+                                   Window * windows): _alarmController(alarmController), _securityAlarm(securityAlarm), _response(response),
+                                                      _sensorController(sensorController), _stove(stove),
                                    _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights),
                                     _timers(timers), _windows(windows){
 
@@ -47,22 +48,20 @@ void DeviceController::initializeDevices() {
  */
 void DeviceController::runListen() {
     noInterrupts();
-    int length = 0;
-    if ((length = Serial.available()) > 0) {
-        Request request;
-        int count = 0;
-        byte buf[65];
-        while (Serial.available() > 0) {
-            byte incomingByte = 0;
-            incomingByte = Serial.read();
-            buf[count] = incomingByte;
-            count++;
+    for (int i = 0; i < 20; ++i) {
+        if (Serial.available() > 0) {
+            Request request;
+            request.parseRequest();
+            handleRequest(request);
         }
-        request.parseRequest(buf, count);
-        handleRequest(request);
-
+        _alarmController.runAlarm();
+        delay(100);
     }
+
     interrupts();
+
+    _sensorController.runSensorController();
+    _temperatureController.runTempController();
 }
 
 /**
@@ -72,60 +71,66 @@ void DeviceController::runListen() {
  * success of the command.
  */
 void DeviceController::handleRequest(Request request) {
+    int key = request.getCommand();
     int size = 0;
-    switch (request.getDeviceType()) {
-        case 1:
-            size = 3;
-            for (int i = 0; i < size; ++i) {
-                if (_lights[i].getId() == request.getId()) {
-                    _lights[i].handleLightSwitch(request);
-                    break;
-                }
+    if (key == 11 || key == 20 || key == 33 || key == 60) {
+        if (key == 11 || key ==33) {
+            request.setId(11);
+            if (key == 33) {
+                request.setState(false);
+            } else {
+                request.setState(true);
             }
-            break;
-        case 2:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_fans[i].getId() == request.getId()) {
-                    _fans[i].handleFanSwitch(request);
-                    break;
-                }
+        } else {
+            request.setId(20);
+            if (key == 60) {
+                request.setState(false);
+            } else {
+                request.setState(true);
             }
-            break;
-        case 3:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_curtains[i].getId() == request.getId()) {
-                    _curtains[i].handleCurtainSwitch(request.isState());
-                    break;
-                }
+        }
+        size = 3;
+        for (int i = 0; i < size; ++i) {
+            if (_lights[i].getId() == request.getId()) {
+                _lights[i].handleLightSwitch(request);
+                break;
             }
-            break;
-        case 4:
-            _securityAlarm.setAlarm(request.isState());
-            break;
-        case 5:
-            _temperatureController.setDesiredTemp(request.getValue());
-            break;
-        case 6:
-            //twilight
-            break;
-        case 7:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_timers[i].getId() == request.getId()) {
-                    //add timer call
-                    break;
-                }
+        }
+    } else if (key == 10 || key == 30 || key == 90 || key == 120) {
+        if (key == 10) {
+            request.setValue(0);
+            request.setState(false);
+        } else if (key == 30) {
+            request.setValue(20);
+            request.setState(true);
+        } else if (key == 90) {
+            request.setValue(50);
+            request.setState(true);
+        } else if (key == 120) {
+            request.setValue(80);
+            request.setState(true);
+        }
+        request.setId(10);
+        size = 2;
+        for (int i = 0; i < size; ++i) {
+            if (_fans[i].getId() == request.getId()) {
+                _fans[i].handleFanSwitch(request);
+                break;
             }
-        case 8:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_windows[i].getId() == request.getId()) {
-                    _windows[i].handleWindowSwitch(request.isState());
-                    break;
-                }
-            }
-            break;
+        }
+    } else if (key == 69) {
+        _securityAlarm.setAlarm(true);
+    } else if (key == 68) {
+        _securityAlarm.setAlarm(false);
+    } else if (key == 70) {
+        _twilightSystem.setActive(true);
+    } else if (key == 71) {
+        _twilightSystem.setActive(false);
+    } else if (key > 200 && key < 210) {
+        request.setValue(key - 200);
+        _temperatureController.setDesiredTemp(request.getValue());
+    } else {
+
     }
+
 }

@@ -72,35 +72,35 @@ public class TestClient {
                 isLegit = true;
             }
             case "5" -> {
-                message = "fan:10:26";
+                message = "fan:10:LOW";
                 isLegit = true;
             }
             case "6" -> {
-                message = "fan:10:100";
+                message = "fan:10:Medium";
                 isLegit = true;
             }
             case "7" -> {
-                message = "fan:10:200";
+                message = "fan:10:HIGH";
                 isLegit = true;
             }
             case "8" -> {
-                message = "fan:10:0";
+                message = "fan:10:OFF";
                 isLegit = true;
             }
             case "9" -> {
-                message = "alarm:00:ARMED";
+                message = "alarm:ARMED";
                 isLegit = true;
             }
             case "10" -> {
-                message = "alarm:00:DISARMED";
+                message = "alarm:DISARMED";
                 isLegit = true;
             }
             case "11" -> {
-                message = "twilight:00:ON";
+                message = "twilight:ON";
                 isLegit = true;
             }
             case "12" -> {
-                message = "twillight:00:OFF";
+                message = "twillight:OFF";
                 isLegit = true;
             }
             case "13" -> {
@@ -114,7 +114,7 @@ public class TestClient {
                         System.out.println("Please enter a valid number");
                     }
                 }
-                message = "temp:00:" + temp;
+                message = "temp:" + temp;
                 isLegit = true;
             }
             case "14" -> {
@@ -140,6 +140,7 @@ public class TestClient {
             try {
 
                 String hostname = "194.47.32.191";
+                //String hostname = "192.168.1.242";
                 socket = new Socket(hostname, 1234);
                 in = socket.getInputStream();
                 out = socket.getOutputStream();

@@ -28,10 +28,10 @@ void Window::handleWindowSwitch(bool state) {
     Response response{400, string};
     if(state && !getIsActive()){
         setIsActive(state);
-        response.createMessage("Window:", String(getId()), "OPEN");
+        response.createMessage("", String(getId()), "OPEN");
     } else if (!state && getIsActive()) {
         setIsActive(state);
-        response.createMessage("Window:", String(getId()), "CLOSED");
+        response.createMessage("", String(getId()), "CLOSED");
     }
     response.sendMessage();
 }

@@ -17,6 +17,7 @@ public class ReaderWriter {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+        System.out.println(message);
         return message;
     }
 
@@ -24,7 +25,7 @@ public class ReaderWriter {
         try {
             byte[] bytes;
             bytes = message.getBytes();
-            out.write(bytes, 0, bytes.length);
+            out.write(bytes, 0, message.length());
             out.flush();
             out.close();
         } catch (IOException ioException) {

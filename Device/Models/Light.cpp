@@ -72,7 +72,7 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{404, "lamp:ERROR"};
+    Response response{404, "L:ERROR"};
     //Indoors Light
     setIsActive(request.isState());
     if (request.getId() == 11) {
@@ -82,7 +82,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Lamp:", String(getId()), "ON");
+        response.createMessage("", String(getId()), "1");
 
         } else {
         //OFF
@@ -90,7 +90,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        response.createMessage("L:", String(getId()), "0");
 
         }
 
@@ -102,7 +102,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "ON");
+        response.createMessage("", String(getId()), "1");
 
         } else {
         //OFF
@@ -110,7 +110,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        response.createMessage("", String(getId()), "0");
         }
 
     } else if (request.getId() == 22){
@@ -121,7 +121,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "ON");
+        response.createMessage("", String(getId()), "1");
 
         } else {
         //OFF
@@ -129,7 +129,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        response.createMessage("", String(getId()), "0");
 
         }
     }

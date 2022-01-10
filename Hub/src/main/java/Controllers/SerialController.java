@@ -30,6 +30,7 @@ import java.util.Scanner;
 public class SerialController implements SerialPortDataListener {
     private static SerialController serialController = null;
     private SerialPort serialPort;
+    private SerialPort serialPort2;
     private String stringBuffer;
     private boolean isResponse;
     private boolean commandFlag;
@@ -40,6 +41,7 @@ public class SerialController implements SerialPortDataListener {
         serialPort = this.getSerialPort();
         serialPort.openPort();
         serialPort.setBaudRate(9600);
+
         System.out.println("Com port open: " + serialPort.getDescriptivePortName());
         serialPort.addDataListener(this);
     }
@@ -57,8 +59,10 @@ public class SerialController implements SerialPortDataListener {
      */
     public void sendRequest(String message) {
         ReaderWriter readerWriter = new ReaderWriter();
+
         this.stringBuffer = message.replace("'", "").trim();
         this.setResponse(true);
+        this.serialPort.openPort();
         readerWriter.writer(this.getStringBuffer(), this.serialPort.getOutputStream());
         this.setResponse(false);
         this.stringBuffer = "";
@@ -92,10 +96,11 @@ public class SerialController implements SerialPortDataListener {
             if (serialPortEvent.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
                 return;
             try {
+                this.serialPort.openPort();
                 InputStream in = this.serialPort.getInputStream();
                 ReaderWriter readerWriter = new ReaderWriter();
                 this.stringBuffer = readerWriter.read(in);
-                System.out.println(this.stringBuffer);
+                System.out.println(this.stringBuffer.trim());
                 setStringBuffer(this.stringBuffer.trim());
                 if (!isResponse()) {
                     //            ServerClient serverClient = new ServerClient();
@@ -103,16 +108,6 @@ public class SerialController implements SerialPortDataListener {
                     //            serverClient.sendMessage(stringBuffer);
                 } else {
                     Logger.writeToLog("./src/logs/arduinoResponse.txt", this.getStringBuffer().trim() + "\r\n");
-                }
-
-
-
-                if (!isResponse()) {
-//            ServerClient serverClient = new ServerClient();
-                    Logger.writeToLog("src/logs/sensor.txt", serialController.getStringBuffer().trim() + "\r\n");
-//            serverClient.sendMessage(stringBuffer);
-                } else {
-                    Logger.writeToLog("./src/logs/arduinoResponse.txt", "Response: " + serialController.getStringBuffer().trim() + "\r\n");
                 }
 
             } catch (BufferOverflowException e) {

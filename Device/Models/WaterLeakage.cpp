@@ -28,9 +28,9 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
 void WaterLeakage::handleWaterLeakage(bool state){
     Response response{404, "ERROR"};
     if(state) {
-        response.createMessage("WaterLeak:", String(getId()), "Leaking");
+        response.createMessage("", String(getId()), "Leaking");
     } else if(!state) {
-        response.createMessage("WaterLeak:", String(getId()), "Stopped");
+        response.createMessage("", String(getId()), "Stopped");
     }
     response.sendMessage();
 }

@@ -45,6 +45,7 @@ void SensorController::runSensorController() {
         }
         noInterrupts();
         _windows[i].readSensor();
+        delay(200);
         interrupts();
     }
     if (timeCounter == 0 || timeCounter >= millis()) {
@@ -53,6 +54,7 @@ void SensorController::runSensorController() {
         }
         noInterrupts();
         _electricityConsumption.readSensor();
+        delay(200);
         timeCounter = millis() + 2000;
         interrupts();
     }
@@ -61,28 +63,28 @@ void SensorController::runSensorController() {
     }
     noInterrupts();
     _powerCutOff.readSensor();
-    delay(50);
+    delay(200);
     interrupts();
     if (!shouldRun()) {
         return;
     }
     noInterrupts();
     _stove.readStoveSensor();
-    delay(50);
+    delay(200);
     interrupts();
     if (!shouldRun()) {
         return;
     }
     noInterrupts();
     _twilightAutomaticSystem.readLightSensor();
-    delay(50);
+    delay(200);
     interrupts();
     if (!shouldRun()) {
         return;
     }
     noInterrupts();
     _waterLeakage.readWaterLeakSensor();
-    delay(50);
+    delay(200);
     interrupts();
 
 }

@@ -34,13 +34,13 @@ void Sound::handleSoundSwitch(bool isActive) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.setMessage("Sound:ON");
+        response.setMessage("SD:ON");
     } else {
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.setMessage("Sound:OFF");
+        response.setMessage("SD:OFF");
     }
     response.sendMessage();
 }

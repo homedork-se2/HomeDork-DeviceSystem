@@ -28,13 +28,13 @@ void Alarm::setAlarm(bool isSet) {
     Response response{400, "ERROR"};
     if (isSet) {
         setIsArmed(true);
-        response.setMessage("SecurityAlarm:Armed");
+        response.setMessage("69:1");
     } else {
         setIsArmed(false);
         if (getIsActive()) {
             handleAlarmTrigger(false, false);
         }
-        response.setMessage("SecurityAlarm:Disarmed");
+        response.setMessage("69:0");
     }
     response.sendMessage();
 }
@@ -89,37 +89,34 @@ void Alarm::handleAlarmTrigger(bool isTriggered, bool fireAlarm) {
     Request request;
 
     if (isTriggered) {
-        if (fireAlarm) {
-            request.setDeviceType("lamp");
+        if (!fireAlarm) {
+            this->siren.handleSoundSwitch(isTriggered);
+            request.setCommand(23);
             request.setState(true);
             request.setId(alarmLight.getId());
-            alarmLight.handleLightSwitch(request);
+            this->alarmLight.handleLightSwitch(request);
+            delay(100);
             siren.handleSoundSwitch(isTriggered);
-            response.setMessage("FireAlarm:Triggered");
+            response.setMessage("FA:Triggered");
         } else {
-            siren.handleSoundSwitch(isTriggered);
-            delay(50);
-            request.setDeviceType("lamp");
-            request.setState(true);
-            request.setId(alarmLight.getId());
-            alarmLight.handleLightSwitch(request);
-            response.setMessage("SecurityAlarm:Triggered");
+            this->siren.handleSoundSwitch(isTriggered);
+            response.setMessage("SA:Triggered");
         }
         setIsActive(isTriggered);
         response.sendMessage();
 
-    } else if (!isTriggered && getIsActive()){
-        siren.handleSoundSwitch(isTriggered);
-        delay(50);
+    } else if (!isTriggered){
+        this->siren.handleSoundSwitch(isTriggered);
+        delay(100);
 
         if (fireAlarm) {
-            response.setMessage("alarm:Clear");
+            response.setMessage("FA:Clear");
         } else {
-            request.setDeviceType("light");
+            request.setCommand(23);
             request.setState(false);
             request.setId(alarmLight.getId());
             alarmLight.handleLightSwitch(request);
-            response.setMessage("SecurityAlarm:Clear");
+            response.setMessage("SA:Clear");
         }
         setIsActive(isTriggered);
         response.sendMessage();
