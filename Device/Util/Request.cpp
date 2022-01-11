@@ -91,12 +91,16 @@ void Request::parseRequest() {
     int incomingByte;
     incomingByte = Serial.read();
     String c = String(incomingByte);
-
-    if (incomingByte < 0 ) {
-         this->setState(false);
-    } else {
-        this->setState(true);
-    }
+    setId(incomingByte);
     setCommand(incomingByte);
-
+    if (Serial.available() > 0) {
+        incomingByte = Serial.read();
+        if (incomingByte == 1) {
+            setState(true);
+        } else if (incomingByte == 0){
+            setState(false);
+        } else {
+            setValue(incomingByte);
+        }
+    }
 }

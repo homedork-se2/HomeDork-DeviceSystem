@@ -20,7 +20,7 @@ class Stove: public Sensor{
 private:
     void handleStoveSwitch(bool isActive);
 public:
-    explicit Stove(unsigned int id);
+    explicit Stove(unsigned int pin, int id);
     void readStoveSensor();
 
 };

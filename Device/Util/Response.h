@@ -23,7 +23,7 @@ public:
     String getMessage();
     void setMessage(String message);
     void sendMessage();
-    void createMessage(String type, String id, String state);
+    void createMessage(String id, String state);
 };
 
 

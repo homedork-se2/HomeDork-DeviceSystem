@@ -15,7 +15,7 @@
  * Sensor class.
  * @param id (unsigned int): The pin of the device represented as an id.
  */
-ElectricityConsumption::ElectricityConsumption(unsigned int id) : Sensor(id) {
+ElectricityConsumption::ElectricityConsumption(unsigned int pin, int id) : Sensor(pin,id) {
 
 }
 
@@ -36,6 +36,7 @@ void ElectricityConsumption::readSensor() {
     Response response{400, "ERROR"};
     String electric = "";
     electric.concat(getElectricUsage());
-    response.createMessage("", String(getId()), electric);
+    response.createMessage(String(getId()), electric);
     response.sendMessage();
+    delay(200);
 }

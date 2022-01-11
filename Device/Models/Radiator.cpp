@@ -15,7 +15,7 @@
  * @param id (unsigned int): The id of the radiator.
  * @param muxPins (unsigned int[]): The array for the multiplexor pins.
  */
-Radiator::Radiator(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxPins){
+Radiator::Radiator(unsigned int pin, int id, unsigned int * muxPins): Device(pin, id), _muxPins(muxPins){
 
 }
 
@@ -35,14 +35,14 @@ void Radiator::adjustTemp(bool isCold) {
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.createMessage("", String(getId()), "1");
+            response.createMessage(String(getId()), String(1));
 
         } else {
             digitalWrite(_muxPins[0], HIGH);
             digitalWrite(_muxPins[1], HIGH);
             digitalWrite(_muxPins[2], HIGH);
             digitalWrite(_muxPins[3], LOW);
-            response.createMessage("", String(getId()), "0");
+            response.createMessage(String(getId()), String(0));
 
         }
 
@@ -54,15 +54,16 @@ void Radiator::adjustTemp(bool isCold) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("", String(getId()), "1");;
+        response.createMessage(String(getId()), String(1));
 
     } else {
         digitalWrite(_muxPins[0], HIGH);
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("", String(getId()), "0");
+        response.createMessage(String(getId()), String(0));
 
     }
     response.sendMessage();
+    delay(200);
 }

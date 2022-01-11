@@ -107,17 +107,10 @@ public class HashTable {
     }
 
     private void createHashTable() {
-        put("LAMP:11:ON", (byte) 11);
-        put("LAMP:11:OFF", (byte) 33);
-        put("LAMP:20:ON", (byte) 20);
-        put("LAMP:20:OFF", (byte) 60);
-        put("FAN:10:OFF", (byte) 10);
-        put("FAN:10:LOW", (byte) 30);
-        put("FAN:10:MEDIUM", (byte) 90);
-        put("FAN:10:HIGH", (byte) 120);
-        put("ALARM:69:ON", (byte) 69);
-        put("ALARM:69:OFF", (byte) 68);
-        put("TWILIGHT:ON", (byte) 70);
-        put("TWILIGHT:OFF", (byte) 71);
+        put("LAMP:11", (byte) 11);
+        put("LAMP:20", (byte) 20);
+        put("FAN:10", (byte) 10);
+        put("ALARM:69", (byte) 69);
+        put("TWILIGHT", (byte) 70);
     }
 }

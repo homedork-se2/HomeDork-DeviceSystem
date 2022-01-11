@@ -31,9 +31,9 @@ void AlarmController::runAlarm() {
     noInterrupts();
     int reading = _fireAlarm.alarmSensor.readDigitalSensor();
     if (reading == HIGH && !_fireAlarm.getIsActive()) {
-        _fireAlarm.handleAlarmTrigger(true, true);
+        _fireAlarm.handleFireAlarm(true);
     } else if (_fireAlarm.getIsActive()) {
-        _fireAlarm.handleAlarmTrigger(false, true);
+        _fireAlarm.handleFireAlarm(false);
     }
     delay(200);
     interrupts();
@@ -43,9 +43,9 @@ void AlarmController::runAlarm() {
     noInterrupts();
     reading = _securityAlarm.alarmSensor.readDigitalSensor();
     if (reading == LOW && _securityAlarm.getIsArmed() && _securityAlarm.getIsActive()) {
-        _securityAlarm.handleAlarmTrigger(true, false);
-    } else if ((reading == HIGH && _securityAlarm.getIsActive()) || (!_securityAlarm.getIsArmed() && _securityAlarm.getIsActive())){
-        _securityAlarm.handleAlarmTrigger(false, false);
+        _securityAlarm.handleSecurityAlarm(true);
+    } else if (reading == HIGH && _securityAlarm.getIsActive() && !_securityAlarm.getIsArmed()){
+        _securityAlarm.handleSecurityAlarm(false);
     }
     delay(200);
     interrupts();

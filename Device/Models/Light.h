@@ -23,8 +23,8 @@ private:
     unsigned int * _muxPins;
 
 public:
-    Light(unsigned int id, bool isDimmable, unsigned int * muxPins);
-    Light(unsigned int id, unsigned int * muxPins);
+    Light(unsigned int pin, int id, bool isDimmable, unsigned int * muxPins);
+    Light(unsigned int pin, int id, unsigned int * muxPins);
     bool getIsDimmable() const;
     int getDim();
     void setDim(int dim);

@@ -15,7 +15,7 @@
  * class.
  * @param id (unsigned int): An integer who's value is the id of an instance of the subclass sensor.
  */
-Stove::Stove(unsigned int id) : Sensor(id) {
+Stove::Stove(unsigned int pin, int id) : Sensor(pin, id) {
 
 }
 
@@ -26,14 +26,16 @@ Stove::Stove(unsigned int id) : Sensor(id) {
  */
 void Stove::handleStoveSwitch(bool isActive) {
     Response response{200, "ERROR"};
+    setIsActive(isActive);
     if(isActive && !getIsActive()){
-        response.createMessage("", String(getId()), "ON");
+        response.createMessage(String(getId()), String(1));
         setIsActive(isActive);
     } else if (!isActive && getIsActive()){
-        response.createMessage("", String(getId()), "OFF");
-        setIsActive(isActive);
+        response.createMessage(String(getId()), String(0));
+
     }
     response.sendMessage();
+    delay(200);
 }
 
 /**

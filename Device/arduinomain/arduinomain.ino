@@ -30,31 +30,30 @@ unsigned int * muxPins = new unsigned int[4]{12, 13, 11, 8};
 int i = 0;
 
 //Declare and instantiate Models
-Curtains curtain1{28};
-Curtains curtain2{29};
-ElectricityConsumption electricityConsumption{A0};
-Fan fanLoft{10, false, true};
-Fan fanFake{38,false, true};
-Light indoorLight{11, muxPins};
-Light outdoorLight{20, muxPins};
-Light alarmLight{22, muxPins};
-PowerCutOff powerCutOff{7};
-Radiator radiator{25, muxPins};
-Radiator radiatorWindow{23, muxPins};
-Response response{500, "Failed"};
-Sound siren{21, muxPins};
-Sensor switchSecuritySensor{3};
-Sensor switchFireSensor{2};
-Sensor lightSensor{A3};
-Stove stove{5};
-Thermometer thermometerIn{A1};
-Thermometer thermometerInWindow{A2};
-Thermometer thermometerOut{9};
-Timer timer1{18, muxPins};
-Timer timer2{19, muxPins};
-WaterLeakage waterLeakage{4};
-Window window{6};
-Window fakeWindow{27};
+Curtains curtain1{28, 28};
+Curtains curtain2{29, 29};
+ElectricityConsumption electricityConsumption{A0, 99};
+Fan fanLoft{10, 10, false, true};
+Fan fanFake{38, 38, false, true};
+Light indoorLight{11, 11, muxPins};
+Light outdoorLight{20, 20, muxPins};
+Light alarmLight{22, 22, muxPins};
+PowerCutOff powerCutOff{7, 7};
+Radiator radiator{25, 25, muxPins};
+Radiator radiatorWindow{23, 23, muxPins};
+Sound siren{21, 21, muxPins};
+Sensor switchSecuritySensor{3, 3};
+Sensor switchFireSensor{2, 2};
+Sensor lightSensor{A3, 70};
+Stove stove{5, 5};
+Thermometer thermometerIn{A1, 100};
+Thermometer thermometerInWindow{A2, 101};
+Thermometer thermometerOut{9, 9};
+Timer timer1{18, 18, muxPins};
+Timer timer2{19, 19, muxPins};
+WaterLeakage waterLeakage{4, 4};
+Window window{6, 6};
+Window fakeWindow{27, 27};
 
 //Declare and instantiate Composition Models
 Alarm securityAlarm(alarmLight, siren, switchSecuritySensor);
@@ -105,9 +104,5 @@ void setup() {
 }
 
 void loop() {
-    if (Serial.available() > 0) {
-        Request request;
-
-    }
     deviceController.runListen();
 }

@@ -15,7 +15,7 @@
  * @param id (unsigned int): An integer who's value is the id of an instance
  * of a subclass device.
  */
-Window::Window(unsigned int id): Sensor(id) {
+Window::Window(unsigned int pin, int id): Sensor(pin, id) {
 }
 
 /**
@@ -24,15 +24,13 @@ Window::Window(unsigned int id): Sensor(id) {
  * the state change
  */
 void Window::handleWindowSwitch(bool state) {
-    String string = "ERROR";
-    Response response{400, string};
-    if(state && !getIsActive()){
-        setIsActive(state);
-        response.createMessage("", String(getId()), "OPEN");
-    } else if (!state && getIsActive()) {
-        setIsActive(state);
-        response.createMessage("", String(getId()), "CLOSED");
+    Response response{400, "ERROR"};
+    if(state){
+        response.createMessage(String(getId()), String(1));
+    } else if (!state) {
+        response.createMessage(String(getId()), String(0));
     }
+    setIsActive(state);
     response.sendMessage();
 }
 

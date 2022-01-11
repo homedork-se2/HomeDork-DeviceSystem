@@ -14,7 +14,7 @@
  * Sensor Constructor
  * @param id (unsigned int): Takes the pin of the respective sensor.
  */
-Sensor::Sensor(unsigned int id): Device(id) {
+Sensor::Sensor(unsigned int pin, int id): Device(pin, id) {
 }
 
 /**

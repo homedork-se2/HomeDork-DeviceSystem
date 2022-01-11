@@ -10,5 +10,5 @@
 
 #include "Timer.h"
 
-Timer::Timer(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxPins) {
+Timer::Timer(unsigned int pin, int id, unsigned int * muxPins): Device(pin, id), _muxPins(muxPins) {
 }

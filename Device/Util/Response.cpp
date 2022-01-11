@@ -50,18 +50,18 @@ void Response::setStatusCode(int statusCode) {
     _statusCode = statusCode;
 }
 
-void Response::createMessage(String type, String id, String state) {
-    String string = type;
-    string.concat(id);
+void Response::createMessage(String id, String state) {
+    String string = id;
     string.concat(":");
     string.concat(state);
+    string.concat(";")
 
     setMessage(string);
     setStatusCode(200);
 }
 
 void Response::sendMessage() {
-    int length = getMessage().length() + 1;
+    int length = getMessage().length();
     byte buf[length];
     String string = getMessage();
     string.getBytes(buf, length);

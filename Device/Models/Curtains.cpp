@@ -13,7 +13,7 @@
  * The constructor of the Curtains class.
  * @param id (unsigned int): Takes the pin of the device as an id.
  */
-Curtains::Curtains(unsigned int id) : Device(id) {
+Curtains::Curtains(unsigned int pin, int id) : Device(pin, id) {
 
 }
 

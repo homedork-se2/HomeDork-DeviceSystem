@@ -25,7 +25,7 @@ private:
     Mode _fanMode;
 
 public:
-    Fan(unsigned int id, bool hasMultiMode, bool hasOscillation);
+    Fan(unsigned int pin, int id, bool hasMultiMode, bool hasOscillation);
     bool getHasMultiMode() ;
     void setHasMultiMode(bool hasMultiMode);
     void setHasOscillation(bool hasOscillation);

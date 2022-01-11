@@ -19,7 +19,7 @@ class PowerCutOff : public Sensor{
 private:
     void handlePowerCutOff();
 public :
-    explicit PowerCutOff(unsigned int id);
+    explicit PowerCutOff(unsigned int pin, int id);
     void readSensor();
 
 

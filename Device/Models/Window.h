@@ -17,7 +17,7 @@
 
 class Window: public Sensor {
 public:
-    Window(unsigned int id);
+    Window(unsigned int pin, int id);
     void readSensor();
     void handleWindowSwitch(bool state);
 

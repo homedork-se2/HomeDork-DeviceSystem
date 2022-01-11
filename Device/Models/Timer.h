@@ -17,7 +17,7 @@ class Timer: public Device {
 private:
     unsigned int * _muxPins;
 public:
-    Timer(unsigned int id, unsigned int * muxPins);
+    Timer(unsigned int pin, int id, unsigned int * muxPins);
 
 };
 

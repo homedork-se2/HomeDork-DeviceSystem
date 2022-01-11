@@ -38,13 +38,17 @@ void TwilightAutomaticSystem::setActive(bool isActive) {
  * @return (boolean): A returns to state of the light sensor
  */
 void TwilightAutomaticSystem::readLightSensor() {
+    Response response;
+
     if (_isActive) {
         int value = _lightSensor.readAnalogSensor();
-        if (value < 1000 && !_outdoorLight.getIsActive()) {
+        if (value < 200 && !_outdoorLight.getIsActive()) {
             handleTwilightSystem(true);
+            response.createMessage(String(70), String(1));
 
         } else if (_outdoorLight.getIsActive()){
             handleTwilightSystem(false);
+            response.createMessage(String(70), String(1));
         }
 
     }

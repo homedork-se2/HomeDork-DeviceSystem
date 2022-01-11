@@ -48,39 +48,31 @@ public class ServerThread extends Thread {
         SerialController.getInstance().getSerialPort().openPort();
         ReaderWriter readerWriter = new ReaderWriter();
         String message = readerWriter.read(in);
-        if (message.contains("FAN")) {
-            if (message.contains("ON")) {
-                message = "FAN:10:MEDIUM";
-            } else if (message.contains("OFF")) {
-                message = "FAN:10:OFF";
-            } else {
-                message.replace("'", "").trim();
-                String[] strings = message.split(":");
-                float value = Float.parseFloat(strings[2]);
-                if (value == 0) {
-                    message = "FAN:10:OFF";
-                } else if (value > 0 && value < 25) {
-                    message = "FAN:10:LOW";
-                } else if (value > 25 && value < 70) {
-                    message = "FAN:10:MEDIUM";
-                } else {
-                    message = "FAN:10:HIGH";
-                }
-            }
+        message = message.replace("'", "").trim();
+        String[] strings = message.split(":");
+        byte messageValue = -1;
+        if (message.contains("ON")) {
+            messageValue = 1;
+        } else if (message.contains("OFF")){
+            messageValue = 0;
+        } else {
+            message = strings[0] + ":" + strings[1];
+            float value = Float.parseFloat(strings[2]);
+            messageValue = (byte) Math.round(value);
         }
-        byte outMessage = HashTable.getInstance().get(message.replace("'", "").trim());
-        System.out.println(outMessage);
 
-        Logger.writeToLog("src/logs/command.txt", message.trim() + "\r\n");
+        byte outMessage = HashTable.getInstance().get(message);
+
+        Logger.writeToLog("src/logs/command.txt", message + "\r\n");
         SerialController.getInstance().setResponse(true);
         out = SerialController.getInstance().getSerialPort().getOutputStream();
         try {
-            out.write(outMessage);
+            out.write(new byte[]{outMessage, messageValue}, 0 ,2);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SerialController.getInstance().sendRequest(message.trim());
+
         SerialController.getInstance().setResponse(false);
         try {
             if (in != null) {

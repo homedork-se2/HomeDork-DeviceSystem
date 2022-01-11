@@ -19,8 +19,8 @@
  * @param isDimmable (boolean): The boolean that determines if a light
  * is dimmable or not.
  */
-Light::Light(unsigned int id, bool isDimmable, unsigned int * muxPins)
-        : Device(id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
+Light::Light(unsigned int pin, int id, bool isDimmable, unsigned int * muxPins)
+        : Device(pin,id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
 
 }
 
@@ -31,7 +31,7 @@ Light::Light(unsigned int id, bool isDimmable, unsigned int * muxPins)
  * device is connected to.
  * @param muxPins (unsigned int[]): An array of the multiplexor pins.
  */
-Light::Light(unsigned int id, unsigned int * muxPins) : Device(id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
+Light::Light(unsigned int pin, int id, unsigned int * muxPins) : Device(pin,id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
 }
 
 /**
@@ -57,12 +57,12 @@ int Light::getDim() {
  * @return (Response): A response to the server.
  */
 void Light::setDim(int value) {
-    Response response{404, "DIM:ERROR"};
+    Response response{404, "DL:ERROR"};
     _dim = value;
 
-    response.createMessage("Lamp:", String(getId()), String(_dim));
-    Serial.println(response.getMessage());
+    response.createMessage(String(getId()), String(_dim));
     response.sendMessage();
+    delay(200);
 }
 /**
  * The function that handles the light switch.
@@ -82,7 +82,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("", String(getId()), "1");
+        response.createMessage(String(getId()), String(1));
 
         } else {
         //OFF
@@ -90,11 +90,11 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("L:", String(getId()), "0");
+        response.createMessage(String(getId()), String(0));
 
         }
 
-    } else if(request.getId() == 20) {
+    } else if(request.getPin() == 20) {
     //Outdoors Light
         if (getIsActive()) {
         //ON
@@ -102,7 +102,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("", String(getId()), "1");
+        response.createMessage(String(getId()), String(1));
 
         } else {
         //OFF
@@ -110,10 +110,10 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("", String(getId()), "0");
+        response.createMessage(String(getId()), String(0));
         }
 
-    } else if (request.getId() == 22){
+    } else if (request.getPin() == 22){
     //Alarm Light
         if (getIsActive()) {
         //ON
@@ -121,7 +121,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("", String(getId()), "1");
+        response.createMessage(String(getId()), String(1));
 
         } else {
         //OFF
@@ -129,10 +129,23 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("", String(getId()), "0");
+        response.createMessage(String(getId()), String(0));
 
         }
+    } else if (getIsDimmable()) {
+        setDim(request.getValue());
+
+    } else {
+        if (getIsActive()) {
+            digitalWrite(getPin(), HIGH);
+            response.createMessage(String(getId()), String(1));
+        } else {
+            digitalWrite(getPin(), LOW);
+            response.createMessage(String(getId()), String(0));
+        }
+
     }
     response.sendMessage();
+    delay(200);
 }
 

@@ -26,7 +26,7 @@ private:
     float readTempOut();
 
 public:
-    Thermometer(unsigned int id);
+    Thermometer(unsigned int pin, int id);
     float getCurrentTemp();
 
 };

@@ -21,7 +21,7 @@ private:
     float getElectricUsage();
 
 public:
-    ElectricityConsumption(unsigned int id);
+    ElectricityConsumption(unsigned int pin, int id);
     void readSensor();
 
 };

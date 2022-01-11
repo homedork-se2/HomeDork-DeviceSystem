@@ -15,12 +15,14 @@
 
 class Device{
 private:
-    unsigned int _id;
+    unsigned int _pin;
+    int _id;
     bool _isActive;
 
 public:
-    explicit Device(unsigned int id);
-    unsigned int getId() const;
+    explicit Device(unsigned int pin, int id);
+    unsigned int getPin() const;
+    int getId() const;
     bool getIsActive() const;
     void setIsActive(bool active);
 

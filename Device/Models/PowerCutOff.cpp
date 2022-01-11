@@ -15,7 +15,7 @@
  * @param id (unsigned int): The id represents the pin value
  * of the power cut off device sensor.
  */
-PowerCutOff::PowerCutOff(unsigned int id): Sensor(id){
+PowerCutOff::PowerCutOff(unsigned int pin, int id): Sensor(pin, id){
 
 }
 
@@ -31,7 +31,8 @@ void PowerCutOff::readSensor() {
  * @return (Response): A response to be sent back to the server.
  */
 void PowerCutOff::handlePowerCutOff(){
-    Response response{200, "Pwr:OUT"};
+    Response response{500, "ERROR"};
+    response.createMessage(String(getId()), String(1));
     response.sendMessage();
 }
 

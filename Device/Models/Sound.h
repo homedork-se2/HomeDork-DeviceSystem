@@ -20,7 +20,7 @@ private:
     unsigned int * _muxPins;
 
 public:
-    Sound(unsigned int id, unsigned int * muxPins);
+    Sound(unsigned int pin, int id, unsigned int * muxPins);
     void handleSoundSwitch(bool isActive);
 
 };

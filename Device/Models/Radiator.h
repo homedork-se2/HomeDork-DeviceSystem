@@ -20,7 +20,7 @@ private:
     unsigned int * _muxPins;
 
 public:
-    Radiator(unsigned int id, unsigned int * muxPins);
+    Radiator(unsigned int pin, int id, unsigned int * muxPins);
     void adjustTemp(bool isCold);
 
 };
