@@ -84,10 +84,6 @@ void Request::setCommand(int command) {
  * @param buf (char[]): The command in a char array.
  */
 void Request::parseRequest() {
-
-    int result = 0;
-    int powerOfTwo = 0;
-
     int incomingByte;
     incomingByte = Serial.read();
     String c = String(incomingByte);
@@ -96,11 +92,12 @@ void Request::parseRequest() {
     if (Serial.available() > 0) {
         incomingByte = Serial.read();
         if (incomingByte == 1) {
-            setState(true);
+            this->setState(true);
         } else if (incomingByte == 0){
-            setState(false);
+            this->setState(false);
         } else {
-            setValue(incomingByte);
+            this->setState(true);
+            this->setValue(incomingByte);
         }
     }
 }

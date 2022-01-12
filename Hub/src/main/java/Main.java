@@ -1,6 +1,7 @@
 import Controllers.SerialController;
 import Server.Server;
 
+import Util.HashTable;
 import com.fazecast.jSerialComm.SerialPort;
 
 /**

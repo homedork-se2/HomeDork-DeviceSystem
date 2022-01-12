@@ -24,7 +24,7 @@ Window::Window(unsigned int pin, int id): Sensor(pin, id) {
  * the state change
  */
 void Window::handleWindowSwitch(bool state) {
-    Response response{400, "ERROR"};
+    Response response{400, "ERROR;"};
     if(state){
         response.createMessage(String(getId()), String(1));
     } else if (!state) {

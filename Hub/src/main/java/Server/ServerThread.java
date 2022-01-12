@@ -44,11 +44,13 @@ public class ServerThread extends Thread {
         } catch (IOException ioException) {
             System.out.println("I/O Exception connecting the streams to the client...\n" + ioException.getMessage());
         }
+        HashTable hashTable = HashTable.getInstance();
         SerialController.getInstance().setStringBuffer("");
         SerialController.getInstance().getSerialPort().openPort();
         ReaderWriter readerWriter = new ReaderWriter();
         String message = readerWriter.read(in);
-        message = message.replace("'", "").trim();
+        message = message.replace("'", "").trim().replace(" ", "");
+        Logger.writeToLog("src/logs/command.txt", message + "\r\n");
         String[] strings = message.split(":");
         byte messageValue = -1;
         if (message.contains("ON")) {
@@ -56,14 +58,21 @@ public class ServerThread extends Thread {
         } else if (message.contains("OFF")){
             messageValue = 0;
         } else {
-            message = strings[0] + ":" + strings[1];
-            float value = Float.parseFloat(strings[2]);
-            messageValue = (byte) Math.round(value);
+            try {
+                float value = Float.parseFloat(strings[2]);
+                messageValue = (byte) Math.round(value);
+                System.out.println("MESSAGE VALUE: " + messageValue);
+            } catch (NumberFormatException e) {
+                System.out.println("message value" + e.getMessage());
+            }
         }
+        message = strings[0] + ":" + strings[1];
 
         byte outMessage = HashTable.getInstance().get(message);
+        System.out.println("logged: " + message);
+        System.out.print("sent: " + outMessage);
+        System.out.println(", " + messageValue);
 
-        Logger.writeToLog("src/logs/command.txt", message + "\r\n");
         SerialController.getInstance().setResponse(true);
         out = SerialController.getInstance().getSerialPort().getOutputStream();
         try {

@@ -35,7 +35,6 @@ private:
     Curtains  * _curtains;
     Fan * _fans;
     Light *_lights;
-    Response _response;
     SensorController _sensorController;
     Stove _stove;
     TemperatureController _temperatureController;
@@ -46,7 +45,7 @@ private:
     void handleRequest(Request request);
 
 public:
-    DeviceController(AlarmController alarmController, Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response,
+    DeviceController(AlarmController alarmController, Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights,
                      SensorController sensorController, Stove stove,TemperatureController temperatureController,
                      Timer * timers, TwilightAutomaticSystem twilightSystem, Window * windows);
     void initializeDevices();

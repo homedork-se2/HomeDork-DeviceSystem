@@ -72,9 +72,9 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{404, "L:ERROR"};
+    Response response{404, ":404;"};
     //Indoors Light
-    setIsActive(request.isState());
+    this->setIsActive(request.isState());
     if (request.getId() == 11) {
         if (getIsActive()) {
         //ON
@@ -94,7 +94,7 @@ void Light::handleLightSwitch(Request request) {
 
         }
 
-    } else if(request.getPin() == 20) {
+    } else if(request.getId() == 20) {
     //Outdoors Light
         if (getIsActive()) {
         //ON
@@ -113,7 +113,7 @@ void Light::handleLightSwitch(Request request) {
         response.createMessage(String(getId()), String(0));
         }
 
-    } else if (request.getPin() == 22){
+    } else if (request.getId() == 22){
     //Alarm Light
         if (getIsActive()) {
         //ON

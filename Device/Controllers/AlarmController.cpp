@@ -42,9 +42,9 @@ void AlarmController::runAlarm() {
     }
     noInterrupts();
     reading = _securityAlarm.alarmSensor.readDigitalSensor();
-    if (reading == LOW && _securityAlarm.getIsArmed() && _securityAlarm.getIsActive()) {
+    if (reading == LOW && _securityAlarm.getIsArmed()) {
         _securityAlarm.handleSecurityAlarm(true);
-    } else if (reading == HIGH && _securityAlarm.getIsActive() && !_securityAlarm.getIsArmed()){
+    } else if ((reading == HIGH && _securityAlarm.getIsActive()) || !_securityAlarm.getIsArmed()){
         _securityAlarm.handleSecurityAlarm(false);
     }
     delay(200);

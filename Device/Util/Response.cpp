@@ -51,10 +51,11 @@ void Response::setStatusCode(int statusCode) {
 }
 
 void Response::createMessage(String id, String state) {
-    String string = id;
+    String string = ";";
+    string.concat(id);
     string.concat(":");
     string.concat(state);
-    string.concat(";")
+    string.concat(";");
 
     setMessage(string);
     setStatusCode(200);

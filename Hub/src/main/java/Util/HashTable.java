@@ -111,6 +111,7 @@ public class HashTable {
         put("LAMP:20", (byte) 20);
         put("FAN:10", (byte) 10);
         put("ALARM:69", (byte) 69);
-        put("TWILIGHT", (byte) 70);
+        put("TWILIGHT:70", (byte) 70);
+        put("TEMP:1", (byte) 100);
     }
 }

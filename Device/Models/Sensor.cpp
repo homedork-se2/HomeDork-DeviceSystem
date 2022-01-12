@@ -23,7 +23,7 @@ Sensor::Sensor(unsigned int pin, int id): Device(pin, id) {
  * off the use case for the subclass.
  */
 float Sensor::readDigitalSensor() {
-    return digitalRead(getId());
+    return digitalRead(getPin());
 }
 
 /**
@@ -32,5 +32,5 @@ float Sensor::readDigitalSensor() {
  * off the use case for the subclass.
  */
 int Sensor::readAnalogSensor() {
-    return analogRead(getId());
+    return analogRead(getPin());
 }

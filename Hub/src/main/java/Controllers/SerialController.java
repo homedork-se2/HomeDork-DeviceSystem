@@ -6,6 +6,8 @@ import Util.ReaderWriter;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.BufferOverflowException;
 import java.util.HashMap;
@@ -97,28 +99,38 @@ public class SerialController implements SerialPortDataListener {
                 this.serialPort.openPort();
                 InputStream in = this.serialPort.getInputStream();
                 ReaderWriter readerWriter = new ReaderWriter();
-                String message = readerWriter.read(in);
+                String message = readerWriter.read(in).replace(" ", "");
                 String[] responses = message.split(";");
                 for (int i = 0; i < responses.length; i++) {
-                    if (responses[i].length() < 3) {
+                    responses[i].replace("\\s", "");
+                    if (responses[i].length() < 3 || responses[i].contains(" ")) {
                         continue;
                     }
                     String[] bytes = responses[i].split(":");
                     if (bytes.length == 2) {
-                        stringBuffer = this.sensorDevices.get(Integer.parseInt(bytes[0]));
-                        stringBuffer += bytes[1];
-                        Logger.writeToLog("src/logs/sensor.txt", this.getStringBuffer().trim() + "\r\n");
+                        try {
+                            if (bytes[1].length() == 1) {
+                                if (Integer.parseInt(bytes[1]) == 1) {
+                                    bytes[1] = "ON";
+                                } else if (Integer.parseInt(bytes[1]) == 0) {
+                                    bytes[1] = "OFF";
+                                }
+                            }
+                            if (bytes[0].length() < 3) {
+                                stringBuffer = this.sensorDevices.get(Integer.parseInt(bytes[0]));
+                                stringBuffer += bytes[1].trim();
+
+                                Logger.writeToLog("src/logs/returns.txt", this.getStringBuffer().trim() + "\r\n");
+                                //ServerClient serverClient = new ServerClient();
+                                //serverClient.sendMessage(stringBuffer);
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println(bytes[0]);
+                            System.out.println(bytes[1]);
+                            System.out.println("ser" + e.getMessage());
+                        }
                     }
                 }
-
-                if (!isResponse()) {
-                                //ServerClient serverClient = new ServerClient();
-                    Logger.writeToLog("src/logs/sensor.txt", this.getStringBuffer().trim() + "\r\n");
-                                //serverClient.sendMessage(stringBuffer);
-                } else {
-                    Logger.writeToLog("./src/logs/arduinoResponse.txt", this.getStringBuffer().trim() + "\r\n");
-                }
-
             } catch (BufferOverflowException e) {
                 e.printStackTrace();
             }
@@ -183,20 +195,20 @@ public class SerialController implements SerialPortDataListener {
     public void initializeHashMap() {
         sensorDevices.put(28, "CURTAIN:28:");
         sensorDevices.put(29, "CURTAIN:29:");
-        sensorDevices.put(99, "ElectricyConsumption:A0:");
+        sensorDevices.put(99, "ELECTRIC:A0:");
         sensorDevices.put(10, "FAN:10:");
         sensorDevices.put(38, "FAN:38:");
-        sensorDevices.put(11,"LAMP:11:");
-        sensorDevices.put(20,"LAMP:20:");
+        sensorDevices.put(11, "LAMP:11:");
+        sensorDevices.put(20, "LAMP:20:");
         sensorDevices.put(22, "LAMP:22:");
-        sensorDevices.put(7,"POWERCUTOFF:7:CUTOFF");
-        sensorDevices.put(25, "RADIATOR:1");
-        sensorDevices.put(23,"RADIATOR:2:");
-        sensorDevices.put(21,"SIREN:21:");
+        sensorDevices.put(7, "POWERCUTOFF:7:");
+        sensorDevices.put(25, "RADIATOR:1:");
+        sensorDevices.put(23, "RADIATOR:2:");
+        sensorDevices.put(21, "SIREN:21:");
         sensorDevices.put(3, "DOOR:3:");
         sensorDevices.put(70, "TWILIGHT:");
-        sensorDevices.put(2,"FIREALARM:");
-        sensorDevices.put(33,"SECURITYALARM:");
+        sensorDevices.put(2, "FIREALARM:");
+        sensorDevices.put(69, "SECURITYALARM:");
         sensorDevices.put(100, "TEMP:1:");
         sensorDevices.put(101, "TEMP:2:");
         sensorDevices.put(9, "TEMP:OUT:");

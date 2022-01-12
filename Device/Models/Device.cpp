@@ -34,7 +34,7 @@ bool Device::getIsActive() const {
 }
 
 int Device::getId() const {
-    return _id
+    return _id;
 }
 
 /**

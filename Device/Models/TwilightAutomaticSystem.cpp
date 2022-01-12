@@ -18,7 +18,8 @@
  * @param outdoorLight (Light): The light that will be modified based on the state
  * of the sensor.
  */
-TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLight): _lightSensor(sensor), _outdoorLight(outdoorLight) {}
+TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLight): _lightSensor(sensor), _outdoorLight(outdoorLight) {
+}
 
 /**
  *
@@ -38,20 +39,24 @@ void TwilightAutomaticSystem::setActive(bool isActive) {
  * @return (boolean): A returns to state of the light sensor
  */
 void TwilightAutomaticSystem::readLightSensor() {
-    Response response;
-
-    if (_isActive) {
-        int value = _lightSensor.readAnalogSensor();
-        if (value < 200 && !_outdoorLight.getIsActive()) {
+    Response response{70, "ERROR;"};
+    int value = this->_lightSensor.readAnalogSensor();
+    this->setActive(true);
+    if (value > 250 && !this->_outdoorLight.getIsActive() && !change) {
+        if (this->isActive()) {
             handleTwilightSystem(true);
+            change = true;
             response.createMessage(String(70), String(1));
-
-        } else if (_outdoorLight.getIsActive()){
-            handleTwilightSystem(false);
-            response.createMessage(String(70), String(1));
+            response.sendMessage();
         }
 
+    } else if ((this->_outdoorLight.getIsActive() && !this->isActive() && change && value < 250)) {
+        handleTwilightSystem(false);
+        change = false;
+        response.createMessage(String(70), String(0));
+        response.sendMessage();
     }
+
 }
 
 /**
@@ -61,7 +66,7 @@ void TwilightAutomaticSystem::readLightSensor() {
  */
 void TwilightAutomaticSystem::handleTwilightSystem(bool state) {
     Request request;
-    request.setId(_outdoorLight.getId());
+    request.setId(this->_outdoorLight.getId());
     request.setState(state);
     _outdoorLight.handleLightSwitch(request);
 

@@ -17,7 +17,6 @@ public class ReaderWriter {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        System.out.println(message);
         return message;
     }
 

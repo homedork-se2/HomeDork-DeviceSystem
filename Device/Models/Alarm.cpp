@@ -17,6 +17,7 @@
  * @param sensor (Sensor): The sensor which will determine if the alarm should be triggered.
  */
 Alarm::Alarm(Light light, Sound sound, Sensor sensor, int id): alarmLight(light), siren(sound), alarmSensor(sensor), _id(id){
+    setIsArmed(true);
 }
 
 /**
@@ -32,7 +33,7 @@ void Alarm::setAlarm(bool isSet) {
     } else {
         setIsArmed(false);
         if (getIsActive()) {
-            handleAlarmTrigger(false, false);
+            handleSecurityAlarm(false);
         }
         response.createMessage(String(getId()), String(0));
     }
@@ -76,7 +77,7 @@ void Alarm::setIsArmed(bool armed) {
     _isArmed = armed;
 }
 
-void Alarm::getId() const {
+int Alarm::getId() const {
     return _id;
 }
 
@@ -94,10 +95,12 @@ void Alarm::handleFireAlarm(bool isTriggered) {
 
     if (isTriggered) {
         this->siren.handleSoundSwitch(isTriggered);
-        response.createMessage(String(2), String(1));
+        response.createMessage(String(getId()), String(1));
+        this->setIsActive(true);
     } else if (!isTriggered) {
         this->siren.handleSoundSwitch(isTriggered);
-        response.createMessage(String(2), String(0));
+        this->setIsActive(false);
+        response.createMessage(String(getId()), String(0));
     }
     delay(200);
     setIsActive(isTriggered);
@@ -105,22 +108,26 @@ void Alarm::handleFireAlarm(bool isTriggered) {
 }
 
 void Alarm::handleSecurityAlarm(bool isTriggered) {
-    Response response{500, "Failure"};
+    Response response{500, "Failure;"};
     Request request;
     if (isTriggered) {
-        this->siren.handleSoundSwitch(isTriggered);
-        request.setCommand(23);
-        request.setState(true);
-        request.setId(alarmLight.getId());
-        this->alarmLight.handleLightSwitch(request);
-        response.createMessage(String(33), String(1));
+        if (getIsArmed()) {
+            this->siren.handleSoundSwitch(isTriggered);
+            this->setIsActive(true);
+            request.setCommand(23);
+            request.setState(true);
+            request.setId(alarmLight.getId());
+            this->alarmLight.handleLightSwitch(request);
+            response.createMessage(String(getId()), String(1));
+        }
     } else if (!isTriggered) {
         this->siren.handleSoundSwitch(isTriggered);
         request.setCommand(23);
         request.setState(false);
         request.setId(alarmLight.getId());
         this->alarmLight.handleLightSwitch(request);
-        response.createMessage(String(33), String(0));
+        this->setIsActive(false);
+        response.createMessage(String(getId()), String(0));
     }
     delay(200);
     setIsActive(isTriggered);

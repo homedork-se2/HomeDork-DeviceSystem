@@ -48,16 +48,15 @@ void SensorController::runSensorController() {
         delay(200);
         interrupts();
     }
-    if (timeCounter == 0 || timeCounter >= millis()) {
-        if (!shouldRun()) {
-            return;
-        }
-        noInterrupts();
-        _electricityConsumption.readSensor();
-        delay(200);
-        timeCounter = millis() + 2000;
-        interrupts();
+    if (!shouldRun()) {
+        return;
     }
+    noInterrupts();
+    _electricityConsumption.readSensor();
+    delay(200);
+    timeCounter = millis() + 2000;
+    interrupts();
+
     if (!shouldRun()) {
         return;
     }

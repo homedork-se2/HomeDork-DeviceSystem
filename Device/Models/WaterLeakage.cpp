@@ -26,7 +26,7 @@ WaterLeakage::WaterLeakage(unsigned int pin, int id) : Sensor(pin, id) {
  * the state change.
  */
 void WaterLeakage::handleWaterLeakage(bool state){
-    Response response{404, "ERROR"};
+    Response response{404, ";ERROR;"};
     if(state) {
         response.createMessage(String(getId()), String(1));
     } else if(!state) {

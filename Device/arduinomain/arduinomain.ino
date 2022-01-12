@@ -1,7 +1,3 @@
-
-#include "Thread.h"
-#include "ThreadController.h"
-
 #include "Alarm.h"
 #include "Curtains.h"
 #include "ElectricityConsumption.h"
@@ -56,8 +52,8 @@ Window window{6, 6};
 Window fakeWindow{27, 27};
 
 //Declare and instantiate Composition Models
-Alarm securityAlarm(alarmLight, siren, switchSecuritySensor);
-Alarm fireAlarm{alarmLight, siren, switchFireSensor};
+Alarm securityAlarm(alarmLight, siren, switchSecuritySensor, 69);
+Alarm fireAlarm{alarmLight, siren, switchFireSensor, 2};
 
 TwilightAutomaticSystem twilightSystem{lightSensor, outdoorLight};
 
@@ -75,7 +71,7 @@ Window * windows = new Window[2]{window, fakeWindow};
 AlarmController alarmController{fireAlarm, securityAlarm};
 SensorController sensorController{electricityConsumption, powerCutOff, stove, twilightSystem, waterLeakage, windows};
 TemperatureController temperatureController{thermometersIn, radiators, thermometerOut};
-DeviceController deviceController{alarmController, securityAlarm, curtains, fans, lights, response, sensorController,
+DeviceController deviceController{alarmController, securityAlarm, curtains, fans, lights, sensorController,
                                   stove, temperatureController, timers, twilightSystem, windows};
 
 

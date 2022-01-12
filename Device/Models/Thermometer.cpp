@@ -22,7 +22,7 @@ Thermometer::Thermometer(unsigned int pin, int id) :Sensor(pin, id){
 }
 
 float Thermometer::getCurrentTemp() {
-    unsigned int outdoors = 9
+    unsigned int outdoors = 9;
     if (getId() == outdoors){
         _currentTemp = readTempOut();
     } else {

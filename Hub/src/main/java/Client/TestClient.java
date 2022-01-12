@@ -56,51 +56,51 @@ public class TestClient {
     private void handleChoice(String choice) throws InterruptedException {
         switch (choice) {
             case "1" -> {
-                message = "lamp:11:ON";
+                message = "LAMP:11:ON";
                 isLegit = true;
             }
             case "2" -> {
-                message = "lamp:11:OFF";
+                message = "LAMP:11:OFF";
                 isLegit = true;
             }
             case "3" -> {
-                message = "lamp:20:ON";
+                message = "LAMP:20:ON";
                 isLegit = true;
             }
             case "4" -> {
-                message = "lamp:20:OFF";
+                message = "LAMP:20:OFF";
                 isLegit = true;
             }
             case "5" -> {
-                message = "fan:10:LOW";
+                message = "LAMP:10:20";
                 isLegit = true;
             }
             case "6" -> {
-                message = "fan:10:Medium";
+                message = "FAN:10:50";
                 isLegit = true;
             }
             case "7" -> {
-                message = "fan:10:HIGH";
+                message = "FAN:10:96";
                 isLegit = true;
             }
             case "8" -> {
-                message = "fan:10:OFF";
+                message = "FAN:10:OFF";
                 isLegit = true;
             }
             case "9" -> {
-                message = "alarm:ARMED";
+                message = "ALARM:69:ON";
                 isLegit = true;
             }
             case "10" -> {
-                message = "alarm:DISARMED";
+                message = "ALARM:69:OFF";
                 isLegit = true;
             }
             case "11" -> {
-                message = "twilight:ON";
+                message = "TWILIGHT:70:ON";
                 isLegit = true;
             }
             case "12" -> {
-                message = "twillight:OFF";
+                message = "TWILIGHT:70:OFF";
                 isLegit = true;
             }
             case "13" -> {
@@ -114,15 +114,15 @@ public class TestClient {
                         System.out.println("Please enter a valid number");
                     }
                 }
-                message = "temp:" + temp;
+                message = "TEMP:" + temp;
                 isLegit = true;
             }
             case "14" -> {
-                message = "window:6:OPEN";
+                message = "WINDOW:6:OPEN";
                 isLegit = true;
             }
             case "15" -> {
-                message = "window:6:CLOSED";
+                message = "WINDOW:6:CLOSED";
                 isLegit = true;
             }
             case "q" -> {
