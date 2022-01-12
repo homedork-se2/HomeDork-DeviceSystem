@@ -47,7 +47,7 @@ void DeviceController::initializeDevices() {
  */
 void DeviceController::runListen() {
     noInterrupts();
-    for (int i = 0; i < 60; ++i) {
+    for (int i = 0; i < 30; ++i) {
         if (Serial.available() > 0) {
             Request request;
             request.parseRequest();
@@ -101,7 +101,7 @@ void DeviceController::handleRequest(Request request) {
     }  else if (key == 100) {
         _temperatureController.setDesiredTemp(request.getValue());
     } else {
-        Response response{404, "404:NOMATCH;"};
+        Response response{404, "DC:404;"};
         response.sendMessage();
     }
 
