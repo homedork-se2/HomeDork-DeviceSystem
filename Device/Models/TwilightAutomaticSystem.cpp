@@ -26,11 +26,11 @@ TwilightAutomaticSystem::TwilightAutomaticSystem(Sensor sensor, Light outdoorLig
  * @return
  */
 bool TwilightAutomaticSystem::isActive() {
-    return _isActive;
+    return this->_isActive;
 }
 
 void TwilightAutomaticSystem::setActive(bool isActive) {
-    _isActive = isActive;
+    this->_isActive = isActive;
 }
 
 /**
@@ -39,22 +39,23 @@ void TwilightAutomaticSystem::setActive(bool isActive) {
  * @return (boolean): A returns to state of the light sensor
  */
 void TwilightAutomaticSystem::readLightSensor() {
-    Response response{70, "ERROR;"};
     int value = this->_lightSensor.readAnalogSensor();
-    this->setActive(true);
-    if (value > 240 && !this->_outdoorLight.getIsActive() && !change) {
-        if (this->isActive()) {
+    if (value > 240 && !this->_outdoorLight.getIsActive()) {
+        if (this->isActive() && !change) {
             handleTwilightSystem(true);
             change = true;
             response.createMessage(String(70), String(1));
             response.sendMessage();
         }
 
-    } else if ((this->_outdoorLight.getIsActive() && value < 240) && change) {
-        handleTwilightSystem(false);
-        change = false;
-        response.createMessage(String(70), String(0));
-        response.sendMessage();
+    } else if (this->_outdoorLight.getIsActive() && value < 240) {
+        if (!this->isActive() || change) {
+            handleTwilightSystem(false);
+            change = false;
+            response.createMessage(String(70), String(0));
+            response.sendMessage();
+        }
+
     }
 
 }
