@@ -16,7 +16,7 @@
  * @param id (unsigned int): An integer who's value is the id of an instance
  * of a subclass device.
  */
-WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
+WaterLeakage::WaterLeakage(unsigned int pin, int id) : Sensor(pin, id) {
 
 }
 
@@ -26,14 +26,15 @@ WaterLeakage::WaterLeakage(unsigned int id) : Sensor(id) {
  * the state change.
  */
 void WaterLeakage::handleWaterLeakage(bool state){
-    Response response{404, "ERROR"};
+    Response response{404, ";ERROR;"};
     if(state) {
-        response.createMessage("WaterLeak:", String(getId()), "Leaking");
+        response.createMessage(String(getId()), String(1));
     } else if(!state) {
-        response.createMessage("WaterLeak:", String(getId()), "Stopped");
+        response.createMessage(String(getId()), String(0));
     }
-    Serial.println(response.getMessage());
+    setIsActive(state);
     response.sendMessage();
+    delay(200);
 }
 
 /**
@@ -42,9 +43,7 @@ void WaterLeakage::handleWaterLeakage(bool state){
 void WaterLeakage::readWaterLeakSensor() {
     if (readDigitalSensor() == HIGH && !getIsActive()) {
         handleWaterLeakage(true);
-        setIsActive(true);
     } else if (readDigitalSensor() == LOW && getIsActive()) {
         handleWaterLeakage(false);
-        setIsActive(false);
     }
 }

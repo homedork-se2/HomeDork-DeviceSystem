@@ -18,15 +18,15 @@
  * @param id (unsigned int): an unsigned integer who's value is the id
  * of a thermometer device.
  */
-Thermometer::Thermometer(unsigned int id) :Sensor(id){
+Thermometer::Thermometer(unsigned int pin, int id) :Sensor(pin, id){
 }
 
 float Thermometer::getCurrentTemp() {
-    unsigned int thermometer = A1, window = A2;
-    if (getId() == thermometer || getId() == window){
-        _currentTemp = readTempIn();
-    } else {
+    unsigned int outdoors = 9;
+    if (getId() == outdoors){
         _currentTemp = readTempOut();
+    } else {
+        _currentTemp = readTempIn();
     }
 
     return _currentTemp;

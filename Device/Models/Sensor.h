@@ -16,7 +16,7 @@
 
 class Sensor : public Device{
 public :
-    Sensor(unsigned int id);
+    Sensor(unsigned int pin, int id);
     float readDigitalSensor();
     int readAnalogSensor();
 };

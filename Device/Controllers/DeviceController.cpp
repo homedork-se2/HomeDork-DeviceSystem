@@ -25,9 +25,9 @@
  * @param twilightSystem (TwilightAutomaticSystem): The twilight automatic system for the smart house.
 * @param windows (Window)[]: This is an array of the windows in the device system.
  */
-DeviceController::DeviceController(Alarm securityAlarm, Curtains * curtains, Fan * fans, Light * lights, Response response, Stove stove,
-                                   TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
-                                   Window * windows): _securityAlarm(securityAlarm), _response(response), _stove(stove),
+DeviceController::DeviceController(AlarmController alarmController, Alarm securityAlarm, Curtains * curtains,
+                                   Fan * fans, Light * lights, SensorController sensorController, Stove stove, TemperatureController temperatureController, Timer * timers, TwilightAutomaticSystem twilightSystem,
+                                   Window * windows): _alarmController(alarmController), _securityAlarm(securityAlarm), _sensorController(sensorController), _stove(stove),
                                    _temperatureController(temperatureController), _twilightSystem(twilightSystem), _curtains(curtains), _fans(fans), _lights(lights),
                                     _timers(timers), _windows(windows){
 
@@ -46,18 +46,21 @@ void DeviceController::initializeDevices() {
  * @return response (Response): A response is returned upon completion of the command.
  */
 void DeviceController::runListen() {
-    Request request;
-    int count = 0;
-    byte buf[65];
-    while (Serial.available() > 0) {
-        byte incomingByte = 0;
-
-        incomingByte = Serial.read();
-        buf[count] = incomingByte;
+    noInterrupts();
+    for (int i = 0; i < 60; ++i) {
+        if (Serial.available() > 0) {
+            Request request;
+            request.parseRequest();
+            handleRequest(request);
+        }
+        _alarmController.runAlarm();
+        delay(100);
     }
-    request.parseRequest(buf);
-    handleRequest(request);
 
+    interrupts();
+
+    _sensorController.runSensorController();
+    _temperatureController.runTempController();
 }
 
 /**
@@ -67,60 +70,39 @@ void DeviceController::runListen() {
  * success of the command.
  */
 void DeviceController::handleRequest(Request request) {
+    int key = request.getCommand();
     int size = 0;
-    switch (request.getDeviceType()) {
-        case 1:
-            size = 3;
-            for (int i = 0; i < size; ++i) {
-                if (_lights[i].getId() == request.getId()) {
-                    _lights[i].handleLightSwitch(request);
-                    break;
-                }
+    if (key == 11 || key == 20 ) {
+        if (key == 11) {
+            request.setId(11);
+        } else {
+            request.setId(20);
+        }
+        size = 3;
+        for (int i = 0; i < size; ++i) {
+            if (_lights[i].getId() == request.getId()) {
+                _lights[i].handleLightSwitch(request);
+                break;
             }
-            break;
-        case 2:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_fans[i].getId() == request.getId()) {
-                    _fans[i].handleFanSwitch(request);
-                    break;
-                }
+        }
+    } else if (key == 10 ) {
+        request.setId(10);
+        size = 2;
+        for (int i = 0; i < size; ++i) {
+            if (_fans[i].getId() == request.getId()) {
+                _fans[i].handleFanSwitch(request);
+                break;
             }
-            break;
-        case 3:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_curtains[i].getId() == request.getId()) {
-                    _curtains[i].handleCurtainSwitch(request.isState());
-                    break;
-                }
-            }
-            break;
-        case 4:
-            _securityAlarm.setAlarm(request.isState());
-            break;
-        case 5:
-            _temperatureController.setDesiredTemp(request.getValue());
-            break;
-        case 6:
-            //twilight
-            break;
-        case 7:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_timers[i].getId() == request.getId()) {
-                    //add timer call
-                    break;
-                }
-            }
-        case 8:
-            size = 2;
-            for (int i = 0; i < size; ++i) {
-                if (_windows[i].getId() == request.getId()) {
-                    _windows[i].handleWindowSwitch(request.isState());
-                    break;
-                }
-            }
-            break;
+        }
+    } else if (key == 69) {
+        _securityAlarm.setAlarm(request.isState());
+    } else if (key == 70) {
+        _twilightSystem.setActive(request.isState());
+    }  else if (key == 100) {
+        _temperatureController.setDesiredTemp(request.getValue());
+    } else {
+        Response response{404, "404:NOMATCH;"};
+        response.sendMessage();
     }
+
 }

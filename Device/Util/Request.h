@@ -18,7 +18,7 @@ private:
     unsigned int _id;
     bool _state;
     int _value;
-    int _deviceType;
+    int _command;
 
 public:
     unsigned int getId() const;
@@ -27,9 +27,9 @@ public:
     void setState(bool state);
     int getValue() const;
     void setValue(int value);
-    int getDeviceType();
-    void setDeviceType(String deviceName);
-    void parseRequest(byte * buf);
+    int getCommand();
+    void setCommand(int command);
+    void parseRequest();
 
 };
 

@@ -50,22 +50,23 @@ void Response::setStatusCode(int statusCode) {
     _statusCode = statusCode;
 }
 
-void Response::createMessage(String type, String id, String state) {
-    String string = type;
+void Response::createMessage(String id, String state) {
+    String string = ";";
     string.concat(id);
     string.concat(":");
     string.concat(state);
+    string.concat(";");
 
     setMessage(string);
     setStatusCode(200);
 }
 
 void Response::sendMessage() {
-    int length = getMessage().length() + 1;
+    int length = getMessage().length();
     byte buf[length];
     String string = getMessage();
-    string.concat("\r\n");
     string.getBytes(buf, length);
-
     Serial.write(buf, length);
+    Serial.flush();
+    _message = "";
 }

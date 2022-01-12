@@ -17,7 +17,7 @@
 
 class Curtains: public Device {
 public:
-    Curtains(unsigned int id);
+    Curtains(unsigned int pin, int id);
     Response handleCurtainSwitch(bool isOpen);
 };
 

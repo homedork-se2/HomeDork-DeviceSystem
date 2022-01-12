@@ -17,7 +17,7 @@
  * @param muxPins (unsigned int[]): The array containing the multiplexor
  * pins.
  */
-Sound::Sound(unsigned int id, unsigned int * muxPins): Device(id), _muxPins(muxPins){
+Sound::Sound(unsigned int pin, int id, unsigned int * muxPins): Device(pin, id), _muxPins(muxPins){
 }
 
 /**
@@ -34,13 +34,14 @@ void Sound::handleSoundSwitch(bool isActive) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.setMessage("Sound:ON");
+        response.createMessage(String(getId()), String(1));
     } else {
         digitalWrite(_muxPins[0], LOW);
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], LOW);
         digitalWrite(_muxPins[3], LOW);
-        response.setMessage("Sound:OFF");
+        response.createMessage(String(getId()), String(0));
     }
-    Serial.println(response.getMessage());
+    response.sendMessage();
+    delay(200);
 }

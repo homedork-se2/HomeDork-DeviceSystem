@@ -28,6 +28,7 @@ public:
     void setDesiredTemp(float desiredTemp);
     float getDesiredTemp();
     void runTempController();
+    bool shouldRun();
 
 };
 

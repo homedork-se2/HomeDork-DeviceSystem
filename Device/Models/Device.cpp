@@ -14,15 +14,15 @@
  * @param id (unsigned int): An integer who's value is the id of an
  * instance of a subclass device.
  */
-Device::Device(unsigned int id): _id(id), _isActive(false) {
+Device::Device(unsigned int pin, int id): _pin(id), _isActive(false), _id(id) {
 }
 
 /**
  * A getter for the id
  * @return (unsigned int): The id.
  */
-unsigned int Device::getId() const {
-    return _id;
+unsigned int Device::getPin() const {
+    return _pin;
 }
 
 /**
@@ -31,6 +31,10 @@ unsigned int Device::getId() const {
  */
 bool Device::getIsActive() const {
     return _isActive;
+}
+
+int Device::getId() const {
+    return _id;
 }
 
 /**

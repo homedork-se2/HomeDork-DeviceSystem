@@ -40,16 +40,57 @@ SensorController::SensorController(ElectricityConsumption electricityConsumption
 void SensorController::runSensorController() {
     int size = 2;
     for (int i = 0; i < size; ++i) {
+        if (!shouldRun()) {
+            return;
+        }
+        noInterrupts();
         _windows[i].readSensor();
+        delay(200);
+        interrupts();
     }
-    if (timeCounter == 0 || timeCounter == millis()) {
-        _electricityConsumption.readSensor();
-        timeCounter = millis() + 60000;
+    if (!shouldRun()) {
+        return;
     }
+    noInterrupts();
+    _electricityConsumption.readSensor();
+    delay(200);
+    timeCounter = millis() + 2000;
+    interrupts();
 
+    if (!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     _powerCutOff.readSensor();
+    delay(200);
+    interrupts();
+    if (!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     _stove.readStoveSensor();
+    delay(200);
+    interrupts();
+    if (!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     _twilightAutomaticSystem.readLightSensor();
+    delay(200);
+    interrupts();
+    if (!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     _waterLeakage.readWaterLeakSensor();
+    delay(200);
+    interrupts();
 
+}
+
+bool SensorController::shouldRun() {
+    if (Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

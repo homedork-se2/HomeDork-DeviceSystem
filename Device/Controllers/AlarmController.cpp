@@ -24,18 +24,36 @@ AlarmController::AlarmController(Alarm fireAlarm, Alarm securityAlarm) : _fireAl
  * @return
  */
 void AlarmController::runAlarm() {
-    _securityAlarm.setIsArmed(true);
+
+    if(!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     int reading = _fireAlarm.alarmSensor.readDigitalSensor();
     if (reading == HIGH && !_fireAlarm.getIsActive()) {
-        _fireAlarm.handleAlarmTrigger(true, true);
+        _fireAlarm.handleFireAlarm(true);
     } else if (_fireAlarm.getIsActive()) {
-        _fireAlarm.handleAlarmTrigger(false, true);
+        _fireAlarm.handleFireAlarm(false);
     }
-
+    delay(200);
+    interrupts();
+    if(!shouldRun()) {
+        return;
+    }
+    noInterrupts();
     reading = _securityAlarm.alarmSensor.readDigitalSensor();
-    if (reading == LOW && _securityAlarm.getIsArmed() && !_securityAlarm.getIsActive()) {
-        _securityAlarm.handleAlarmTrigger(true, false);
-    } else if (reading == HIGH || (_securityAlarm.getIsActive() && !_securityAlarm.getIsArmed())){
-        _securityAlarm.handleAlarmTrigger(false, false);
+    if (reading == LOW && _securityAlarm.getIsArmed()) {
+        _securityAlarm.handleSecurityAlarm(true);
+    } else if ((reading == HIGH && _securityAlarm.getIsActive()) || !_securityAlarm.getIsArmed()){
+        _securityAlarm.handleSecurityAlarm(false);
     }
+    delay(200);
+    interrupts();
+}
+
+bool AlarmController::shouldRun() {
+    if(Serial.available() > 0) {
+        return false;
+    }
+    return true;
 }

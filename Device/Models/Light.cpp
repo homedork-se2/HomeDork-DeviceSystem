@@ -19,8 +19,8 @@
  * @param isDimmable (boolean): The boolean that determines if a light
  * is dimmable or not.
  */
-Light::Light(unsigned int id, bool isDimmable, unsigned int * muxPins)
-        : Device(id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
+Light::Light(unsigned int pin, int id, bool isDimmable, unsigned int * muxPins)
+        : Device(pin,id), _isDimmable(isDimmable), _dim(0), _muxPins(muxPins) {
 
 }
 
@@ -31,7 +31,7 @@ Light::Light(unsigned int id, bool isDimmable, unsigned int * muxPins)
  * device is connected to.
  * @param muxPins (unsigned int[]): An array of the multiplexor pins.
  */
-Light::Light(unsigned int id, unsigned int * muxPins) : Device(id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
+Light::Light(unsigned int pin, int id, unsigned int * muxPins) : Device(pin,id), _isDimmable(false), _dim(0), _muxPins(muxPins) {
 }
 
 /**
@@ -57,12 +57,12 @@ int Light::getDim() {
  * @return (Response): A response to the server.
  */
 void Light::setDim(int value) {
-    Response response{404, "DIM:ERROR"};
+    Response response{404, "DL:ERROR"};
     _dim = value;
 
-    response.createMessage("Lamp:", String(getId()), String(_dim));
-    Serial.println(response.getMessage());
+    response.createMessage(String(getId()), String(_dim));
     response.sendMessage();
+    delay(200);
 }
 /**
  * The function that handles the light switch.
@@ -72,9 +72,9 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{404, "lamp:ERROR"};
+    Response response{404, ":404;"};
     //Indoors Light
-    setIsActive(request.isState());
+    this->setIsActive(request.isState());
     if (request.getId() == 11) {
         if (getIsActive()) {
         //ON
@@ -82,7 +82,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Lamp:", String(getId()), "ON");
+        response.createMessage(String(getId()), String(1));
 
         } else {
         //OFF
@@ -90,7 +90,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], LOW);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        response.createMessage(String(getId()), String(0));
 
         }
 
@@ -102,7 +102,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "ON");
+        response.createMessage(String(getId()), String(1));
 
         } else {
         //OFF
@@ -110,7 +110,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], HIGH);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        response.createMessage(String(getId()), String(0));
         }
 
     } else if (request.getId() == 22){
@@ -121,7 +121,7 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "ON");
+        response.createMessage(String(getId()), String(1));
 
         } else {
         //OFF
@@ -129,11 +129,23 @@ void Light::handleLightSwitch(Request request) {
         digitalWrite(_muxPins[1], LOW);
         digitalWrite(_muxPins[2], HIGH);
         digitalWrite(_muxPins[3], HIGH);
-        response.createMessage("Lamp:", String(getId()), "OFF");
+        response.createMessage(String(getId()), String(0));
 
         }
+    } else if (getIsDimmable()) {
+        setDim(request.getValue());
+
+    } else {
+        if (getIsActive()) {
+            digitalWrite(getPin(), HIGH);
+            response.createMessage(String(getId()), String(1));
+        } else {
+            digitalWrite(getPin(), LOW);
+            response.createMessage(String(getId()), String(0));
+        }
+
     }
-    Serial.println(response.getMessage());
     response.sendMessage();
+    delay(200);
 }
 

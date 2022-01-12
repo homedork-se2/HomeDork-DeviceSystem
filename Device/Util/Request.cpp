@@ -66,8 +66,8 @@ void Request::setValue(int value) {
  * A getter that gets the type of the the device for the command.
  * @return (int): An integer that represents a
  */
-int Request::getDeviceType() {
-    return _deviceType;
+int Request::getCommand() {
+    return _command;
 }
 
 /**
@@ -75,63 +75,29 @@ int Request::getDeviceType() {
  * @param deviceType (int): An integer that represents the
  * device type.
  */
-void Request::setDeviceType(String deviceName) {
-    if (deviceName == "lamp") {
-        _deviceType = 1;
-    } else if (deviceName == "fan") {
-        _deviceType = 2;
-    } else if (deviceName == "curtain") {
-        _deviceType = 3;
-    } else if (deviceName == "alarm") {
-        _deviceType = 4;
-    } else if (deviceName == "temp") {
-        _deviceType = 5;
-    } else if (deviceName == "twilight") {
-        _deviceType = 6;
-    } else if (deviceName == "timer") {
-        _deviceType = 7;
-    } else if (deviceName == "window") {
-        _deviceType = 8;
-    } else {
-        _deviceType = 0;
-    }
+void Request::setCommand(int command) {
+    _command = command;
 }
 
 /**
  * The function that parses the server request into the request class.
  * @param buf (char[]): The command in a char array.
  */
-void Request::parseRequest(byte * buf) {
-    char input[15];
-    int count = 0;
-    int flag = 0;
-    int bufSize = sizeof(&buf) / sizeof(&buf[0]);
-    for (int i = 0; i < bufSize; ++i) {
-        char c = (char) buf[i];
-        if (c == ':') {
-            if (flag == 0) {
-                String stringValue = input;
-                setDeviceType(stringValue);
-            } else if (flag == 1) {
-                String id = input;
-                setId(id.toInt());
-            } else if (flag == 2) {
-                String stateString = input;
-                if (stateString == "ON") {
-                    setState(true);
-                } else {
-                    setState(false);
-                }
-            } else {
-                String value = input;
-                setValue(value.toInt());
-            }
-            count = 0;
-            flag++;
-            continue;
+void Request::parseRequest() {
+    int incomingByte;
+    incomingByte = Serial.read();
+    String c = String(incomingByte);
+    setId(incomingByte);
+    setCommand(incomingByte);
+    if (Serial.available() > 0) {
+        incomingByte = Serial.read();
+        if (incomingByte == 1) {
+            this->setState(true);
+        } else if (incomingByte == 0){
+            this->setState(false);
+        } else {
+            this->setState(true);
+            this->setValue(incomingByte);
         }
-        input[count] = c;
-        count++;
     }
-
 }

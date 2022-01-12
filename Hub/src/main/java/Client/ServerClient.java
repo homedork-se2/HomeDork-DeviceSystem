@@ -1,5 +1,7 @@
 package Client;
 
+import Util.ReaderWriter;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -37,17 +39,11 @@ public class ServerClient {
             serverSocket = new Socket(hostname, 1234);
             out = serverSocket.getOutputStream();
             in = serverSocket.getInputStream();
-            byte[] bytes = message.getBytes();
-            out.write(bytes, 0, bytes.length);
-            out.flush();
+            ReaderWriter readerWriter = new ReaderWriter();
+            readerWriter.writer(message, out);
 
-
-            int length = 0;
-            while ((length = in.read(bytes)) != -1) {
-                message = new String(bytes).trim();
-                System.out.println(message);
-            }
-
+            message = readerWriter.read(in);
+            System.out.println(message);
         } catch (IOException ioException) {
             System.out.println("I/O exception: " + ioException.getMessage());
         } finally {

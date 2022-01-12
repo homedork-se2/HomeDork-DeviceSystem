@@ -20,7 +20,7 @@ private:
     void handleWaterLeakage(bool state);
 
 public :
-    explicit WaterLeakage(unsigned int id);
+    explicit WaterLeakage(unsigned int pin, int id);
     void readWaterLeakSensor();
 
 };

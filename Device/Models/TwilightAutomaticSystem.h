@@ -22,6 +22,7 @@
 class TwilightAutomaticSystem {
 private:
     bool _isActive;
+    bool change = false;
     Sensor _lightSensor;
     Light _outdoorLight;
 
