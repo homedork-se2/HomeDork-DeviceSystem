@@ -89,7 +89,8 @@ Mode Fan::getMode() {
  * @return (Response): A response is returned to the server.
  */
 void Fan::handleFanSwitch(Request request) {
-    Response response{404,  "404;"};
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
     setIsActive(request.isState());
     if (getHasMultiMode()) {
         if (getIsActive()) {

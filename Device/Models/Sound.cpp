@@ -27,7 +27,8 @@ Sound::Sound(unsigned int pin, int id, unsigned int * muxPins): Device(pin, id),
  * @return (Response): A response sent back to the server.
  */
 void Sound::handleSoundSwitch(bool isActive) {
-    Response response{404, "ERROR"};
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
     setIsActive(isActive);
     if (getIsActive()) {
         digitalWrite(_muxPins[0], HIGH);

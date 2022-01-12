@@ -90,7 +90,8 @@ int Alarm::getId() const {
  * successful.
  */
 void Alarm::handleFireAlarm(bool isTriggered) {
-    Response response{500, "Failure"};
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
     Request request;
 
     if (isTriggered) {
@@ -108,8 +109,8 @@ void Alarm::handleFireAlarm(bool isTriggered) {
 }
 
 void Alarm::handleSecurityAlarm(bool isTriggered) {
-    Response response{500, "Failure;"};
-    Request request;
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
     if (isTriggered) {
         if (getIsArmed()) {
             this->siren.handleSoundSwitch(isTriggered);

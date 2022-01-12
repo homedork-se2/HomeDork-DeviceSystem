@@ -25,15 +25,14 @@ Stove::Stove(unsigned int pin, int id) : Sensor(pin, id) {
  * @return A response that will be sent to the server.
  */
 void Stove::handleStoveSwitch(bool isActive) {
-    Response response{200, "ERROR;"};
-    setIsActive(isActive);
-    if(isActive && !getIsActive()){
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
+    if(isActive){
         response.createMessage(String(getId()), String(1));
-        setIsActive(isActive);
-    } else if (!isActive && getIsActive()){
+    } else {
         response.createMessage(String(getId()), String(0));
-
     }
+    setIsActive(isActive);
     response.sendMessage();
     delay(200);
 }

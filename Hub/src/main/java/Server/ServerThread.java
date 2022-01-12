@@ -44,7 +44,6 @@ public class ServerThread extends Thread {
         } catch (IOException ioException) {
             System.out.println("I/O Exception connecting the streams to the client...\n" + ioException.getMessage());
         }
-        HashTable hashTable = HashTable.getInstance();
         SerialController.getInstance().setStringBuffer("");
         SerialController.getInstance().getSerialPort().openPort();
         ReaderWriter readerWriter = new ReaderWriter();

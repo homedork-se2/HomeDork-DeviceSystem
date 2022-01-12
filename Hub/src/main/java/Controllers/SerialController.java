@@ -36,12 +36,12 @@ public class SerialController implements SerialPortDataListener {
 
     private SerialController() {
         this.setSerialPort(SerialPort.getCommPorts()[0]);
-        serialPort = this.getSerialPort();
-        serialPort.openPort();
-        serialPort.setBaudRate(9600);
+        this.serialPort = this.getSerialPort();
+        this.serialPort.openPort();
+        this.serialPort.setBaudRate(9600);
 
         System.out.println("Com port open: " + serialPort.getDescriptivePortName());
-        serialPort.addDataListener(this);
+        this.serialPort.addDataListener(this);
         sensorDevices = new HashMap<>();
         initializeHashMap();
     }
@@ -91,12 +91,13 @@ public class SerialController implements SerialPortDataListener {
      */
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
-
         new Thread(() -> {
             if (serialPortEvent.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
                 return;
             try {
-                this.serialPort.openPort();
+                if (!this.serialPort.isOpen()) {
+                    this.serialPort.openPort();
+                }
                 InputStream in = this.serialPort.getInputStream();
                 ReaderWriter readerWriter = new ReaderWriter();
                 String message = readerWriter.read(in).replace(" ", "");
@@ -116,7 +117,7 @@ public class SerialController implements SerialPortDataListener {
                                     bytes[1] = "OFF";
                                 }
                             }
-                            if (bytes[0].length() < 3) {
+                            if (bytes[0].length() <= 2) {
                                 stringBuffer = this.sensorDevices.get(Integer.parseInt(bytes[0]));
                                 stringBuffer += bytes[1].trim();
 
@@ -211,6 +212,8 @@ public class SerialController implements SerialPortDataListener {
         sensorDevices.put(69, "SECURITYALARM:");
         sensorDevices.put(100, "TEMP:1:");
         sensorDevices.put(101, "TEMP:2:");
+        sensorDevices.put(5, "Stove:5:");
+        sensorDevices.put(6, "WINDOW:6:");
         sensorDevices.put(9, "TEMP:OUT:");
         sensorDevices.put(18, "TIMER:1:");
         sensorDevices.put(19, "TIMER:2:");

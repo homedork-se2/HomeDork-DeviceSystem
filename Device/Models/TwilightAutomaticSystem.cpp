@@ -42,7 +42,7 @@ void TwilightAutomaticSystem::readLightSensor() {
     Response response{70, "ERROR;"};
     int value = this->_lightSensor.readAnalogSensor();
     this->setActive(true);
-    if (value > 250 && !this->_outdoorLight.getIsActive() && !change) {
+    if (value > 240 && !this->_outdoorLight.getIsActive() && !change) {
         if (this->isActive()) {
             handleTwilightSystem(true);
             change = true;
@@ -50,7 +50,7 @@ void TwilightAutomaticSystem::readLightSensor() {
             response.sendMessage();
         }
 
-    } else if ((this->_outdoorLight.getIsActive() && !this->isActive() && change && value < 250)) {
+    } else if ((this->_outdoorLight.getIsActive() && value < 240) && change) {
         handleTwilightSystem(false);
         change = false;
         response.createMessage(String(70), String(0));

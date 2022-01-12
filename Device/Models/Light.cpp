@@ -57,7 +57,8 @@ int Light::getDim() {
  * @return (Response): A response to the server.
  */
 void Light::setDim(int value) {
-    Response response{404, "DL:ERROR"};
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
     _dim = value;
 
     response.createMessage(String(getId()), String(_dim));
@@ -72,7 +73,8 @@ void Light::setDim(int value) {
  * server.
  */
 void Light::handleLightSwitch(Request request) {
-    Response response{404, ":404;"};
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
     //Indoors Light
     this->setIsActive(request.isState());
     if (request.getId() == 11) {

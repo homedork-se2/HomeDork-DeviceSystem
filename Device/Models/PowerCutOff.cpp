@@ -21,7 +21,7 @@ PowerCutOff::PowerCutOff(unsigned int pin, int id): Sensor(pin, id){
 
 void PowerCutOff::readSensor() {
     int supplyVoltage = readAnalogSensor();
-    if (supplyVoltage < 3) {
+    if (supplyVoltage == 0) {
         handlePowerCutOff();
     }
 }
@@ -31,8 +31,9 @@ void PowerCutOff::readSensor() {
  * @return (Response): A response to be sent back to the server.
  */
 void PowerCutOff::handlePowerCutOff(){
-    Response response{500, "ERROR;"};
-    response.createMessage(String(getId()), String(1));
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
+    response.createMessage(String(this->getId()), String(1));
     response.sendMessage();
 }
 

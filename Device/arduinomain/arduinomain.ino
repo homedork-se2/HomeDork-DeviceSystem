@@ -24,7 +24,6 @@
 //Multiplexor Pins
 unsigned int * muxPins = new unsigned int[4]{12, 13, 11, 8};
 int i = 0;
-
 //Declare and instantiate Models
 Curtains curtain1{28, 28};
 Curtains curtain2{29, 29};

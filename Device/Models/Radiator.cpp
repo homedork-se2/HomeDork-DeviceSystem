@@ -25,9 +25,9 @@ Radiator::Radiator(unsigned int pin, int id, unsigned int * muxPins): Device(pin
  * back to the server.
  */
 void Radiator::adjustTemp(bool isCold) {
-    Response response{404, "R:ERROR"};
-
-    if (getId() == 23 ) {
+    Response response{500, ":ERROR"};
+    response.createMessage(String(this->getId()), String(500));
+    if (this->getId() == 23 ) {
         //Window
         setIsActive(isCold);
         if (getIsActive()) {
@@ -46,7 +46,7 @@ void Radiator::adjustTemp(bool isCold) {
 
         }
 
-    } else if(getId() == 25)
+    } else if(this->getId() == 25)
         //Non window
         setIsActive(isCold);
     if (getIsActive()) {

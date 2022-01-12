@@ -1,6 +1,7 @@
 package Server;
 
 import Controllers.SerialController;
+import Util.HashTable;
 import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class Server {
                 System.out.println(serverSocket.getInetAddress());
                 System.out.println("Client: " + clientSocket.getInetAddress());
                 ServerThread server = new ServerThread(clientSocket);
+                HashTable hashTable = HashTable.getInstance();
                 server.start();
             } catch (IOException ioException) {
                 System.out.println("I/O Exception couldn't begin accepting.\n" + ioException.getMessage());
